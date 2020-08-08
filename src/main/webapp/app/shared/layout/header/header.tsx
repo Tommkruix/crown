@@ -103,6 +103,10 @@ const Header = (props: IHeaderProps) => {
               <NavItem>
                 <Link className='text-dark nav-link' to="/support">SUPPORT</Link>
               </NavItem>
+              <Nav id="header-tabs" className="ml-auto" style={{}} >
+                {props.isAuthenticated && <EntitiesMenu isAdmin={props.isAdmin} />}
+                {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
+              </Nav>
               <NavItem>
 				  <Auth isAuthenticated={props.isAuthenticated} />
               </NavItem>

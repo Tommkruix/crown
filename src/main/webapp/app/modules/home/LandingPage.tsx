@@ -332,7 +332,7 @@ export default () => {
               <ul className="list-unstyled text-small footer-right">
                 <li className="text-muted text-gray-1">Email: info@needmoremed.com </li>
                 <li className="text-muted text-gray-1">Address: Toronto, Canada </li>
-                <li className="text-muted text-gray-1">Terms and Policy </li>
+                <Link to="/policy"><li className="text-muted text-gray-1">Terms and Policy</li></Link>
               </ul>
             </div>
           </div>
