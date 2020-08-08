@@ -110,14 +110,13 @@ export const getSession = () => async (dispatch, getState) => {
   }
 };
 
-export const login = (username, password, rememberMe = false) => async (dispatch, getState) => {
+export const login = (username, password, rememberMe = false, history) => async (dispatch, getState) => {
   const data = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&remember-me=${rememberMe}&submit=Login`;
   await dispatch({
     type: ACTION_TYPES.LOGIN,
     payload: axios.post('api/authentication', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
-  });
+  }).then(() => history && history.push('/'));
   await dispatch(getSession());
-  return Promise.resolve();
 };
 
 export const logout = () => async dispatch => {
