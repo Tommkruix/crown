@@ -46,15 +46,16 @@
     },
     "form": {
       "username.label": "Username",
-      "username.placeholder": "Your username",
+      "username.placeholder": "Username",
       "currentpassword.label": "Current password",
-      "currentpassword.placeholder": "Current password",
+      "currentpassword.placeholder": "Password",
       "newpassword.label": "New password",
-      "newpassword.placeholder": "New password",
+      "newpassword.placeholder": "Password",
       "confirmpassword.label": "New password confirmation",
-      "confirmpassword.placeholder": "Confirm the new password",
+      "confirmpassword.placeholder": "Confirm Password",
       "email.label": "Email",
-      "email.placeholder": "Your email"
+      "email.placeholder": "Email",
+      "emailorusername.placeholder": "Email or Username"
     },
     "messages": {
       "info": {
@@ -76,7 +77,7 @@
           "required": "Your password is required.",
           "minlength": "Your password is required to be at least 4 characters.",
           "maxlength": "Your password cannot be longer than 50 characters.",
-          "strength": "Password strength:"
+          "strength": "Password Strength"
         },
         "confirmpassword": {
           "required": "Your confirmation password is required.",

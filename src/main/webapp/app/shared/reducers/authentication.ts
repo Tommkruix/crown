@@ -117,6 +117,7 @@ export const login = (username, password, rememberMe = false) => async (dispatch
     payload: axios.post('api/authentication', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
   });
   await dispatch(getSession());
+  return Promise.resolve();
 };
 
 export const logout = () => async dispatch => {
@@ -126,7 +127,8 @@ export const logout = () => async dispatch => {
   });
 
   // fetch new csrf token
-  dispatch(getSession());
+  await dispatch(getSession());
+  return Promise.resolve();
 };
 
 export const clearAuthentication = messageKey => (dispatch, getState) => {
