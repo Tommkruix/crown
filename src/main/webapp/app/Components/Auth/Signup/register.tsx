@@ -9,7 +9,7 @@ import { IRootState } from 'app/shared/reducers';
 import { handleRegister, reset } from './register.reducer';
 import { useHistory, Link } from "react-router-dom";
 
-export interface IRegisterProps extends StateProps, DispatchProps {}
+export interface IRegisterProps extends StateProps, DispatchProps {toggle: Function}
 
 export const RegisterPage = (props: IRegisterProps) => {
   const [password, setPassword] = useState('');

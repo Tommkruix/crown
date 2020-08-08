@@ -1,21 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect, RouteComponentProps, useHistory } from 'react-router-dom';
+import { Redirect, RouteComponentProps, useHistory  } from 'react-router-dom';
 import { IRootState } from 'app/shared/reducers';
 import { login } from 'app/shared/reducers/authentication';
 import SignInModal from './Signin-modal';
 
-export interface ILoginProps extends StateProps, DispatchProps, RouteComponentProps<{}> {}
+export interface ILoginProps extends StateProps, DispatchProps {toggle: Function}
 
 export const Signin = (props: ILoginProps) => {
   const history = useHistory();
 
   const handleLogin = (username, password, rememberMe = false) => {
-	props.login(username, password, rememberMe).then(() =>  history.push("/"));
+	props.login(username, password, rememberMe, history);
   }
 
   const handleClose = () => {
-    props.history.push('/');
+    history.push('/');
   };
 
   if (props.isAuthenticated) {
