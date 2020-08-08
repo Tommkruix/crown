@@ -35,7 +35,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     props.history.push('/receiver-resource');
   };
 
-   const beforePofUpload = file => {    setPofFileList([...pofFileList, file]);   return false;   }
+   const beforePofUpload = file => {   setPofFileList([...pofFileList, file]);   return false;   }
 
   // const beforePoaUpload = file => {  //  setPofFileList([...pofFileList, file]);  //  return false;  // }
 
@@ -77,19 +77,17 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
 
   useEffect(() => {
     if (props.updateSuccess) {
-      const data = new FormData()
-      data.append('file', pofFileList[0])
-      const config = {
-        headers: {
-          'content-type': 'multipart/form-data'
-        }
-      }
-      axios.post('api/file/upload', data, config).then((res: any) => {
+      // const data = new FormData()
+      // data.append('file', pofFileList[0])
+      // const config = {
+      //    headers: {
+      //    'content-type': 'multipart/form-data'
+      //  }
+      // }
+      // axios.post('api/file/upload', data, config).then((res: any) => {
         handleClose();
-      }).catch((err: Error) => {
-      })
-
-
+      // }).catch((err: Error) => {
+      // })
     }
   }, [props.updateSuccess]);
 
@@ -298,8 +296,8 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
               >
                 <UploadFile
                   action="api/file/upload"
-                    // onSuccess={updatePofFileList}
-                    beforeUpload={beforePofUpload}
+                  // onSuccess={updatePofFileList}
+                  beforeUpload={beforePofUpload}
                   data={{
                     entityType: 'buy',
                     fieldType: 'pof'
