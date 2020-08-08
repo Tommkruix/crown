@@ -2,6 +2,7 @@ package org.crown.service.dto;
 
 public class FileUploadResponse {
 
+    private String fieldName;
     private String filename;
     private String fileDownloadUri;
     private String hashKey;
@@ -9,7 +10,8 @@ public class FileUploadResponse {
     public FileUploadResponse() {
     }
 
-    public FileUploadResponse(String filename, String fileDownloadUri, String hashKey) {
+    public FileUploadResponse(String fieldName, String filename, String fileDownloadUri, String hashKey) {
+        this.fieldName = fieldName;
         this.filename = filename;
         this.fileDownloadUri = fileDownloadUri;
         this.hashKey = hashKey;
@@ -37,5 +39,13 @@ public class FileUploadResponse {
 
     public void setHashKey(String hashKey) {
         this.hashKey = hashKey;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
     }
 }

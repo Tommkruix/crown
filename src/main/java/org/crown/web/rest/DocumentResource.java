@@ -13,11 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotEmpty;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -36,7 +36,8 @@ public class DocumentResource {
     }
 
     @PostMapping("file/upload")
-    public FileUploadResponse uploadDocument(@RequestParam("file") MultipartFile file) {
+    public FileUploadResponse uploadDocument(@NotEmpty @RequestParam("fieldType") String field,
+                                             @RequestParam("file") MultipartFile file) {
         String[] fileData = new String[]{};
         String fileDownloadUri = "";
         try{
@@ -54,17 +55,18 @@ public class DocumentResource {
             return new FileUploadResponse();
         }
 
-        return new FileUploadResponse(fileData[0], fileDownloadUri, fileData[2]);
+        return new FileUploadResponse(field, fileData[0], fileDownloadUri, fileData[2]);
     }
 
     @PostMapping("files/upload")
-    public List<FileUploadResponse> uploadDocuments(@RequestParam("files") MultipartFile[] files) {
-        List<FileUploadResponse> out = Arrays.asList(files)
-            .stream()
-            .map(file -> uploadDocument(file))
-            .collect(Collectors.toList());
-        return out;
+    public List<FileUploadResponse> uploadDocuments(@NotEmpty @RequestParam("fieldType") String[] fields,
+                                                    @RequestParam("files") MultipartFile[] files) {
+        List<FileUploadResponse> result = new ArrayList<>();
+        for(int i = 0; i < fields.length; i++) {
+            result.add(uploadDocument(fields[i], files[i]));
+        }
 
+        return result;
     }
 
     @GetMapping("file/download/{filePath}")
