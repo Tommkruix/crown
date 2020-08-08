@@ -47,6 +47,7 @@ export default class SignInPage extends BasePage {
   }
 
   async autoSignOut() {
+    console.log('ok logout auto ');
     await browser.get('/logout');
   }
 

@@ -19,27 +19,18 @@ export const RegisterPage = (props: IRegisterProps) => {
 
   const handleValidSubmit = (event, values) => {
     props.handleRegister(values.username, values.email, values.firstPassword, props.currentLocale);
-    event.preventDefault();
+	event.preventDefault();
+	props.toggle();
     history.push("/login");
   };
 
   const updatePassword = event => setPassword(event.target.value);
 
   return (
-    <div>
-      <Row className="justify-content-center">
-        <Col md="8">
-          <h1 id="register-title">
-            <Translate contentKey="register.title">Registration</Translate>
-          </h1>
-        </Col>
-      </Row>
-      <Row className="justify-content-center">
-        <Col md="8">
+    <>
           <AvForm id="register-form" onValidSubmit={handleValidSubmit}>
             <AvField
               name="username"
-              label={translate('global.form.username.label')}
               placeholder={translate('global.form.username.placeholder')}
               validate={{
                 required: { value: true, errorMessage: translate('register.messages.validate.login.required') },
@@ -50,7 +41,6 @@ export const RegisterPage = (props: IRegisterProps) => {
             />
             <AvField
               name="email"
-              label={translate('global.form.email.label')}
               placeholder={translate('global.form.email.placeholder')}
               type="email"
               validate={{
@@ -61,7 +51,6 @@ export const RegisterPage = (props: IRegisterProps) => {
             />
             <AvField
               name="firstPassword"
-              label={translate('global.form.newpassword.label')}
               placeholder={translate('global.form.newpassword.placeholder')}
               type="password"
               onChange={updatePassword}
@@ -74,7 +63,6 @@ export const RegisterPage = (props: IRegisterProps) => {
             <PasswordStrengthBar password={password} />
             <AvField
               name="secondPassword"
-              label={translate('global.form.confirmpassword.label')}
               placeholder={translate('global.form.confirmpassword.placeholder')}
               type="password"
               validate={{
@@ -86,26 +74,25 @@ export const RegisterPage = (props: IRegisterProps) => {
             />
 
             <AvCheckboxGroup
+				className='signup-checkbox'
               validate={{ required: { value: true, errorMessage: 'This Field is Required!' } }}
               name="terms-and-policy">
-              <div style={{ display: 'inline-flex' }}>
-                <AvCheckbox
+
+              <div className='agreement'>
+                <AvCheckbox				
                   label='I have read and agree to the '
                   validate={{ required: {value: true, errorMessage: 'Required'}}}
                 />
-                &nbsp;
                 <Link to={`/policy`} className="link">Terms and Policy</Link>
               </div>
             </AvCheckboxGroup>
 
 
-            <Button id="register-submit" color="primary" type="submit">
-              <Translate contentKey="register.form.button">Register</Translate>
+            <Button id="register-submit" color="primary" type="submit" className='login-btn'>
+              <Translate contentKey="register.form.button">Sign Up</Translate>
             </Button>
           </AvForm>
-        </Col>
-      </Row>
-    </div>
+    </>
   );
 };
 
