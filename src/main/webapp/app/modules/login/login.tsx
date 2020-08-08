@@ -17,7 +17,7 @@ export const Login = (props: ILoginProps) => {
 
 
 
-  const handleLogin = (username, password, rememberMe = false) => props.login(username, password, rememberMe);
+  const handleLogin = (username, password, rememberMe = false, history) => props.login(username, password, rememberMe, history);
 
   const handleClose = () => {
     setShowModal(false);

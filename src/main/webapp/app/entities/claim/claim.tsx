@@ -67,6 +67,9 @@ export const Claim = (props: IClaimProps) => {
                 <th>
                   <Translate contentKey="crownApp.claim.fundRestrictions">fundRestrictions</Translate>
                 </th>
+                <th>
+                  <Translate contentKey="crownApp.claim.proofOfFunds">Proof Of Funds</Translate>
+                </th>
                 {
                   props.isAdmin &&
                   <th>
@@ -104,6 +107,7 @@ export const Claim = (props: IClaimProps) => {
                   <td>{claim.receiverResource.fundsAvailable ? 'true' : 'false'}</td>
                   <td>{claim.receiverResource.acceptUnpackagedGoods ? 'true' : 'false'}</td>
                   <td>{claim.receiverResource.fundRestrictions}</td>
+                  <td>{claim.receiverResource.proofOfFunds}</td>
                   {
                     props.isAdmin &&
                     <td>
