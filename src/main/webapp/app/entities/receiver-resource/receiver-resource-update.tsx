@@ -13,7 +13,8 @@ import ReceiverSupplierAntFields from "app/entities/receiver-supplier/receiver-s
 import {normFile} from "app/helpers/utils";
 import moment from "moment";
 import {IReceiverResource} from "app/shared/model/receiver-resource.model";
-import App from 'app/entities/receiver-resource/ant-loading-button'
+import App from 'app/entities/receiver-resource/ant-loading-button';
+import axios from 'axios';
 
 const { Option } = Select;
 
@@ -23,7 +24,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
   const [resourceTypeId, setResourceTypeId] = useState('0');
   const [receiverId, setReceiverId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
-  const [pofFileList, setPofFileList] = useState('');
+  const [pofFileList, setPofFileList] = useState([]);
   const [poaFileList, setPoaFileList] = useState('');
   const [form] = Form.useForm();
 
@@ -34,17 +35,22 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     props.history.push('/receiver-resource');
   };
 
-  const updatePofFileList = fileName => {
-    if (!pofFileList.includes(fileName)) {
-      setPofFileList(`${pofFileList.length > 0 ? `${pofFileList},` : ''}${fileName}`);
-    }
-  };
+   const beforePofUpload = file => {    setPofFileList([...pofFileList, file]);   return false;   }
 
-  useEffect(() => {
-    form.setFieldsValue({
-      proofOfFunds: pofFileList
-    });
-  }, [pofFileList]);
+  // const beforePoaUpload = file => {  //  setPofFileList([...pofFileList, file]);  //  return false;  // }
+
+//  const updatePofFileList = fileName => {
+//    if (!pofFileList.includes(fileName)) {
+//      setPofFileList(`${pofFileList.length > 0 ? `${pofFileList},` : ''}${fileName}`);
+//    }
+//  };
+
+
+  // useEffect(() => {
+  //   form.setFieldsValue({
+  //    proofOfFunds: pofFileList
+  //  });
+  // }, [pofFileList]);
 
   const updatePoaFileList = fileName => {
     if (!poaFileList.includes(fileName)) {
@@ -71,7 +77,19 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
 
   useEffect(() => {
     if (props.updateSuccess) {
-      handleClose();
+      const data = new FormData()
+      data.append('file', pofFileList[0])
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      }
+      axios.post('api/file/upload', data, config).then((res: any) => {
+        handleClose();
+      }).catch((err: Error) => {
+      })
+
+
     }
   }, [props.updateSuccess]);
 
@@ -134,7 +152,9 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     initialValues.expiration = moment(receiverResourceEntity.expiration);
   }
 
-
+  if (receiverResourceEntity.proofOfFunds) {
+    initialValues.proofOfFunds = (receiverResourceEntity.proofOfFunds);
+  }
 
   return (
     <div>
@@ -271,19 +291,27 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
               </Form.Item>
 
               <Form.Item
-                name="pofFiles"
+                name="proofOfFunds"
                 label={translate('crownApp.receiverResource.pof')}
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
               >
                 <UploadFile
                   action="api/file/upload"
-                  onSuccess={updatePofFileList}
+                    // onSuccess={updatePofFileList}
+                    beforeUpload={beforePofUpload}
                   data={{
                     entityType: 'buy',
                     fieldType: 'pof'
                   }}
                 />
+              </Form.Item>
+              <Form.Item
+                name={['receiverResource', 'proofOfFunds']}
+                hidden={true}
+                style={{ display: 'none' }}
+              >
+                <Input type='file' hidden={true} />
               </Form.Item>
               <Form.Item name="isBuyer" style={{ display: 'none' }}>
                   <Input hidden={true} />
