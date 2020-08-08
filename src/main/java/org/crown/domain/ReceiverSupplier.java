@@ -1,14 +1,14 @@
 package org.crown.domain;
 
-import java.io.Serializable;
-import java.net.URI;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.io.Serializable;
+import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A ReceiverSupplier.
