@@ -29,6 +29,7 @@ export interface IAppProps extends StateProps, DispatchProps {}
 
 export const App = (props: IAppProps) => {
   useEffect(() => {
+
     props.getSession();
     props.getProfile();
   }, []);
@@ -56,7 +57,6 @@ export const App = (props: IAppProps) => {
             </ErrorBoundary>
           </Card>
         </div>
-        <Footer />
       </div>
     </Router>
   );

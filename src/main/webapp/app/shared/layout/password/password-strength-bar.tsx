@@ -55,7 +55,7 @@ export const PasswordStrengthBar = ({ password }: IPasswordStrengthBarProps) => 
   const getPoints = force => {
     const pts = [];
     for (let i = 0; i < 5; i++) {
-      pts.push(<li key={i} className="point" style={i < force.idx ? { backgroundColor: force.col } : { backgroundColor: '#DDD' }} />);
+      pts.push(<li key={i} className="strength" style={i < force.idx ? { backgroundColor: force.col } : { backgroundColor: '#DDD' }} />);
     }
     return pts;
   };
@@ -64,11 +64,9 @@ export const PasswordStrengthBar = ({ password }: IPasswordStrengthBarProps) => 
   const points = getPoints(strength);
 
   return (
-    <div id="strength">
-      <small>
-        <Translate contentKey="global.messages.validate.newpassword.strength">Password strength:</Translate>
-      </small>
-      <ul id="strengthBar">{points}</ul>
+    <div className="password-strength-bar" id="strength">
+      <ul className="strength-bar" id="strengthBar">{points}</ul>
+    	<Translate contentKey="global.messages.validate.newpassword.strength">Password Strength</Translate>
     </div>
   );
 };

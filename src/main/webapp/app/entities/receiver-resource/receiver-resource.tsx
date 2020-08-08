@@ -128,6 +128,9 @@ export const ReceiverResource = (props: IReceiverResourceProps) => {
                   <th className="hand" onClick={sort('fundsAvailable')}>
                     <Translate contentKey="crownApp.receiverResource.fundsAvailable">Funds Available</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
+                  <th className="hand" onClick={sort('proofOfFunds')}>
+                    <Translate contentKey="crownApp.receiverResource.pof">Proof Of Funds</Translate> <FontAwesomeIcon icon="sort" />
+                  </th>
                   <th>
                     <Translate contentKey="crownApp.receiverResource.receiver">Receiver</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
@@ -164,6 +167,7 @@ export const ReceiverResource = (props: IReceiverResourceProps) => {
                     <td>{receiverResource.acceptUnpackagedGoods ? 'true' : 'false'}</td>
                     <td>{receiverResource.fundRestrictions}</td>
                     <td>{receiverResource.fundsAvailable ? 'true' : 'false'}</td>
+                    <td>{receiverResource.proofOfFunds}</td>
                     <td>
                       {receiverResource.receiver ? (
                         <Link to={`receiver-supplier/${receiverResource.receiver.id}`}>{receiverResource.receiver.name}</Link>

@@ -23,7 +23,8 @@ const { Option } = Select;
 
 export interface IClaimRequestProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
-export interface IReceiverResourceUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IReceiverResourceUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
+
 export const ClaimRequest = (props: IClaimRequestProps) => {
   const [receiverResourceId, setReceiverResourceId] = useState('0');
   const [supplierResourceId, setSupplierResourceId] = useState('0');
@@ -323,6 +324,14 @@ export const ClaimRequest = (props: IClaimRequestProps) => {
                       }}
                     />
                   </Form.Item>
+                  <Form.Item
+                    name={['receiverResource', 'proofOfFunds']}
+                    hidden={true}
+                    style={{ display: 'none' }}
+                  >
+                    <Input hidden={true} />
+                  </Form.Item>
+
                   <Form.Item name={['receiverResource', 'isBuyer']} style={{ display: 'none' }}>
                     <Input hidden={true} />
                   </Form.Item>

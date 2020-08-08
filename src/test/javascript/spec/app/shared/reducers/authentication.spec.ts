@@ -227,7 +227,7 @@ describe('Authentication reducer tests', () => {
           locale: 'en'
         }
       ];
-      await store.dispatch(login('test', 'test'));
+      await store.dispatch(login('test', 'test', false, 'test'));
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

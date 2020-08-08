@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 
@@ -15,7 +15,9 @@ export const Login = (props: ILoginProps) => {
     setShowModal(true);
   }, []);
 
-  const handleLogin = (username, password, rememberMe = false) => props.login(username, password, rememberMe);
+
+
+  const handleLogin = (username, password, rememberMe = false, history) => props.login(username, password, rememberMe, history);
 
   const handleClose = () => {
     setShowModal(false);
