@@ -80,8 +80,8 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
       // const data = new FormData()
       // data.append('file', pofFileList[0])
       // const config = {
-      //    headers: {
-      //    'content-type': 'multipart/form-data'
+      //  headers: {
+      //    fieldType: 'pof'
       //  }
       // }
       // axios.post('api/file/upload', data, config).then((res: any) => {
@@ -150,9 +150,9 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     initialValues.expiration = moment(receiverResourceEntity.expiration);
   }
 
-  if (receiverResourceEntity.proofOfFunds) {
-    initialValues.proofOfFunds = (receiverResourceEntity.proofOfFunds);
-  }
+  // if (receiverResourceEntity.proofOfFunds) {
+  //  initialValues.proofOfFunds = (receiverResourceEntity.proofOfFunds);
+  // }
 
   return (
     <div>
@@ -299,7 +299,6 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
                   // onSuccess={updatePofFileList}
                   beforeUpload={beforePofUpload}
                   data={{
-                    entityType: 'buy',
                     fieldType: 'pof'
                   }}
                 />

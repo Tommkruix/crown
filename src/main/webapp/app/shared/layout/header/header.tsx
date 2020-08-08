@@ -77,23 +77,6 @@ const Header = (props: IHeaderProps) => {
             <NavItem>
               <Link className='text-dark nav-link' to="/seller-journey">SUPPLY</Link>
             </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle className='text-dark nav-link' nav caret>
-                Toronto, United States
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>
-                  Option 1
-                </DropdownItem>
-                <DropdownItem>
-                  Option 2
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>
-                  Reset
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
           </Nav>
           <span>
             <Nav>
