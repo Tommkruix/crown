@@ -2,6 +2,7 @@
 import React from 'react';
 
 import { Form, Input } from 'antd';
+import { CaretRightOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import {
   Navbar,
@@ -85,17 +86,17 @@ export default () => {
             </p>
             <div>
               {/* <hi */}
-              <Link to="/buyer-journey">
+              <a href="/buyer-journey">
                 <button type="submit" className="btn btn-primary shadow">
                   <span>REQUEST</span>
                 </button>
-              </Link>
+              </a>
 
-              <Link to="/seller-journey">
+              <a href="/seller-journey">
                 <button style={{ backgroundColor: '#4698DC' }} type="submit" className="ml-4 shadow btn btn-primary text-white">
                   <span>SUPPLY</span>
                 </button>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -156,7 +157,7 @@ export default () => {
               </p>
             </div>
             <div className="cw-about-us-footer">
-              <Link to="/about">Learn more about us</Link>
+              <a href="/about">Learn more about us <CaretRightOutlined /> </a>
             </div>
           </div>
         </div>
@@ -303,24 +304,24 @@ export default () => {
 
               <ul className="list-unstyled text-small row ml-1">
                 <li>
-                  <Link className="text-muted text-gray-1 span6 footer-links" to="/about">
+                  <a className="text-muted text-gray-1 span6 footer-links" href="/about">
                     About Us
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link className="text-muted text-gray-1 ml-2 footer-links ml-4" to="/buyer-journey">
+                  <a className="text-muted text-gray-1 ml-2 footer-links ml-4" href="/buyer-journey">
                     Request
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link className="text-muted text-gray-1 ml-2 footer-links ml-4" to="/seller-journey">
+                  <a className="text-muted text-gray-1 ml-2 footer-links ml-4" href="/seller-journey">
                     Supply
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link className="text-muted text-gray-1 ml-2 footer-links ml-4" to="/support">
+                  <a className="text-muted text-gray-1 ml-2 footer-links ml-4" href="/support">
                     Support Us
-                  </Link>
+                  </a>
                 </li>
                 {/* <li><Link className="text-muted text-gray-1" to="/">Another one</Link></li>
                             <li><Link className="text-muted text-gray-1" to="/">Last time</Link></li> */}
@@ -332,7 +333,7 @@ export default () => {
               <ul className="list-unstyled text-small footer-right">
                 <li className="text-muted text-gray-1">Email: info@needmoremed.com </li>
                 <li className="text-muted text-gray-1">Address: Toronto, Canada </li>
-                <Link to="/policy"><li className="text-muted text-gray-1">Terms and Policy</li></Link>
+                <a href="/policy"><li className="text-muted text-gray-1">Terms and Policy</li></a>
               </ul>
             </div>
           </div>
