@@ -153,7 +153,7 @@ export const SupplierResource = (props: ISupplierResourceProps) => {
               <thead>
                 <tr>
                   { <th className="hand" onClick={sort('id')}>
-                    <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="crownApp.supplierResource.resourceType">Type</Translate> <FontAwesomeIcon icon="sort" />
                   </th> }
                   <th className="hand" onClick={sort('quantity')}>
                     <Translate contentKey="crownApp.supplierResource.quantity">Quantity</Translate> <FontAwesomeIcon icon="sort" />
@@ -173,12 +173,9 @@ export const SupplierResource = (props: ISupplierResourceProps) => {
                   <th className="hand" onClick={sort('quantityOnHand')}>
                     <Translate contentKey="crownApp.supplierResource.quantityOnHand">Quantity</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th>
-                    <Translate contentKey="crownApp.supplierResource.resourceType">Resource Type</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
+                  {/* <th>
                     <Translate contentKey="crownApp.supplierResource.supplier">Supplier</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
+                  </th> */}
                   <th />
                 </tr>
               </thead>
@@ -186,9 +183,11 @@ export const SupplierResource = (props: ISupplierResourceProps) => {
                 {supplierResourceList.map((supplierResource, i) => (
                   <tr key={`entity-${i}`}>
                     <td>
-                      <Button tag={Link} to={`${match.url}/${supplierResource.id}`} color="link" size="sm">
-                        {supplierResource.id}
-                      </Button>
+                      {supplierResource.resourceType ? (
+                        <Link to={`resource-type/${supplierResource.resourceType.id}`}>{supplierResource.resourceType.name}</Link>
+                      ) : (
+                          ''
+                        )}
                     </td>
                     <td>{supplierResource.quantity}</td>
                     <td>
@@ -198,20 +197,13 @@ export const SupplierResource = (props: ISupplierResourceProps) => {
                     <td>{supplierResource.productAvailabilityLeadTime}</td>
                     <td>{supplierResource.minOrderQuantity}</td>
                     <td>{supplierResource.quantityOnHand}</td>
-                    <td>
-                      {supplierResource.resourceType ? (
-                        <Link to={`resource-type/${supplierResource.resourceType.id}`}>{supplierResource.resourceType.name}</Link>
-                      ) : (
-                        ''
-                      )}
-                    </td>
-                    <td>
+                    {/* <td>
                       {supplierResource.supplier ? (
                         <Link to={`receiver-supplier/${supplierResource.supplier.id}`}>{supplierResource.supplier.name}</Link>
                       ) : (
-                        ''
-                      )}
-                    </td>
+                          ''
+                        )}
+                    </td> */}
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${supplierResource.id}`} color="info" size="sm">

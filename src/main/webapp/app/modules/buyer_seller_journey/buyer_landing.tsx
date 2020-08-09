@@ -274,6 +274,27 @@ class BuyerLanding extends React.Component<MapProps, State> {
     L.tileLayer(baseTileString, options).addTo(this.resourceSuppliersMap);
 
     // Add the search bar
+    const self = this;
+    L.Control.geocoder({
+      defaultMarkGeocode: false,
+      collapsed: false
+    }).on('markgeocode', function (e) {
+      const bbox = e.geocode.bbox;
+      const poly = L.polygon([
+        bbox.getSouthEast(),
+        bbox.getNorthEast(),
+        bbox.getNorthWest(),
+        bbox.getSouthWest()
+      ]);
+
+      // Move to searched location
+      self.resourceSuppliersMap.fitBounds(poly.getBounds()).setMinZoom(3);
+      // Reset circle
+      self.removeAndAddCircle(e.geocode.center);
+      // Clear the input
+      this._input.value = '';
+
+    }).addTo(this.resourceSuppliersMap);
   }
 
   render() {
