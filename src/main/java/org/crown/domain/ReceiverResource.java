@@ -3,13 +3,12 @@ package org.crown.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import javax.validation.constraints.*;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Objects;
 import java.time.LocalDate;
 
 /**
@@ -47,8 +46,9 @@ public class ReceiverResource implements Serializable {
     @Field("notes")
     private String notes;
 
+    @DBRef
     @Field("proofOfFunds")
-    private String proofOfFunds;
+    private DocumentUpload proofOfFunds;
 
     @DBRef
     @Field("resourceType")
@@ -244,15 +244,15 @@ public class ReceiverResource implements Serializable {
 		return serialVersionUID;
 	}
 
-	public String getProofOfFunds() {
+	public DocumentUpload getProofOfFunds() {
         return proofOfFunds;
     }
 
-    public void setProofOfFunds(String proofOfFunds) {
+    public void setProofOfFunds(DocumentUpload proofOfFunds) {
         this.proofOfFunds = proofOfFunds;
     }
 
-    public ReceiverResource proofOfFunds(String proofOfFunds) {
+    public ReceiverResource proofOfFunds(DocumentUpload proofOfFunds) {
         this.proofOfFunds = proofOfFunds;
         return this;
     }
