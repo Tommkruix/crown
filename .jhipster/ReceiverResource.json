@@ -74,6 +74,15 @@
             "ownerSide": true
         },
         {
+          "relationshipType": "one-to-one",
+          "otherEntityName": "DocumentUpload",
+          "otherEntityRelationshipName": "receiverResource",
+          "relationshipValidateRules": "required",
+          "relationshipName": "proofOfFunds",
+          "otherEntityField": "name",
+          "ownerSide": true
+      },
+        {
             "relationshipType": "many-to-one",
             "otherEntityName": "receiverSupplier",
             "otherEntityRelationshipName": "receiverResource",
