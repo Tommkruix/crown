@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -65,8 +66,8 @@ public class ReceiverSupplier implements Serializable {
 	@Field("proof_of_association")
 	private String proofOfAssociation;
 
-	//@Field("proof_of_association_link")
-	//private URI proofOfAssociationLink;
+	@Field("proof_of_association_link")
+	private URI proofOfAssociationLink;
 
 	@Field("first_name")
 	private String firstName;
@@ -102,11 +103,11 @@ public class ReceiverSupplier implements Serializable {
 	private String pocCountry;
 
 	// TODO: Determine if the below fields are still in use
-	//@Field("latx")
-	//private Float latx;
+	@Field("latx")
+	private Float latx;
 
-	//@Field("longy")
-	//private Float longy;
+	@Field("longy")
+	private Float longy;
 
 	@Field("address")
 	private String address;
@@ -114,8 +115,8 @@ public class ReceiverSupplier implements Serializable {
 	@Field("primary_contact_name")
 	private String primaryContactName;
 
-	//@Field("npi")
-	//private Integer npi;
+	@Field("npi")
+	private Integer npi;
 
 	@Field("is_receiver")
 	private Boolean isReceiver;
@@ -132,8 +133,8 @@ public class ReceiverSupplier implements Serializable {
 	@Field("notes")
 	private String notes;
 
-	//@Field("tags")
-	//private String tags;
+	@Field("tags")
+	private String tags;
 
 	@DBRef
 	@Field("receiverResource")
@@ -243,31 +244,31 @@ public class ReceiverSupplier implements Serializable {
 		return this;
 	}
 
-	//public Float getLatx() {
-	//	return latx;
-	//}
+	public Float getLatx() {
+		return latx;
+	}
 
-	//public ReceiverSupplier latx(Float latx) {
-	//	this.latx = latx;
-	//	return this;
-	//}
+	public ReceiverSupplier latx(Float latx) {
+		this.latx = latx;
+		return this;
+	}
 
-	//public void setLatx(Float latx) {
-	//	this.latx = latx;
-	//}
+	public void setLatx(Float latx) {
+		this.latx = latx;
+	}
 
-	//public Float getLongy() {
-	//	return longy;
-	//}
+	public Float getLongy() {
+		return longy;
+	}
 
-	//public ReceiverSupplier longy(Float longy) {
-	//	this.longy = longy;
-	//	return this;
-	//}
+	public ReceiverSupplier longy(Float longy) {
+		this.longy = longy;
+		return this;
+	}
 
-	//public void setLongy(Float longy) {
-	//	this.longy = longy;
-	//}
+	public void setLongy(Float longy) {
+		this.longy = longy;
+	}
 
 	public ReceiverSupplier city(String city) {
 		this.city = city;
@@ -284,18 +285,18 @@ public class ReceiverSupplier implements Serializable {
 		return this;
 	}
 
-	//public Integer getNpi() {
-	//	return npi;
-	//}
+	public Integer getNpi() {
+		return npi;
+	}
 
-	//public ReceiverSupplier npi(Integer npi) {
-	//	this.npi = npi;
-	//	return this;
-	//}
+	public ReceiverSupplier npi(Integer npi) {
+		this.npi = npi;
+		return this;
+	}
 
-	//public void setNpi(Integer npi) {
-	//	this.npi = npi;
-	//}
+	public void setNpi(Integer npi) {
+		this.npi = npi;
+	}
 
 	public Boolean isIsReceiver() {
 		return isReceiver;
@@ -362,23 +363,23 @@ public class ReceiverSupplier implements Serializable {
 		this.notes = notes;
 	}
 
-	//public String getTags() {
-	//	return tags;
-	//}
+	public String getTags() {
+		return tags;
+	}
 
-	//public ReceiverSupplier tags(String tags) {
-	//	this.tags = tags;
-	//	return this;
-	//}
+	public ReceiverSupplier tags(String tags) {
+		this.tags = tags;
+		return this;
+	}
 
 	public ReceiverSupplier proofOfAssociation(String proofOfAssociation) {
 		this.proofOfAssociation = proofOfAssociation;
 		return this;
 	}
 
-	//public void setTags(String tags) {
-	//	this.tags = tags;
-	//}
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
 
 	public Set<ReceiverResource> getReceiverResources() {
 		return receiverResources;
@@ -452,11 +453,11 @@ public class ReceiverSupplier implements Serializable {
 	public String toString() {
 		return "ReceiverSupplier{" + "id=" + getId() + ", name='" + getOrgName() + "'" + ", address='" + getAddress()
 				+ "'" + ", email='" + getEmail() + "'" + ", primaryContactName='" + getPrimaryContactName() + "'"
-				+ ", zip='" + getZip() + "'" + ", phonenumber='" + getPhonenumber() + "'"
-                + ", city='" + getCity() + "'" + ", state='" + getState() + "'"
-				+ ", country='" + getCountry() + "'" + ", isReceiver='" + isIsReceiver() + "'"
+				+ ", zip='" + getZip() + "'" + ", phonenumber='" + getPhonenumber() + "'" + ", latx=" + getLatx()
+				+ ", longy=" + getLongy() + ", city='" + getCity() + "'" + ", state='" + getState() + "'"
+				+ ", country='" + getCountry() + "'" + ", npi=" + getNpi() + ", isReceiver='" + isIsReceiver() + "'"
 				+ ", isSupplier='" + isIsSupplier() + "'" + ", hasSterilization='" + isHasSterilization() + "'"
-				+ ", priority=" + getPriority() + ", notes='" + getNotes() + "'" + ", tags='" +"}";
+				+ ", priority=" + getPriority() + ", notes='" + getNotes() + "'" + ", tags='" + getTags() + "'" + "}";
 	}
 
 	/**
@@ -567,23 +568,23 @@ public class ReceiverSupplier implements Serializable {
 	/**
 	 * @param proofOfAssociation the proofOfAssociation to set
 	 */
-	//public void setProofOfAssociation(String proofOfAssociation) {
-	//	this.proofOfAssociation = proofOfAssociation;
-	//}
+	public void setProofOfAssociation(String proofOfAssociation) {
+		this.proofOfAssociation = proofOfAssociation;
+	}
 
 	/**
 	 * @return the proofOfAssociationLink
 	 */
-	//public URI getProofOfAssociationLink() {
-	//	return proofOfAssociationLink;
-	//}
+	public URI getProofOfAssociationLink() {
+		return proofOfAssociationLink;
+	}
 
 	/**
 	 * @param proofOfAssociationLink the proofOfAssociationLink to set
 	 */
-	//public void setProofOfAssociationLink(URI proofOfAssociationLink) {
-	//	this.proofOfAssociationLink = proofOfAssociationLink;
-	//}
+	public void setProofOfAssociationLink(URI proofOfAssociationLink) {
+		this.proofOfAssociationLink = proofOfAssociationLink;
+	}
 
 	/**
 	 * @return the firstName
