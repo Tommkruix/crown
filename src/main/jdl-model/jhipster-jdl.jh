@@ -1,4 +1,4 @@
-ientity SupplyPoint {
+entity SupplyPoint {
     name String required unique,
     address String required unique,
     primaryContactName String required,
