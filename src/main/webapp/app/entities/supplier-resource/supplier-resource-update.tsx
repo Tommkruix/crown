@@ -24,7 +24,8 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
   const [resourceTypeId, setResourceTypeId] = useState('0');
   const [supplierId, setSupplierId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
-  const [poaFileList, setPoaFileList] = useState('');
+  const [poaFileList, setPoaFileList] = useState([]);
+  const [pofFileList, setPofFileList] = useState('');
   const [form] = Form.useForm();
 
   const { supplierResourceEntity, resourceTypes, receiverSuppliers, loading, updating, account } = props;
@@ -32,6 +33,8 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
 
   let lat;
   let lng;
+
+  const beforePofUpload = file => {    setPoaFileList([...poaFileList, file]);    return false;  }
 
   const handleClose = () => {
     props.history.push('/supplier-resource');
@@ -51,19 +54,25 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
     }
   }, [props.updateSuccess]);
 
-  const updatePoaFileList = fileName => {
-    if (!poaFileList.includes(fileName)) {
-      setPoaFileList(`${poaFileList.length > 0 ? `${poaFileList},` : ''}${fileName}`);
+   const updatePofFileList = fileName => {
+    if (!pofFileList.includes(fileName)) {
+      setPofFileList(`${pofFileList.length > 0 ? `${pofFileList},` : ''}${fileName}`);
     }
-  };
+   };
 
-  useEffect(() => {
-    form.setFieldsValue({
-      supplier: {
-        proofOfAssociation: poaFileList
-      }
-    });
-  }, [poaFileList]);
+   // const updatePoaFileList = fileName => {
+   // if (!poaFileList.includes(fileName)) {
+   //   setPoaFileList(`${poaFileList.length > 0 ? `${poaFileList},` : ''}${fileName}`);
+   // }
+  // };
+
+  // useEffect(() => {
+  //  form.setFieldsValue({
+  //    supplier: {
+  //      proofOfAssociation: poaFileList
+  //    }
+  //  });
+  // }, [poaFileList]);
 
   const mayBeSupplierFields = () => {
     if (supplierProfile && supplierProfile.length > 0) {
@@ -73,7 +82,7 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
       <React.Fragment>
         <ReceiverSupplierAntFields
           fieldPrefix={['supplier']}
-          updatePoaFileList={updatePoaFileList}
+          updatePoaFileList={updatePofFileList}
         />
       </React.Fragment>
     );
@@ -265,7 +274,8 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
               >
                   <UploadFile
                     action="api/file/upload"
-                    onSuccess={updatePoaFileList}
+                    // onSuccess={updatePofFileList}
+                    beforeUpload={beforePofUpload}
                     data={{
                       entityType: 'buy',
                       fieldType: 'pof'
@@ -280,7 +290,8 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
                 >
                   <UploadFile
                     action="api/file/upload"
-                    onSuccess={updatePoaFileList}
+                    // onSuccess={updatePofFileList}
+                    beforeUpload={beforePofUpload}
                     data={{
                       entityType: 'buy',
                       fieldType: 'pof'
@@ -295,7 +306,8 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
                 >
                   <UploadFile
                     action="api/file/upload"
-                    onSuccess={updatePoaFileList}
+                    // onSuccess={updatePofFileList}
+                    beforeUpload={beforePofUpload}
                     data={{
                       entityType: 'buy',
                       fieldType: 'pof'

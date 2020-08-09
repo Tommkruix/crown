@@ -77,7 +77,7 @@ const Header = (props: IHeaderProps) => {
             <NavItem>
               <Link className='text-dark nav-link' to="/seller-journey">SUPPLY</Link>
             </NavItem>
-            <UncontrolledDropdown nav inNavbar>
+            {/* <UncontrolledDropdown nav inNavbar>
               <DropdownToggle className='text-dark nav-link' nav caret>
                 Toronto, United States
               </DropdownToggle>
@@ -93,7 +93,7 @@ const Header = (props: IHeaderProps) => {
                   Reset
                 </DropdownItem>
               </DropdownMenu>
-            </UncontrolledDropdown>
+            </UncontrolledDropdown> */}
           </Nav>
           <span>
             <Nav>
