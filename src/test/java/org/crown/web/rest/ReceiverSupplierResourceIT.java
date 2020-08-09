@@ -1,5 +1,18 @@
 package org.crown.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
 import org.crown.CrownApp;
 import org.crown.domain.ReceiverSupplier;
 import org.crown.repository.ReceiverSupplierRepository;
@@ -11,14 +24,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link ReceiverSupplierResource} REST controller.
@@ -100,10 +105,10 @@ public class ReceiverSupplierResourceIT {
 	public static ReceiverSupplier createEntity() {
 		ReceiverSupplier receiverSupplier = new ReceiverSupplier().orgName(DEFAULT_NAME).address(DEFAULT_ADDRESS)
 				.email(DEFAULT_EMAIL).primaryContactName(DEFAULT_PRIMARY_CONTACT_NAME).zip(DEFAULT_ZIP)
-				.phonenumber(DEFAULT_PHONENUMBER).city(DEFAULT_CITY)
-				.state(DEFAULT_STATE).country(DEFAULT_COUNTRY).isReceiver(DEFAULT_IS_RECEIVER)
+				.phonenumber(DEFAULT_PHONENUMBER).latx(DEFAULT_LATX).longy(DEFAULT_LONGY).city(DEFAULT_CITY)
+				.state(DEFAULT_STATE).country(DEFAULT_COUNTRY).npi(DEFAULT_NPI).isReceiver(DEFAULT_IS_RECEIVER)
 				.isSupplier(DEFAULT_IS_SUPPLIER).hasSterilization(DEFAULT_HAS_STERILIZATION).priority(DEFAULT_PRIORITY)
-				.notes(DEFAULT_NOTES);
+				.notes(DEFAULT_NOTES).tags(DEFAULT_TAGS);
 		return receiverSupplier;
 	}
 
@@ -116,10 +121,10 @@ public class ReceiverSupplierResourceIT {
 	public static ReceiverSupplier createUpdatedEntity() {
 		ReceiverSupplier receiverSupplier = new ReceiverSupplier().orgName(UPDATED_NAME).address(UPDATED_ADDRESS)
 				.email(UPDATED_EMAIL).primaryContactName(UPDATED_PRIMARY_CONTACT_NAME).zip(UPDATED_ZIP)
-				.phonenumber(UPDATED_PHONENUMBER).city(UPDATED_CITY)
-				.state(UPDATED_STATE).country(UPDATED_COUNTRY).isReceiver(UPDATED_IS_RECEIVER)
+				.phonenumber(UPDATED_PHONENUMBER).latx(UPDATED_LATX).longy(UPDATED_LONGY).city(UPDATED_CITY)
+				.state(UPDATED_STATE).country(UPDATED_COUNTRY).npi(UPDATED_NPI).isReceiver(UPDATED_IS_RECEIVER)
 				.isSupplier(UPDATED_IS_SUPPLIER).hasSterilization(UPDATED_HAS_STERILIZATION).priority(UPDATED_PRIORITY)
-				.notes(UPDATED_NOTES);
+				.notes(UPDATED_NOTES).tags(UPDATED_TAGS);
 		return receiverSupplier;
 	}
 
@@ -148,14 +153,18 @@ public class ReceiverSupplierResourceIT {
 		assertThat(testReceiverSupplier.getPrimaryContactName()).isEqualTo(DEFAULT_PRIMARY_CONTACT_NAME);
 		assertThat(testReceiverSupplier.getZip()).isEqualTo(DEFAULT_ZIP);
 		assertThat(testReceiverSupplier.getPhonenumber()).isEqualTo(DEFAULT_PHONENUMBER);
+		assertThat(testReceiverSupplier.getLatx()).isEqualTo(DEFAULT_LATX);
+		assertThat(testReceiverSupplier.getLongy()).isEqualTo(DEFAULT_LONGY);
 		assertThat(testReceiverSupplier.getCity()).isEqualTo(DEFAULT_CITY);
 		assertThat(testReceiverSupplier.getState()).isEqualTo(DEFAULT_STATE);
 		assertThat(testReceiverSupplier.getCountry()).isEqualTo(DEFAULT_COUNTRY);
+		assertThat(testReceiverSupplier.getNpi()).isEqualTo(DEFAULT_NPI);
 		assertThat(testReceiverSupplier.isIsReceiver()).isEqualTo(DEFAULT_IS_RECEIVER);
 		assertThat(testReceiverSupplier.isIsSupplier()).isEqualTo(DEFAULT_IS_SUPPLIER);
 		assertThat(testReceiverSupplier.isHasSterilization()).isEqualTo(DEFAULT_HAS_STERILIZATION);
 		assertThat(testReceiverSupplier.getPriority()).isEqualTo(DEFAULT_PRIORITY);
 		assertThat(testReceiverSupplier.getNotes()).isEqualTo(DEFAULT_NOTES);
+		assertThat(testReceiverSupplier.getTags()).isEqualTo(DEFAULT_TAGS);
 	}
 
 	@Test
@@ -402,10 +411,10 @@ public class ReceiverSupplierResourceIT {
 		ReceiverSupplier updatedReceiverSupplier = receiverSupplierRepository.findById(receiverSupplier.getId()).get();
 		updatedReceiverSupplier.orgName(UPDATED_NAME).address(UPDATED_ADDRESS).email(UPDATED_EMAIL)
 				.primaryContactName(UPDATED_PRIMARY_CONTACT_NAME).zip(UPDATED_ZIP).phonenumber(UPDATED_PHONENUMBER)
-				.city(UPDATED_CITY).state(UPDATED_STATE)
-				.country(UPDATED_COUNTRY).isReceiver(UPDATED_IS_RECEIVER)
+				.latx(UPDATED_LATX).longy(UPDATED_LONGY).city(UPDATED_CITY).state(UPDATED_STATE)
+				.country(UPDATED_COUNTRY).npi(UPDATED_NPI).isReceiver(UPDATED_IS_RECEIVER)
 				.isSupplier(UPDATED_IS_SUPPLIER).hasSterilization(UPDATED_HAS_STERILIZATION).priority(UPDATED_PRIORITY)
-				.notes(UPDATED_NOTES);
+				.notes(UPDATED_NOTES).tags(UPDATED_TAGS);
 
 		restReceiverSupplierMockMvc
 				.perform(put("/api/receiver-suppliers").with(csrf()).contentType(MediaType.APPLICATION_JSON)
@@ -422,14 +431,18 @@ public class ReceiverSupplierResourceIT {
 		assertThat(testReceiverSupplier.getPrimaryContactName()).isEqualTo(UPDATED_PRIMARY_CONTACT_NAME);
 		assertThat(testReceiverSupplier.getZip()).isEqualTo(UPDATED_ZIP);
 		assertThat(testReceiverSupplier.getPhonenumber()).isEqualTo(UPDATED_PHONENUMBER);
+		assertThat(testReceiverSupplier.getLatx()).isEqualTo(UPDATED_LATX);
+		assertThat(testReceiverSupplier.getLongy()).isEqualTo(UPDATED_LONGY);
 		assertThat(testReceiverSupplier.getCity()).isEqualTo(UPDATED_CITY);
 		assertThat(testReceiverSupplier.getState()).isEqualTo(UPDATED_STATE);
 		assertThat(testReceiverSupplier.getCountry()).isEqualTo(UPDATED_COUNTRY);
+		assertThat(testReceiverSupplier.getNpi()).isEqualTo(UPDATED_NPI);
 		assertThat(testReceiverSupplier.isIsReceiver()).isEqualTo(UPDATED_IS_RECEIVER);
 		assertThat(testReceiverSupplier.isIsSupplier()).isEqualTo(UPDATED_IS_SUPPLIER);
 		assertThat(testReceiverSupplier.isHasSterilization()).isEqualTo(UPDATED_HAS_STERILIZATION);
 		assertThat(testReceiverSupplier.getPriority()).isEqualTo(UPDATED_PRIORITY);
 		assertThat(testReceiverSupplier.getNotes()).isEqualTo(UPDATED_NOTES);
+		assertThat(testReceiverSupplier.getTags()).isEqualTo(UPDATED_TAGS);
 	}
 
 	@Test
