@@ -23,6 +23,10 @@ import {
 const logo = 'content/images/LOGO.png';
 const image = 'content/images/5816.png';
 
+const fb = 'content/images/facebook-icon.png';
+const inst = 'content/images/instagram-icon.png';
+const linkdin = 'content/images/link-icon.png';
+
 export default () => {
   return (
     <>
@@ -332,7 +336,12 @@ export default () => {
               <h4 className="text-gray-2 footer-right-heading">Start a conversation</h4>
               <ul className="list-unstyled text-small footer-right">
                 <li className="text-muted text-gray-1">Email: info@needmoremed.com </li>
-                <li className="text-muted text-gray-1">Address: Toronto, Canada </li>
+                <li className="text-muted text-gray-1" style={{}}> Address: Toronto, Canada </li>
+                <li className='mt-2 mb-2'>
+                  <a href='https://www.instagram.com/needmoremed'><img src={inst} style={{ width:'60px', height:'60px', padding: '10px' }} /></a>
+                  <a href='https://www.facebook.com/NeedMoreMed'><img src={fb} style={{ width: '35px', height: '35px' }} /></a>
+                  <a href='https://linkedin.com/company/NeedMoreMed'><img src={linkdin} style={{ width: '60px', height: '60px', padding: '10px' }} /></a>
+                </li>
                 <a href="/policy"><li className="text-muted text-gray-1">Terms and Policy</li></a>
               </ul>
             </div>

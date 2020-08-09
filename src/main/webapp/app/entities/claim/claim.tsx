@@ -35,16 +35,13 @@ export const Claim = (props: IClaimProps) => {
             <thead>
               <tr>
                 <th>
-                  <Translate contentKey="global.field.id">ID</Translate>
+                  <Translate contentKey="crownApp.claim.resourceType">Type</Translate>
                 </th>
                 <th>
                   <Translate contentKey="crownApp.claim.quantity">Quantity</Translate>
                 </th>
                 <th>
                   <Translate contentKey="crownApp.claim.notes">Notes</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="crownApp.claim.status">Status</Translate>
                 </th>
                 <th>
                   <Translate contentKey="crownApp.claim.currentStock">current Stock</Translate>
@@ -67,8 +64,11 @@ export const Claim = (props: IClaimProps) => {
                 <th>
                   <Translate contentKey="crownApp.claim.fundRestrictions">fundRestrictions</Translate>
                 </th>
-                <th>
+                {/* <th>
                   <Translate contentKey="crownApp.claim.proofOfFunds">Proof Of Funds</Translate>
+                </th> */}
+                <th>
+                  <Translate contentKey="crownApp.claim.status">Status</Translate>
                 </th>
                 {
                   props.isAdmin &&
@@ -90,14 +90,11 @@ export const Claim = (props: IClaimProps) => {
                 <tr key={`entity-${i}`}>
                   <td>
                     <Button tag={Link} to={`${match.url}/${claim.id}`} color="link" size="sm">
-                      {claim.id}
+                      {claim.receiverResource.resourceType}
                     </Button>
                   </td>
                   <td>{claim.receiverResource.quantity}</td>
                   <td>{claim.receiverResource.notes}</td>
-                  <td>
-                    <Translate contentKey={`crownApp.ClaimStatusEnum.${claim.status}`} />
-                  </td>
                   <td>{claim.receiverResource.currentStock}</td>
                   <td>
                     <TextFormat type="date" value={claim.receiverResource.expiration} format={APP_LOCAL_DATE_FORMAT} />
@@ -107,7 +104,10 @@ export const Claim = (props: IClaimProps) => {
                   <td>{claim.receiverResource.fundsAvailable ? 'true' : 'false'}</td>
                   <td>{claim.receiverResource.acceptUnpackagedGoods ? 'true' : 'false'}</td>
                   <td>{claim.receiverResource.fundRestrictions}</td>
-                  <td>{claim.receiverResource.proofOfFunds}</td>
+                  {/* <td>{claim.receiverResource.proofOfFunds}</td> */}
+                  <td>
+                    <Translate contentKey={`crownApp.ClaimStatusEnum.${claim.status}`} />
+                  </td>
                   {
                     props.isAdmin &&
                     <td>

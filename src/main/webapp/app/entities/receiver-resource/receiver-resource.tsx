@@ -92,26 +92,26 @@ export const ReceiverResource = (props: IReceiverResourceProps) => {
                   {/* <th className="hand" onClick={sort('id')}>
                     <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                   </th> */}
+                  <th>
+                    <Translate contentKey="crownApp.receiverResource.resourceType">Resource Type</Translate> <FontAwesomeIcon icon="sort" />
+                  </th>
                   <th className="hand" onClick={sort('quantity')}>
                     <Translate contentKey="crownApp.receiverResource.quantity">Quantity</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('dailyUse')}>
                     <Translate contentKey="crownApp.receiverResource.dailyUse">Daily Use</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={sort('postedDate')}>
-                    <Translate contentKey="crownApp.receiverResource.postedDate">Posted Date</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
                   <th className="hand" onClick={sort('currentStock')}>
                     <Translate contentKey="crownApp.receiverResource.currentStock">Current Stock</Translate> <FontAwesomeIcon icon="sort" />
+                  </th>
+                  <th className="hand" onClick={sort('postedDate')}>
+                    <Translate contentKey="crownApp.receiverResource.postedDate">Posted Date</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('expiration')}>
                     <Translate contentKey="crownApp.receiverResource.expiration">Expiration</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('notes')}>
                     <Translate contentKey="crownApp.receiverResource.notes">Notes</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
-                    <Translate contentKey="crownApp.receiverResource.resourceType">Resource Type</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('productInspection')}>
                     <Translate contentKey="crownApp.receiverResource.productInspection">Product Inspection</Translate> <FontAwesomeIcon icon="sort" />
@@ -128,12 +128,12 @@ export const ReceiverResource = (props: IReceiverResourceProps) => {
                   <th className="hand" onClick={sort('fundsAvailable')}>
                     <Translate contentKey="crownApp.receiverResource.fundsAvailable">Funds Available</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th className="hand" onClick={sort('proofOfFunds')}>
+                  {/* <th className="hand" onClick={sort('proofOfFunds')}>
                     <Translate contentKey="crownApp.receiverResource.pof">Proof Of Funds</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
                     <Translate contentKey="crownApp.receiverResource.receiver">Receiver</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
+                  </th> */}
                   <th />
                 </tr>
               </thead>
@@ -145,36 +145,36 @@ export const ReceiverResource = (props: IReceiverResourceProps) => {
                         {receiverResource.id}
                       </Button>
                     </td> */}
-                    <td>{receiverResource.quantity}</td>
-                    <td>{receiverResource.dailyUse}</td>
-                    <td>
-                      <TextFormat type="date" value={receiverResource.postedDate} format={APP_LOCAL_DATE_FORMAT} />
-                    </td>
-                    <td>{receiverResource.currentStock}</td>
-                    <td>
-                      <TextFormat type="date" value={receiverResource.expiration} format={APP_LOCAL_DATE_FORMAT} />
-                    </td>
-                    <td>{receiverResource.notes}</td>
                     <td>
                       {receiverResource.resourceType ? (
                         <Link to={`resource-type/${receiverResource.resourceType.id}`}>{receiverResource.resourceType.name}</Link>
                       ) : (
-                        ''
-                      )}
+                          ''
+                        )}
                     </td>
+                    <td>{receiverResource.quantity}</td>
+                    <td>{receiverResource.dailyUse}</td>
+                    <td>{receiverResource.currentStock}</td>
+                    <td>
+                      <TextFormat type="date" value={receiverResource.postedDate} format={APP_LOCAL_DATE_FORMAT} />
+                    </td>
+                    <td>
+                      <TextFormat type="date" value={receiverResource.expiration} format={APP_LOCAL_DATE_FORMAT} />
+                    </td>
+                    <td>{receiverResource.notes}</td>
                     <td>{receiverResource.productInspection ? 'true' : 'false'}</td>
                     <td>{receiverResource.productInspectDays}</td>
                     <td>{receiverResource.acceptUnpackagedGoods ? 'true' : 'false'}</td>
                     <td>{receiverResource.fundRestrictions}</td>
                     <td>{receiverResource.fundsAvailable ? 'true' : 'false'}</td>
-                    <td>{receiverResource.proofOfFunds}</td>
+                    {/* <td>{receiverResource.proofOfFunds}</td>
                     <td>
                       {receiverResource.receiver ? (
                         <Link to={`receiver-supplier/${receiverResource.receiver.id}`}>{receiverResource.receiver.name}</Link>
                       ) : (
                         ''
                       )}
-                    </td>
+                    </td> */}
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${receiverResource.id}`} color="info" size="sm">

@@ -150,9 +150,9 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     initialValues.expiration = moment(receiverResourceEntity.expiration);
   }
 
-  // if (receiverResourceEntity.proofOfFunds) {
-  //  initialValues.proofOfFunds = (receiverResourceEntity.proofOfFunds);
-  // }
+  if (receiverResourceEntity.proofOfFunds) {
+    initialValues.proofOfFunds = (receiverResourceEntity.proofOfFunds);
+  }
 
   return (
     <div>
