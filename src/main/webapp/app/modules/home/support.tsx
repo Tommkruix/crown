@@ -97,19 +97,17 @@ const Support = props => {
             <FontAwesomeIcon icon={faHandshake} color='#FF7C48' style={{height: '50px', width: '50px'}}/>{''}
 
             <div id="reach-out" style={{marginBottom: '20px'}}>
-              If you are interested in supporting us, feel free to reach out at <a href="mailto:crownteaminternational@gmail.com">crownteaminternational@gmail.com</a>
+                If you are interested in supporting us, feel free to reach out at <a href="mailto:info@needmoremed.com">info@needmoremed.com</a>
             </div>
 
             <div id="partner-with" style={{marginBottom:'20px'}}>
-              If you would like to partner with us, please email us at <a href="mailto:crownteaminternational@gmail.com">crownteaminternational@gmail.com</a>
+                If you would like to partner with us, please email us at <a href="mailto:info@needmoremed.com">info@needmoremed.com</a>
           </div>
 
             <div id="icons">
-              <a href="https://www.linkedin.com"> <img src='content/images/linkedin-icon.png' style={{ height: '25px', width: '25px' }} /></a>
-              <a href="https://www.facebook.com"> <img src='content/images/fb-icon.png' style={{ height: '25px', width: '25px', marginRight:'5px'}} /></a>
-              <a href="https://www.youtube.com"><img src='content/images/yt-icon.png' style={{ height: '25px', width: '25px', marginRight:'5px' }} /></a>
-              <a href="https://www.twitter.com"><img src='content/images/twitter-icon.png' style={{ height: '25px', width: '25px', marginRight:'5px' }} /></a>
-              <a href="https://www.instagram.com"><img src='content/images/ig-icon.png' style={{ height: '25px', width: '25px' }} /></a>
+              <a href="https://linkedin.com/company/NeedMoreMed"> <img src='content/images/linkedin-icon.png' style={{ height: '25px', width: '25px' }} /></a>
+              <a href="https://www.facebook.com/NeedMoreMed"> <img src='content/images/fb-icon.png' style={{ height: '25px', width: '25px', marginRight:'5px'}} /></a>
+              <a href="https://www.instagram.com/needmoremed"><img src='content/images/ig-icon.png' style={{ height: '25px', width: '25px' }} /></a>
             </div>
 
           </div> }
