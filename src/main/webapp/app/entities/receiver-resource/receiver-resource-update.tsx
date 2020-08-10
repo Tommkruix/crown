@@ -12,7 +12,8 @@ import UploadFile from 'app/commonComponents/UploadFile';
 import ReceiverSupplierAntFields from "app/entities/receiver-supplier/receiver-supplier-fields-ant";
 import {normFile} from "app/helpers/utils";
 import moment from "moment";
-import {IReceiverResource} from "app/shared/model/receiver-resource.model";
+import { IReceiverResource } from "app/shared/model/receiver-resource.model";
+
 import App from 'app/entities/receiver-resource/ant-loading-button';
 import axios from 'axios';
 
