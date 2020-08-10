@@ -1,17 +1,15 @@
 package org.crown.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.validation.constraints.NotNull;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * A SupplierResource.
@@ -32,6 +30,7 @@ public class SupplierResource implements Serializable {
 	@Field("quantity")
 	private Integer quantity = 0;
 
+	@NotNull
 	@Field("quantityValidUntil")
 	private Date quantityValidUntil;
 
@@ -39,26 +38,26 @@ public class SupplierResource implements Serializable {
 	@Field("cost")
 	private Double cost = 0.0;
 
+	@NotNull
 	@Field("productAvailabilityLeadTime")
 	private Integer productAvailabilityLeadTime;
 
+	@NotNull
 	@Field("minOrderQuantity")
 	private Integer minOrderQuantity;
 
+	@NotNull
 	@Field("quantityOnHand")
 	private Integer quantityOnHand;
 
 	@Field("supportingDocuments")
-	private String supportingDocuments;
-
-	@Field("supportingDocumentsLink")
-	private String supportingDocumentsLink;
+	private DocumentUpload supportingDocuments;
 
 	@Field("productAssets")
-	private String productAssets;
+	private DocumentUpload productAssets;
 
 	@Field("proofOfLife")
-	private String proofOfLife;
+	private DocumentUpload proofOfLife;
 
 	@Field("publicationPermission")
 	private Boolean publicationPermission;
@@ -144,56 +143,56 @@ public class SupplierResource implements Serializable {
 	/**
 	 * @return the supportingDocuments
 	 */
-	public String getSupportingDocuments() {
+	public DocumentUpload getSupportingDocuments() {
 		return supportingDocuments;
 	}
 
 	/**
 	 * @param supportingDocuments the supportingDocuments to set
 	 */
-	public void setSupportingDocuments(String supportingDocuments) {
+	public void setSupportingDocuments(DocumentUpload supportingDocuments) {
 		this.supportingDocuments = supportingDocuments;
 	}
 
 	/**
 	 * @return the supportingDocumentsLink
 	 */
-	public String getSupportingDocumentsLink() {
-		return supportingDocumentsLink;
-	}
+	//public String getSupportingDocumentsLink() {
+	//	return supportingDocumentsLink;
+	//}
 
 	/**
 	 * @param supportingDocumentsLink the supportingDocumentsLink to set
 	 */
-	public void setSupportingDocumentsLink(String supportingDocumentsLink) {
-		this.supportingDocumentsLink = supportingDocumentsLink;
-	}
+	//public void setSupportingDocumentsLink(String supportingDocumentsLink) {
+	//	this.supportingDocumentsLink = supportingDocumentsLink;
+	//}
 
 	/**
 	 * @return the productAssets
 	 */
-	public String getProductAssets() {
+	public DocumentUpload getProductAssets() {
 		return productAssets;
 	}
 
 	/**
 	 * @param productAssets the productAssets to set
 	 */
-	public void setProductAssets(String productAssets) {
+	public void setProductAssets(DocumentUpload productAssets) {
 		this.productAssets = productAssets;
 	}
 
 	/**
 	 * @return the proofOfLife
 	 */
-	public String getProofOfLife() {
+	public DocumentUpload getProofOfLife() {
 		return proofOfLife;
 	}
 
 	/**
 	 * @param proofOfLife the proofOfLife to set
 	 */
-	public void setProofOfLife(String proofOfLife) {
+	public void setProofOfLife(DocumentUpload proofOfLife) {
 		this.proofOfLife = proofOfLife;
 	}
 
