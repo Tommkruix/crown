@@ -5,7 +5,9 @@ import {Translate, translate} from 'react-jhipster';
 import {IRootState} from 'app/shared/reducers';
 import {getEntities as getResourceTypes} from 'app/entities/resource-type/resource-type.reducer';
 import {getEntities as getReceiverSuppliers} from 'app/entities/receiver-supplier/receiver-supplier.reducer';
-import {createEntity, getEntity, reset, updateEntity} from './supplier-resource.reducer';
+import { createEntity, getEntity, reset, updateEntity } from './supplier-resource.reducer';
+
+import axios from 'axios';
 
 import {Button, Checkbox, Col, DatePicker, Form, Input, InputNumber, Row, Select} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
@@ -34,7 +36,7 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
   let lat;
   let lng;
 
-  const beforePofUpload = file => {    setPoaFileList([...poaFileList, file]);    return false;  }
+  const beforePoaUpload = file => {    setPoaFileList([...poaFileList, file]);    return false;  }
 
   const handleClose = () => {
     props.history.push('/supplier-resource');
@@ -50,6 +52,21 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
 
   useEffect(() => {
     if (props.updateSuccess) {
+      let i = 0;
+      while (i < poaFileList.length) {
+        const data = new FormData()
+        data.append('file', poaFileList[i])
+        data.append('fieldType', 'poa')
+        const config = {
+          headers: {
+            fieldType: 'poa',
+          }
+        }
+        axios.post('api/file/upload', data, config).then((res: any) => {
+          i++;
+        }).catch((err: Error) => {
+        })
+      }
       handleClose();
     }
   }, [props.updateSuccess]);
@@ -275,7 +292,7 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
                   <UploadFile
                     action="api/file/upload"
                     // onSuccess={updatePofFileList}
-                    beforeUpload={beforePofUpload}
+                    beforeUpload={beforePoaUpload}
                     data={{
                       entityType: 'buy',
                       fieldType: 'pof'
@@ -291,7 +308,7 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
                   <UploadFile
                     action="api/file/upload"
                     // onSuccess={updatePofFileList}
-                    beforeUpload={beforePofUpload}
+                    beforeUpload={beforePoaUpload}
                     data={{
                       entityType: 'buy',
                       fieldType: 'pof'
@@ -307,7 +324,7 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
                   <UploadFile
                     action="api/file/upload"
                     // onSuccess={updatePofFileList}
-                    beforeUpload={beforePofUpload}
+                    beforeUpload={beforePoaUpload}
                     data={{
                       entityType: 'buy',
                       fieldType: 'pof'

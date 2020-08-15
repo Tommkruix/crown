@@ -12,7 +12,7 @@ export interface IReceiverResource {
   currentStock?: number;
   expiration?: Moment;
   notes?: string;
-  proofOfFunds?: string;
+  proofOfFunds?: IDocumentUpload;
   productInspection?: boolean;
   productInspectDays?: number;
   fundsAvailable?: boolean;

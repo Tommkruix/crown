@@ -1,7 +1,10 @@
 import {Button, Upload} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
 import React from 'react';
-import {getCSRF} from 'app/helpers/utils';
+import { getCSRF } from 'app/helpers/utils';
+import { IDocumentUpload } from 'app/shared/model/document-upload.model';
+import { createEntity, getEntity, reset, updateEntity } from './document-upload.reducer';
+
 
 const UploadFile: React.FC<UploadFileProps> = (props) => {
 
