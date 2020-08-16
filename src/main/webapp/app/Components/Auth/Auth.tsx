@@ -21,13 +21,12 @@ const Auth = ({isAuthenticated}) => {
 
 	return (
 		<>
-      {
-
+			{
 				isAuthenticated ?	<AccountMenu isAuthenticated />
-				:
-				<>
-					<Button id='Popover1' className='header-btn shadow rounded Popover1'>SIGN UP</Button>					 
-					<Popover placement="bottom-end" isOpen={popoverOpen} target="Popover1" toggle={toggle} trigger="hover">
+					:
+					<>
+						<Button id='Popover1' className='header-btn shadow rounded Popover1'>SIGN UP</Button>					 
+						<Popover placement="bottom-end" isOpen={popoverOpen} target="Popover1" toggle={toggle} trigger="click">
 						<form className="auth">
 							<div className="buttons">
 								<div className="button-container">
@@ -41,8 +40,8 @@ const Auth = ({isAuthenticated}) => {
 								isSignUp ? <RegisterPage toggle={toggle} /> : <Signin toggle={toggle} /> 
 							}
 						</form>
-					</Popover>
-				</>
+						</Popover>
+					</>
 			}
 		</>
 	);
