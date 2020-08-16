@@ -1,6 +1,7 @@
 import { Moment } from 'moment';
 import { IResourceType } from 'app/shared/model/resource-type.model';
 import { IReceiverSupplier } from 'app/shared/model/receiver-supplier.model';
+import { IDocumentUpload } from 'app/shared/model/document-upload.model';
 
 export interface ISupplierResource {
   id?: string;
@@ -10,6 +11,9 @@ export interface ISupplierResource {
   productAvailabilityLeadTime?: number;
   minOrderQuantity?: number;
   quantityOnHand?: number;
+  supportingDocuments?: IDocumentUpload;
+  productAssets?: IDocumentUpload;
+  proofOfLife?: IDocumentUpload;
   resourceType?: IResourceType;
   supplier?: IReceiverSupplier;
 }

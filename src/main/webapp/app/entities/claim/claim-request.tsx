@@ -19,6 +19,8 @@ import {getEntities as getResourceTypes} from "app/entities/resource-type/resour
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import App from "app/entities/receiver-resource/ant-loading-button";
 
+import axios from 'axios';
+
 const { Option } = Select;
 
 export interface IClaimRequestProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
@@ -33,9 +35,14 @@ export const ClaimRequest = (props: IClaimRequestProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
   const { claimEntity, receiverResources, receiverSuppliers, supplierResources, loading, updating, account, resourceTypes } = props;
   const [isAssistedCreation, setIsAssistedCreation] = useState(false);
-  const [pofFileList, setPofFileList] = useState('');
+  const [pofFileList, setPofFileList] = useState([]);
   const [poaFileList, setPoaFileList] = useState('');
   const [form] = Form.useForm();
+
+  const beforePofUpload = file => {
+    setPofFileList([...pofFileList, file]);
+    return false;
+  }
 
   const query = new URLSearchParams(props.location.search);
   const lat = query.get('lat') || 0;
@@ -56,11 +63,11 @@ export const ClaimRequest = (props: IClaimRequestProps) => {
     props.history.push('/claim');
   };
 
-  const updatePofFileList = fileName => {
-    if (!pofFileList.includes(fileName)) {
-      setPofFileList(`${pofFileList.length > 0 ? `${pofFileList},` : ''}${fileName}`);
-    }
-  };
+  // const updatePofFileList = fileName => {
+  //  if (!pofFileList.includes(fileName)) {
+  //    setPofFileList(`${pofFileList.length > 0 ? `${pofFileList},` : ''}${fileName}`);
+  //  }
+  // };
 
   useEffect(() => {
     form.setFieldsValue({
@@ -109,7 +116,18 @@ export const ClaimRequest = (props: IClaimRequestProps) => {
 
   useEffect(() => {
     if (props.updateSuccess) {
-      handleClose();
+      const data = new FormData()
+      data.append('file', pofFileList[0])
+      data.append('fieldType', 'pof')
+      const config = {
+        headers: {
+          fieldType: 'pof',
+        }
+      }
+      axios.post('api/file/upload', data, config).then((res: any) => {
+        handleClose();
+      }).catch((err: Error) => {
+      })
     }
   }, [props.updateSuccess]);
 
@@ -317,7 +335,8 @@ export const ClaimRequest = (props: IClaimRequestProps) => {
                   >
                     <UploadFile
                       action="api/file/upload"
-                      onSuccess={updatePofFileList}
+                      // onSuccess={updatePofFileList}
+                      beforeUpload={beforePofUpload}
                       data={{
                         entityType: 'buy',
                         fieldType: 'pof'

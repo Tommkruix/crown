@@ -1,6 +1,7 @@
 import { IReceiverResource } from 'app/shared/model/receiver-resource.model';
 import { ISupplierResource } from 'app/shared/model/supplier-resource.model';
 import { ClaimStatusEnum } from 'app/shared/model/enumerations/claim-status-enum.model';
+import { IDocumentUpload } from 'app/shared/model/document-upload.model';
 
 export interface IClaim {
   id?: string;

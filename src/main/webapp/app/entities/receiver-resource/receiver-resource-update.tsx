@@ -3,8 +3,12 @@ import {connect} from 'react-redux';
 import {RouteComponentProps} from 'react-router-dom';
 import {Translate, translate} from 'react-jhipster';
 import {IRootState} from 'app/shared/reducers';
-import {getEntities as getResourceTypes} from 'app/entities/resource-type/resource-type.reducer';
-import {getEntities as getReceiverSuppliers} from 'app/entities/receiver-supplier/receiver-supplier.reducer';
+import { getEntities as getResourceTypes } from 'app/entities/resource-type/resource-type.reducer';
+
+import { getEntities as getDocumentTypes } from 'app/commonComponents/document-upload.reducer';
+
+import { getEntities as getReceiverSuppliers } from 'app/entities/receiver-supplier/receiver-supplier.reducer';
+
 import {createEntity, getEntity, reset, updateEntity} from './receiver-resource.reducer';
 import {Button, Checkbox, Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch} from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
@@ -12,7 +16,8 @@ import UploadFile from 'app/commonComponents/UploadFile';
 import ReceiverSupplierAntFields from "app/entities/receiver-supplier/receiver-supplier-fields-ant";
 import {normFile} from "app/helpers/utils";
 import moment from "moment";
-import {IReceiverResource} from "app/shared/model/receiver-resource.model";
+import { IReceiverResource } from "app/shared/model/receiver-resource.model";
+
 import App from 'app/entities/receiver-resource/ant-loading-button';
 import axios from 'axios';
 
@@ -35,9 +40,15 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     props.history.push('/receiver-resource');
   };
 
-   const beforePofUpload = file => {   setPofFileList([...pofFileList, file]);   return false;   }
+   const beforePofUpload = file => {
+   setPofFileList([...pofFileList, file]);
+   return false;
+   }
 
-  // const beforePoaUpload = file => {  //  setPofFileList([...pofFileList, file]);  //  return false;  // }
+  // const beforePoaUpload = file => {
+  //  setPofFileList([...pofFileList, file]);
+  //  return false;
+  // }
 
 //  const updatePofFileList = fileName => {
 //    if (!pofFileList.includes(fileName)) {
@@ -72,22 +83,24 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     }
 
     props.getResourceTypes();
+    props.getDocumentTypes();
     props.getReceiverSuppliers();
   }, []);
 
   useEffect(() => {
     if (props.updateSuccess) {
-      // const data = new FormData()
-      // data.append('file', pofFileList[0])
-      // const config = {
-      //  headers: {
-      //    fieldType: 'pof'
-      //  }
-      // }
-      // axios.post('api/file/upload', data, config).then((res: any) => {
+       const data = new FormData()
+       data.append('file', pofFileList[0])
+       data.append('fieldType', 'pof')
+      const config = {
+        headers: {
+           fieldType: 'pof',
+        }
+       }
+       axios.post('api/file/upload', data, config).then((res: any) => {
         handleClose();
-      // }).catch((err: Error) => {
-      // })
+       }).catch((err: Error) => {
+       })
     }
   }, [props.updateSuccess]);
 
@@ -137,7 +150,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
   };
 
   const initialValues: IReceiverResource = {
-    ...(!isNew && {...receiverResourceEntity}),
+    ...(!isNew && { ...receiverResourceEntity }),
     receiver: {
       email: account.email,
       isReceiver: true
@@ -151,7 +164,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
   }
 
   if (receiverResourceEntity.proofOfFunds) {
-    initialValues.proofOfFunds = (receiverResourceEntity.proofOfFunds);
+    initialValues.proofOfFunds.fieldName = "pof";
   }
 
   return (
@@ -339,6 +352,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
 const mapStateToProps = (storeState: IRootState) => ({
   resourceTypes: storeState.resourceType.entities,
   receiverSuppliers: storeState.receiverSupplier.entities,
+  documentUpload: storeState.document.entities,
   receiverResourceEntity: storeState.receiverResource.entity,
   loading: storeState.receiverResource.loading,
   updating: storeState.receiverResource.updating,
@@ -348,6 +362,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getResourceTypes,
+  getDocumentTypes,
   getReceiverSuppliers,
   getEntity,
   updateEntity,
