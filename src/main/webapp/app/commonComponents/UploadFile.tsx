@@ -17,7 +17,7 @@ const UploadFile: React.FC<UploadFileProps> = (props) => {
         showDownloadIcon: true,
         showRemoveIcon: true,
       }}
-      beforeUpload={file => {
+      beforeUpload={(file) => {
         props.beforeUpload(file)
         return false;
        }
@@ -38,7 +38,8 @@ interface UploadFileProps {
   action: string;
   data?: object;
   onSuccess?: (fileName) => void;
-  beforeUpload?: Function;
+  beforeUpload?: (fileName) => void;
+  beforeFieldUpload?: (fieldType) => void;
 }
 
 export default UploadFile;

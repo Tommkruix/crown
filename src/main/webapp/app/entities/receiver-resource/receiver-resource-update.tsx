@@ -40,9 +40,15 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     props.history.push('/receiver-resource');
   };
 
-   const beforePofUpload = file => {   setPofFileList([...pofFileList, file]);   return false;   }
+   const beforePofUpload = file => {
+   setPofFileList([...pofFileList, file]);
+   return false;
+   }
 
-  // const beforePoaUpload = file => {  //  setPofFileList([...pofFileList, file]);  //  return false;  // }
+  // const beforePoaUpload = file => {
+  //  setPofFileList([...pofFileList, file]);
+  //  return false;
+  // }
 
 //  const updatePofFileList = fileName => {
 //    if (!pofFileList.includes(fileName)) {
@@ -85,7 +91,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     if (props.updateSuccess) {
        const data = new FormData()
        data.append('file', pofFileList[0])
-      data.append('fieldType', 'pof')
+       data.append('fieldType', 'pof')
       const config = {
         headers: {
            fieldType: 'pof',

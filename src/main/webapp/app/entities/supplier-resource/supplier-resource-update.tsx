@@ -27,6 +27,7 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
   const [supplierId, setSupplierId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
   const [poaFileList, setPoaFileList] = useState([]);
+  const [ fieldNameList, setFieldNameList ] = useState([]);
   const [pofFileList, setPofFileList] = useState('');
   const [form] = Form.useForm();
 
@@ -36,7 +37,15 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
   let lat;
   let lng;
 
-  const beforePoaUpload = file => {    setPoaFileList([...poaFileList, file]);    return false;  }
+  const beforePoaUpload = file => {
+    setPoaFileList([...poaFileList, file]);
+    return false;
+  }
+
+  const beforeFieldNameUpload = (fieldType) => {
+    setFieldNameList([...fieldNameList, fieldType]);
+    return fieldNameList;
+  }
 
   const handleClose = () => {
     props.history.push('/supplier-resource');
@@ -53,21 +62,20 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
   useEffect(() => {
     if (props.updateSuccess) {
       let i = 0;
+      const data = new FormData();
+
       while (i < poaFileList.length) {
-        const data = new FormData()
-        data.append('file', poaFileList[i])
-        data.append('fieldType', 'poa')
-        const config = {
-          headers: {
-            fieldType: 'poa',
-          }
-        }
-        axios.post('api/file/upload', data, config).then((res: any) => {
-          i++;
+        const file = poaFileList[i];
+        const type = fieldNameList[i];
+        data.append('files', file);
+        data.append('fieldType', type);
+        i++;
+      }
+        axios.post('api/files/upload', data).then((res: any) => {
+          handleClose();
         }).catch((err: Error) => {
         })
-      }
-      handleClose();
+      // handleClose();
     }
   }, [props.updateSuccess]);
 
@@ -144,6 +152,16 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
   }
   if (supplierResourceEntity.quantityValidUntil) {
     initialValues.quantityValidUntil = moment(supplierResourceEntity.quantityValidUntil);
+  }
+
+  if (supplierResourceEntity.supportingDocuments) {
+    initialValues.supportingDocuments.fieldName = "poa";
+  }
+  if (supplierResourceEntity.productAssets) {
+    initialValues.productAssets.fieldName = "poa";
+  }
+  if (supplierResourceEntity.proofOfLife) {
+    initialValues.proofOfLife.fieldName = "poa";
   }
 
   return (
@@ -293,9 +311,9 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
                     action="api/file/upload"
                     // onSuccess={updatePofFileList}
                     beforeUpload={beforePoaUpload}
+                    beforeFieldUpload={() => beforeFieldNameUpload("sd")}
                     data={{
-                      entityType: 'buy',
-                      fieldType: 'pof'
+                      fieldType: 'sd'
                     }}
                   />
               </Form.Item>
@@ -309,9 +327,9 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
                     action="api/file/upload"
                     // onSuccess={updatePofFileList}
                     beforeUpload={beforePoaUpload}
+                    beforeFieldUpload={() => beforeFieldNameUpload("pa")}
                     data={{
-                      entityType: 'buy',
-                      fieldType: 'pof'
+                      fieldType: 'pa'
                     }}
                   />
                 </Form.Item>
@@ -325,9 +343,9 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
                     action="api/file/upload"
                     // onSuccess={updatePofFileList}
                     beforeUpload={beforePoaUpload}
+                    beforeFieldUpload={() => beforeFieldNameUpload("pol")}
                     data={{
-                      entityType: 'buy',
-                      fieldType: 'pof'
+                      fieldType: 'pol'
                     }}
                   />
                 </Form.Item>

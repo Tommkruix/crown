@@ -11,6 +11,9 @@ export interface ISupplierResource {
   productAvailabilityLeadTime?: number;
   minOrderQuantity?: number;
   quantityOnHand?: number;
+  supportingDocuments?: IDocumentUpload;
+  productAssets?: IDocumentUpload;
+  proofOfLife?: IDocumentUpload;
   resourceType?: IResourceType;
   supplier?: IReceiverSupplier;
 }
