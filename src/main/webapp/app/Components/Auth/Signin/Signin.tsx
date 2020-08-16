@@ -5,7 +5,7 @@ import { IRootState } from 'app/shared/reducers';
 import { login } from 'app/shared/reducers/authentication';
 import SignInModal from './Signin-modal';
 
-export interface ILoginProps extends StateProps, DispatchProps {toggle: Function}
+export interface ILoginProps extends StateProps, DispatchProps {hide: Function}
 
 export const Signin = (props: ILoginProps) => {
   const history = useHistory();
@@ -21,7 +21,7 @@ export const Signin = (props: ILoginProps) => {
   if (props.isAuthenticated) {
     return <Redirect to={'/'} />;
   }
-  return <SignInModal handleLogin={handleLogin} handleClose={handleClose} loginError={props.loginError} toggle={props.toggle} />;
+  return <SignInModal handleLogin={handleLogin} handleClose={handleClose} loginError={props.loginError} hide={props.hide} />;
 };
 
 const mapStateToProps = ({ authentication }: IRootState) => ({

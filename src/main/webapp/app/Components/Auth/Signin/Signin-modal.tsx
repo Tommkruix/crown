@@ -8,7 +8,7 @@ export interface ILoginModalProps {
   handleClose: Function;
   handleLogin: Function;
   loginError: boolean;
-  toggle: Function;
+  hide: Function;
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -56,7 +56,7 @@ const SignInModal = (props) => {
 					<Translate contentKey="login.form.button">Sign In</Translate>
 				</Button>
 				<Link to="/account/reset/request">
-					<Button type="submit" color="link" onClick={props.toggle}>Forgot Password?</Button>
+					<Button type="submit" color="link" onClick={props.hide}>Forgot Password?</Button>
 				</Link>
 			</AvForm>
 		</div>

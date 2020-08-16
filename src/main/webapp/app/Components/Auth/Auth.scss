@@ -1,10 +1,6 @@
 @import 'app/Styles/Colors.scss';
 
 .auth {
-  box-shadow: -1px -0.5px 5px $black-200;
-  display: inline-block;
-  font-size: 14px;
-  padding: 16px;
   width: 100%;
 
   input {
@@ -133,7 +129,14 @@
   }
 }
 
-.popover {
+.ant-popover {
   width: 370px;
   max-width: 370px;
+}
+
+.ant-btn,
+.ant-btn:hover,
+.ant-btn:focus {
+  color: white !important;
+  font: 24px;
 }
