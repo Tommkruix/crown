@@ -1,5 +1,6 @@
 import { IReceiverResource } from 'app/shared/model/receiver-resource.model';
 import { ISupplierResource } from 'app/shared/model/supplier-resource.model';
+import { IDocumentUpload } from 'app/shared/model/document-upload.model';
 
 export interface IReceiverSupplier {
   id?: string;

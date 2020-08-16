@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
-import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -66,8 +65,8 @@ public class ReceiverSupplier implements Serializable {
 	@Field("proof_of_association")
 	private String proofOfAssociation;
 
-	@Field("proof_of_association_link")
-	private URI proofOfAssociationLink;
+	//@Field("proof_of_association_link")
+	//private URI proofOfAssociationLink;
 
 	@Field("first_name")
 	private String firstName;
@@ -453,11 +452,11 @@ public class ReceiverSupplier implements Serializable {
 	public String toString() {
 		return "ReceiverSupplier{" + "id=" + getId() + ", name='" + getOrgName() + "'" + ", address='" + getAddress()
 				+ "'" + ", email='" + getEmail() + "'" + ", primaryContactName='" + getPrimaryContactName() + "'"
-				+ ", zip='" + getZip() + "'" + ", phonenumber='" + getPhonenumber() + "'" + ", latx=" + getLatx()
-				+ ", longy=" + getLongy() + ", city='" + getCity() + "'" + ", state='" + getState() + "'"
-				+ ", country='" + getCountry() + "'" + ", npi=" + getNpi() + ", isReceiver='" + isIsReceiver() + "'"
+				+ ", zip='" + getZip() + "'" + ", phonenumber='" + getPhonenumber() + "'"
+                + ", city='" + getCity() + "'" + ", state='" + getState() + "'"
+				+ ", country='" + getCountry() + "'" + ", isReceiver='" + isIsReceiver() + "'"
 				+ ", isSupplier='" + isIsSupplier() + "'" + ", hasSterilization='" + isHasSterilization() + "'"
-				+ ", priority=" + getPriority() + ", notes='" + getNotes() + "'" + ", tags='" + getTags() + "'" + "}";
+				+ ", priority=" + getPriority() + ", notes='" + getNotes() + "'" + ", tags='" +"}";
 	}
 
 	/**
@@ -575,16 +574,16 @@ public class ReceiverSupplier implements Serializable {
 	/**
 	 * @return the proofOfAssociationLink
 	 */
-	public URI getProofOfAssociationLink() {
-		return proofOfAssociationLink;
-	}
+	//public URI getProofOfAssociationLink() {
+	//	return proofOfAssociationLink;
+	//}
 
 	/**
 	 * @param proofOfAssociationLink the proofOfAssociationLink to set
 	 */
-	public void setProofOfAssociationLink(URI proofOfAssociationLink) {
-		this.proofOfAssociationLink = proofOfAssociationLink;
-	}
+	//public void setProofOfAssociationLink(URI proofOfAssociationLink) {
+	//	this.proofOfAssociationLink = proofOfAssociationLink;
+	//}
 
 	/**
 	 * @return the firstName
