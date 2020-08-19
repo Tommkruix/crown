@@ -1,82 +1,193 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Label, Row } from 'reactstrap';
-import { AvField, AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
+import { RouteComponentProps } from 'react-router-dom';
+import { Button, Checkbox, Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch } from 'antd';
 import { Translate, translate } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
-import { getEntities as getReceiverResources } from 'app/entities/receiver-resource/receiver-resource.reducer';
-import { getEntities as getSupplierResources } from 'app/entities/supplier-resource/supplier-resource.reducer';
-import { createEntity, getEntity, reset, updateEntity } from './claim.reducer';
-import { getEntity as getReceiverResourceEntity } from 'app/entities/receiver-resource/receiver-resource.reducer';
+import { getEntities as getReceiverResources, getEntity as getReceiverResourceEntity } from 'app/entities/receiver-resource/receiver-resource.reducer';
+import { getEntities as getReceiverSuppliers } from 'app/entities/receiver-supplier/receiver-supplier.reducer';
+import {
+  getEntities as getSupplierResources,
+  getEntity as getSupplierResourceEntity
+} from 'app/entities/supplier-resource/supplier-resource.reducer';
+import { createEntity, getEntity, updateEntity } from './claim.reducer';
+import { defaultValue, IClaim } from "app/shared/model/claim.model";
+import ReceiverSupplierAntFields from "app/entities/receiver-supplier/receiver-supplier-fields-ant";
+import { normFile } from "app/helpers/utils";
+import UploadFile from "app/commonComponents/UploadFile";
+import { getEntities as getResourceTypes } from "app/entities/resource-type/resource-type.reducer";
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import App from "app/entities/receiver-resource/ant-loading-button";
 
-import Claim from "app/entities/claim/claim";
-import { defaultValue } from "app/shared/model/claim.model";
+import axios from 'axios';
+
+const { Option } = Select;
 
 export interface IClaimRequestByReceiverProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
+export interface IReceiverResourceUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
-export const ClaimRequestByReceiverRequest = (props: IClaimRequestByReceiverProps) => {
+export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
   const [receiverResourceId, setReceiverResourceId] = useState('0');
+  const [supplierResourceId, setSupplierResourceId] = useState('0');
+  const [ApproximatePriceValue] = useState('0');
   const [entity, setEntity] = useState(defaultValue);
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
-  const { claimEntity, receiverResources, supplierResources, loading, updating } = props;
+  const { claimEntity, receiverResources, receiverSuppliers, supplierResources, loading, updating, account, resourceTypes } = props;
+  const [isAssistedCreation, setIsAssistedCreation] = useState(false);
+  const [pofFileList, setPofFileList] = useState([]);
+  const [poaFileList, setPoaFileList] = useState('');
+  const [form] = Form.useForm();
 
+  const beforePofUpload = file => {
+    setPofFileList([...pofFileList, file]);
+    return false;
+  }
 
+  const query = new URLSearchParams(props.location.search);
+  const lat = query.get('lat') || 0;
+  const lng = query.get('lng') || 0;
+  const initialValues: IClaim = {
+    supplierResource: {
+      supplier: {
+        email: account.email,
+        isReceiver: true,
+        latx: Number(lat),
+        longy: Number(lng)
+      }
+    }
+  }
+
+  const supplierProfile = receiverSuppliers.filter(receiver => receiver.email === account.email);
   const handleClose = () => {
     props.history.push('/claim');
   };
 
-  useEffect(() => {
-    const localReceiverResourceId = new URLSearchParams(props.location.search).get("receiverResourceId");
-
-    if (localReceiverResourceId) {
-      setReceiverResourceId(localReceiverResourceId)
-    }
-
-    // props.getReceiverResources();
-    // props.getSupplierResources();
-    props.getReceiverResourceEntity(localReceiverResourceId);
-
-  }, []);
+  // const updatePofFileList = fileName => {
+  //  if (!pofFileList.includes(fileName)) {
+  //    setPofFileList(`${pofFileList.length > 0 ? `${pofFileList},` : ''}${fileName}`);
+  //  }
+  // };
 
   useEffect(() => {
-    if (props.updateSuccess) {
-      handleClose();
-    }
-  }, [props.updateSuccess]);
+    form.setFieldsValue({
+      proofOfFunds: pofFileList
+    });
+  }, [pofFileList]);
 
-
-  useEffect(() => {
-    setEntity({ receiverResource: props.receiverResourceEntity })
-
-    // const selectedReceiverResource = props.receiverResources.find( receiverResource=> receiverResource.id === receiverResourceId);
-    //  if(selectedReceiverResource) {
-    //      setEntity(  { receiverResource : selectedReceiverResource})
-    //  }
-  }, [props.receiverResourceEntity]);
-
-  const saveEntity = (event, errors, values) => {
-    if (errors.length === 0) {
-      const persistent = {
-        ...entity,
-        ...values
-      };
-
-      const selectedSupplierResource = props.supplierResources.find(supplierResource => supplierResource.id === persistent.supplierResource.id);
-      if (selectedSupplierResource) {
-        persistent.supplierResource = selectedSupplierResource
-      }
-
-      props.createEntity(persistent);
+  const updatePoaFileList = fileName => {
+    if (!poaFileList.includes(fileName)) {
+      setPoaFileList(`${poaFileList.length > 0 ? `${poaFileList},` : ''}${fileName}`);
     }
   };
 
+  useEffect(() => {
+    form.setFieldsValue({
+      receiver: {
+        proofOfAssociation: poaFileList
+      }
+    });
+  }, [poaFileList]);
+
+  useEffect(() => {
+    const localReceiverId = new URLSearchParams(props.location.search).get("receiverResourceId");
+
+    if (localReceiverId) {
+      setReceiverResourceId(localReceiverId)
+      setIsAssistedCreation(true)
+    }
+
+    // props.getReceiverResources();
+    props.getReceiverResourceEntity(localReceiverId);
+  }, []);
+
+  useEffect(() => {
+    if (!isNew) {
+      props.getEntity(props.match.params.id);
+    }
+
+    props.getResourceTypes();
+    props.getReceiverSuppliers();
+  }, []);
+
+  useEffect(() => {
+    form.setFieldsValue({ ...props.claimEntity })
+  }, [props.claimEntity]);
+
+  useEffect(() => {
+    if (props.updateSuccess) {
+      // const data = new FormData()
+      // data.append('file', pofFileList[0])
+      // data.append('fieldType', 'pof')
+      // const config = {
+      //  headers: {
+      //    fieldType: 'pof',
+      //  }
+      // }
+      // axios.post('api/file/upload', data, config).then((res: any) => {
+        handleClose();
+      // }).catch((err: Error) => {
+      // })
+    }
+  }, [props.updateSuccess]);
+
+  useEffect(() => {
+    setEntity({ ...entity, receiverResource: props.receiverResourceEntity })
+    form.setFieldsValue({
+      supplierResource: {
+        resourceType: props.receiverResourceEntity.resourceType
+      },
+      receiverResource: props.receiverResourceEntity
+    })
+  }, [props.receiverResourceEntity]);
+
+  const saveEntity = values => {
+    const persistent: IClaim = {
+      ...entity,
+      ...values
+    };
+    if (supplierProfile.length !== 0) {
+      persistent.supplierResource.supplier = {
+        email: supplierProfile[0].email
+      }
+    } else {
+      const supplier = {
+        ...persistent.supplierResource.supplier,
+        email: account.email,
+        isSupplier: true,
+        latx: Number(lat),
+        longy: Number(lng)
+      }
+      persistent.supplierResource.supplier = supplier
+    }
+    props.createEntity(persistent);
+  };
+
+  const mayBeSupplierFields = () => {
+    if (supplierProfile && supplierProfile.length > 0) {
+      return null;
+    }
+    return (
+      <React.Fragment>
+        <ReceiverSupplierAntFields
+          fieldPrefix={['supplierResource', 'supplier']}
+          updatePoaFileList={updatePoaFileList}
+        />
+      </React.Fragment>
+    );
+  };
+
+  // if (receiverResourceEntity.postedDate) {
+  //   initialValues.postedDate = moment(receiverResourceEntity.postedDate);
+  // }
+  // if (receiverResourceEntity.expiration) {
+  //   initialValues.expiration = moment(receiverResourceEntity.expiration);
+  // }
   return (
+
     <div>
       <Row className="justify-content-center">
-        <Col md="8">
+        <Col span={16}>
           <h2 id="crownApp.claim.home.createOrEditLabel">
             <Translate contentKey="crownApp.claim.home.createOrEditLabel">Create or edit a Claim</Translate>
           </h2>
@@ -84,77 +195,169 @@ export const ClaimRequestByReceiverRequest = (props: IClaimRequestByReceiverProp
       </Row>
 
       <Row className="justify-content-center">
-        <Col md="8">
+        <Col span={16}>
           {loading ? (
             <p>Loading...</p>
           ) : (
               <div>
                 {entity.receiverResource ? (
                   <div style={{ paddingBottom: "20px" }}>
-                    <div>Item: {entity.receiverResource ?.resourceType ?.name}</div>
-                    <div>Requested Quantity: {entity.receiverResource ?.quantity}</div>
+                    <div>Item: {entity.receiverResource?.resourceType?.name}</div>
+                    <div>Requested Quantity: {entity.receiverResource?.quantity}</div>
                   </div>
                 ) :
                   null}
-                <AvForm model={entity} onSubmit={saveEntity}>
-                  {
-                    /* <AvGroup>
-                    <Label for="claim-supplierResource">
-                      <Translate contentKey="crownApp.claim.supplierResource">Supplier Resource</Translate>
-                    </Label>
-                    <AvInput id="claim-supplierResource" type="select" className="form-control"
-                             name="supplierResource.id">
-                      <option value="" key="0" />
-                      {supplierResources
-                        ? supplierResources.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                           Supplier: {otherEntity.supplier?.name}, Type: {otherEntity.resourceType?.name}, Quantity: {otherEntity.quantity}, Id: {otherEntity.id}
-                          </option>
+                <Form
+                  name="claim"
+                  onFinish={saveEntity}
+                  layout="vertical"
+                  initialValues={initialValues}
+                  form={form}
+                >
+                  {!isNew ? (
+                    <Form.Item
+                      name="id"
+                      label={translate('global.field.id')}
+                      rules={[
+                        {
+                          required: true,
+                          message: ''
+                        }
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  ) : null}
+                  <Form.Item
+                    name={['supplierResource', 'resourceType', 'id']}
+                    label={translate('crownApp.supplierResource.resourceType')}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please select a resource type!'
+                      }
+                    ]}
+                  >
+                    <Select placeholder="Select a resource type">
+                      <Option value="" key="0">
+                        Select
+                      </Option>
+                      {resourceTypes
+                        ? resourceTypes.map(otherEntity => (
+                          <Option value={otherEntity.id} key={otherEntity.id}>
+                            {otherEntity.name}
+                          </Option>
                         ))
-                          : null}
-                    </AvInput>
-                  </AvGroup> */
-                  }
+                        : null}
+                    </Select>
+                  </Form.Item>
 
-                  <AvGroup>
-                    <Label id="quantityLabel" for="claim-quantity">
-                      <Translate contentKey="crownApp.claim.quantity">Quantity</Translate>
-                    </Label>
-                    <AvField
-                      id="claim-quantity"
-                      type="string"
-                      className="form-control"
-                      name="quantity"
-                      validate={{
-                        required: { value: true, errorMessage: translate('entity.validation.required') },
-                        number: { value: true, errorMessage: translate('entity.validation.number') }
-                      }}
-                    />
-                  </AvGroup>
-                  <AvGroup>
-                    <Label id="notesLabel" for="claim-notes">
-                      <Translate contentKey="crownApp.claim.notes">Notes</Translate>
-                    </Label>
-                    <AvField id="claim-notes" type="textarea" name="notes" />
-                  </AvGroup>
+                  {/* <Form.Item
+                    name="quantity"
+                    label={translate('crownApp.supplierResource.quantity')}
+                    rules={[
+                      {
+                        required: true,
+                        message: translate('entity.validation.required')
+                      }
+                    ]}
+                  >
+                    <InputNumber min={1} style={{ width: '100%' }} />
+                  </Form.Item> */}
 
-                  <Button tag={Link} id="cancel-save" to="/" replace color="info">
-                    <FontAwesomeIcon icon="arrow-left" />
-                    &nbsp;
-                  <span className="d-none d-md-inline">
-                      <Translate contentKey="entity.action.back">Back</Translate>
-                    </span>
-                  </Button>
-                {/* <Button color="primary" id="save-entity" type="submit" disabled={updating}>
-                    <FontAwesomeIcon icon="save" />
-                    &nbsp;
-                  <Translate contentKey="entity.action.save">Save</Translate>
-                  </Button> */}
-                  &nbsp;
-                <Button style={{ backgroundColor: 'green' }} id="save-entity" type="submit" disabled={updating}>
-                    Confirm Order
-                </Button>
-                </AvForm>
+                  <Form.Item
+                    name="quantity"
+                    label={<Translate contentKey="crownApp.claim.quantity">Quantity</Translate>}
+                    rules={[
+                      {
+                        required: true,
+                        message: translate('entity.validation.required')
+                      }
+                    ]}
+                  >
+                    <InputNumber min={1} style={{ width: '100%' }} />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="quantityValidUntil"
+                    label={translate('crownApp.supplierResource.quantityValidUntil')}
+                    rules={[
+                      {
+                        required: true,
+                        message: translate('entity.validation.required')
+                      }
+                    ]}
+                  >
+                    <DatePicker style={{ width: '100%' }} />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="cost"
+                    label={translate('crownApp.supplierResource.cost')}
+                    rules={[
+                      {
+                        required: true,
+                        message: translate('entity.validation.required')
+                      }
+                    ]}
+                  >
+                    <InputNumber style={{ width: '100%' }} />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="productAvailabilityLeadTime"
+                    label={translate('crownApp.supplierResource.productAvailabilityLeadTime')}
+                    rules={[
+                      {
+                        required: true,
+                        message: translate('entity.validation.required')
+                      }
+                    ]}
+                  >
+                    <InputNumber min={1} style={{ width: '100%' }} />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="minOrderQuantity"
+                    label={translate('crownApp.supplierResource.minOrderQuantity')}
+                    rules={[
+                      {
+                        required: true,
+                        message: translate('entity.validation.required')
+                      }
+                    ]}
+                  >
+                    <InputNumber min={1} style={{ width: '100%' }} />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="quantityOnHand"
+                    label={translate('crownApp.supplierResource.quantityOnHand')}
+                    rules={[
+                      {
+                        required: true,
+                        message: translate('entity.validation.required')
+                      }
+                    ]}
+                  >
+                    <InputNumber min={1} style={{ width: '100%' }} />
+                  </Form.Item>
+                  {mayBeSupplierFields()}
+                  <Row gutter={[0, 8]}>
+                    <Col span={4}>
+                      <Form.Item>
+                        <a href="/claim" > <Button type="default" icon={<ArrowLeftOutlined />}>
+                          {translate('entity.action.back')}
+                        </Button> </a>
+                      </Form.Item>
+                    </Col>
+                    <Col span={4}>
+                      <Form.Item>
+                        <App />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Form>
               </div>
             )}
         </Col>
@@ -165,12 +368,15 @@ export const ClaimRequestByReceiverRequest = (props: IClaimRequestByReceiverProp
 
 const mapStateToProps = (storeState: IRootState) => ({
   receiverResources: storeState.receiverResource.entities,
+  receiverSuppliers: storeState.receiverSupplier.entities,
   supplierResources: storeState.supplierResource.entities,
   receiverResourceEntity: storeState.receiverResource.entity,
   claimEntity: storeState.claim.entity,
   loading: storeState.claim.loading,
   updating: storeState.claim.updating,
-  updateSuccess: storeState.claim.updateSuccess
+  updateSuccess: storeState.claim.updateSuccess,
+  account: storeState.authentication.account,
+  resourceTypes: storeState.resourceType.entities
 });
 
 const mapDispatchToProps = {
@@ -179,10 +385,12 @@ const mapDispatchToProps = {
   getEntity,
   updateEntity,
   createEntity,
-  getReceiverResourceEntity
+  getReceiverResourceEntity,
+  getResourceTypes,
+  getReceiverSuppliers
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClaimRequestByReceiverRequest);
+export default connect(mapStateToProps, mapDispatchToProps)(ClaimRequestByReceiver);
