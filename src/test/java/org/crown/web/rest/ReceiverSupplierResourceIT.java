@@ -1,18 +1,5 @@
 package org.crown.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.List;
-
 import org.crown.CrownApp;
 import org.crown.domain.ReceiverSupplier;
 import org.crown.repository.ReceiverSupplierRepository;
@@ -24,6 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link ReceiverSupplierResource} REST controller.
@@ -102,7 +97,7 @@ public class ReceiverSupplierResourceIT {
 	 * This is a static method, as tests for other entities might also need it, if
 	 * they test an entity which requires the current entity.
 	 */
-	public static ReceiverSupplier createEntity() {
+	public static ReceiverSupplier createReceiverSupplierEntity() {
 		ReceiverSupplier receiverSupplier = new ReceiverSupplier().orgName(DEFAULT_NAME).address(DEFAULT_ADDRESS)
 				.email(DEFAULT_EMAIL).primaryContactName(DEFAULT_PRIMARY_CONTACT_NAME).zip(DEFAULT_ZIP)
 				.phonenumber(DEFAULT_PHONENUMBER).latx(DEFAULT_LATX).longy(DEFAULT_LONGY).city(DEFAULT_CITY)
@@ -131,7 +126,7 @@ public class ReceiverSupplierResourceIT {
 	@BeforeEach
 	public void initTest() {
 		receiverSupplierRepository.deleteAll();
-		receiverSupplier = createEntity();
+		receiverSupplier = createReceiverSupplierEntity();
 	}
 
 	@Test

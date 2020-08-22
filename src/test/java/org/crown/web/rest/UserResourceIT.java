@@ -88,7 +88,7 @@ public class UserResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which has a required relationship to the User entity.
      */
-    public static User createEntity() {
+    public static User createUserEntity() {
         User user = new User();
         user.setLogin(DEFAULT_LOGIN);
         user.setPassword(RandomStringUtils.random(60));
@@ -104,7 +104,7 @@ public class UserResourceIT {
     @BeforeEach
     public void initTest() {
         userRepository.deleteAll();
-        user = createEntity();
+        user = createUserEntity();
     }
 
     @Test
