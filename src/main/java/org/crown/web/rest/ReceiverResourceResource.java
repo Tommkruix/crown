@@ -3,15 +3,15 @@ package org.crown.web.rest;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-
 import org.apache.logging.log4j.util.Strings;
 import org.crown.domain.ReceiverResource;
 import org.crown.domain.ReceiverSupplier;
-import org.crown.domain.SupplierResource;
 import org.crown.repository.ReceiverResourceRepository;
 import org.crown.repository.ReceiverSupplierRepository;
+import org.crown.security.AuthoritiesConstants;
 import org.crown.service.ReceiverResourceService;
 import org.crown.service.UserService;
+import org.crown.service.dto.UserDTO;
 import org.crown.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,6 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,8 +35,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import org.crown.service.dto.UserDTO;
 import java.util.Set;
 
 
@@ -128,8 +125,6 @@ public class ReceiverResourceResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of receiverResources in body.
      */
     @GetMapping("/receiver-resources")
-    //public ResponseEntity<List<ReceiverResource>> getAllReceiverResources(Pageable pageable) {
-
     public ResponseEntity<List<ReceiverResource>> getAllReceiverResources(Pageable pageable) {
         log.debug("REST request to get a page of ReceiverResources");
 
@@ -138,7 +133,7 @@ public class ReceiverResourceResource {
 
         List<ReceiverResource> filtered;
 
-        if(adminList.contains("ROLE_ADMIN")){
+        if(adminList.contains(AuthoritiesConstants.ADMIN)){
             log.debug(String.valueOf(receiverResourceRepository.findAll(pageable)));
             ArrayList<ReceiverResource> receiverResources = new ArrayList<>();
             receiverResources.addAll(receiverResourceRepository.findAll());

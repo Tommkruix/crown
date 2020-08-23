@@ -4,7 +4,9 @@ import org.crown.CrownApp;
 import org.crown.domain.ReceiverResource;
 import org.crown.domain.ResourceType;
 import org.crown.repository.ReceiverResourceRepository;
-
+import org.crown.repository.UserRepository;
+import org.crown.security.AuthoritiesConstants;
+import org.crown.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +59,12 @@ public class ReceiverResourceResourceIT {
     @Autowired
     private MockMvc restReceiverResourceMockMvc;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
     private ReceiverResource receiverResource;
 
     /**
@@ -105,12 +113,19 @@ public class ReceiverResourceResourceIT {
     @BeforeEach
     public void initTest() {
         receiverResourceRepository.deleteAll();
+        userRepository.deleteAll();
         receiverResource = createEntity();
     }
 
     @Test
     public void createReceiverResource() throws Exception {
         int databaseSizeBeforeCreate = receiverResourceRepository.findAll().size();
+        /*
+         For some reason when set receiver for receiver resource in createEntity method,
+         receiverResourceRepository.save(receiverResource) fails.
+         Look into this bug/issue when refactoring. for now set receiver here.
+         */
+        receiverResource.setReceiver(ReceiverSupplierResourceIT.createReceiverSupplierEntity());
 
         // Create the ReceiverResource
         restReceiverResourceMockMvc.perform(post("/api/receiver-resources").with(csrf())
@@ -221,6 +236,7 @@ public class ReceiverResourceResourceIT {
     public void getAllReceiverResources() throws Exception {
         // Initialize the database
         receiverResourceRepository.save(receiverResource);
+        userService.createUser(ClaimResourceIT.createUserEntity(AuthoritiesConstants.ADMIN));
 
         // Get all the receiverResourceList
         restReceiverResourceMockMvc.perform(get("/api/receiver-resources?sort=id,desc"))
@@ -234,7 +250,7 @@ public class ReceiverResourceResourceIT {
             .andExpect(jsonPath("$.[*].currentStock").value(hasItem(DEFAULT_CURRENT_STOCK)))
             .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)));
     }
-    
+
     @Test
     public void getReceiverResource() throws Exception {
         // Initialize the database

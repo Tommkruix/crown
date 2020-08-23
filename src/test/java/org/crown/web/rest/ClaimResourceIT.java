@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = CrownApp.class)
 
 @AutoConfigureMockMvc
-@WithMockUser(value = "test")
+@WithMockUser
 public class ClaimResourceIT {
 
     private static final Integer DEFAULT_QUANTITY = 1;
@@ -119,7 +119,7 @@ public class ClaimResourceIT {
         authorities.add(role);
 
         UserDTO user = new UserDTO();
-        user.setLogin("test");
+        user.setLogin("user");
         user.setFirstName("john");
         user.setLastName("doe");
         user.setEmail("john.doe@jhipster.com");
