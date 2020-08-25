@@ -1,20 +1,14 @@
 package org.crown.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.validation.Valid;
-
+import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import org.apache.logging.log4j.util.Strings;
-import org.crown.domain.ReceiverResource;
 import org.crown.domain.ReceiverSupplier;
 import org.crown.domain.SupplierResource;
 import org.crown.repository.ReceiverSupplierRepository;
 import org.crown.repository.SupplierResourceRepository;
+import org.crown.security.AuthoritiesConstants;
 import org.crown.service.SupplierResourceService;
 import org.crown.service.UserService;
 import org.crown.service.dto.UserDTO;
@@ -28,26 +22,20 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoPage;
-import org.springframework.data.geo.GeoResult;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing {@link org.crown.domain.SupplierResource}.
@@ -141,7 +129,7 @@ public class SupplierResourceResource {
 
         List<SupplierResource> filtered;
 
-        if(adminList.contains("ROLE_ADMIN")){
+        if(adminList.contains(AuthoritiesConstants.ADMIN)){
             ArrayList<SupplierResource> supplierResource = new ArrayList<>();
             supplierResource.addAll(supplierResourceRepository.findAll());
             filtered = supplierResource;

@@ -101,6 +101,27 @@ public class UserResourceIT {
         return user;
     }
 
+    /**
+     * Create an entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static UserDTO createUserEntity(String role) {
+        Set<String> authorities = new HashSet<>();
+        authorities.add(role);
+
+        UserDTO user = new UserDTO();
+        user.setLogin("user");
+        user.setFirstName("john");
+        user.setLastName("doe");
+        user.setEmail("john.doe@jhipster.com");
+        user.setImageUrl("http://placehold.it/50x50");
+        user.setLangKey("en");
+        user.setAuthorities(authorities);
+        return user;
+    }
+
     @BeforeEach
     public void initTest() {
         userRepository.deleteAll();

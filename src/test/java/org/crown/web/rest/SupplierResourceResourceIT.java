@@ -1,31 +1,28 @@
 package org.crown.web.rest;
 
 import org.crown.CrownApp;
-import org.crown.domain.SupplierResource;
 import org.crown.domain.ResourceType;
+import org.crown.domain.SupplierResource;
 import org.crown.repository.SupplierResourceRepository;
-
+import org.crown.repository.UserRepository;
+import org.crown.security.AuthoritiesConstants;
+import org.crown.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -47,6 +44,11 @@ public class SupplierResourceResourceIT {
     @Autowired
     private SupplierResourceRepository supplierResourceRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private MockMvc restSupplierResourceMockMvc;
@@ -91,12 +93,15 @@ public class SupplierResourceResourceIT {
     @BeforeEach
     public void initTest() {
         supplierResourceRepository.deleteAll();
+        userRepository.deleteAll();
         supplierResource = createEntity();
     }
 
     @Test
     public void createSupplierResource() throws Exception {
         int databaseSizeBeforeCreate = supplierResourceRepository.findAll().size();
+
+        supplierResource.setSupplier(ReceiverSupplierResourceIT.createReceiverSupplierEntity());
 
         // Create the SupplierResource
         restSupplierResourceMockMvc.perform(post("/api/supplier-resources").with(csrf())
@@ -175,6 +180,8 @@ public class SupplierResourceResourceIT {
     public void getAllSupplierResources() throws Exception {
         // Initialize the database
         supplierResourceRepository.save(supplierResource);
+
+        userService.createUser(UserResourceIT.createUserEntity(AuthoritiesConstants.ADMIN));
 
         // Get all the supplierResourceList
         restSupplierResourceMockMvc.perform(get("/api/supplier-resources?sort=id,desc"))

@@ -236,7 +236,7 @@ public class ReceiverResourceResourceIT {
     public void getAllReceiverResources() throws Exception {
         // Initialize the database
         receiverResourceRepository.save(receiverResource);
-        userService.createUser(ClaimResourceIT.createUserEntity(AuthoritiesConstants.ADMIN));
+        userService.createUser(UserResourceIT.createUserEntity(AuthoritiesConstants.ADMIN));
 
         // Get all the receiverResourceList
         restReceiverResourceMockMvc.perform(get("/api/receiver-resources?sort=id,desc"))

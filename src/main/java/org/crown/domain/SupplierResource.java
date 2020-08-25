@@ -1,17 +1,15 @@
 package org.crown.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.validation.constraints.NotNull;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * A SupplierResource.
@@ -30,7 +28,7 @@ public class SupplierResource implements Serializable {
 
 	@NotNull
 	@Field("quantity")
-	private Integer quantity = 0;
+	private Integer quantity;
 
 	@Field("quantityValidUntil")
 	private Date quantityValidUntil;
