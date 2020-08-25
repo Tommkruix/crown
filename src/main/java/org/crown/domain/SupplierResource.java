@@ -35,7 +35,7 @@ public class SupplierResource implements Serializable {
 
 	@NotNull
 	@Field("cost")
-	private Double cost = 0.0;
+	private Double cost;
 
 	@Field("productAvailabilityLeadTime")
 	private Integer productAvailabilityLeadTime;
@@ -222,7 +222,7 @@ public class SupplierResource implements Serializable {
 		this.quantity = quantity;
 	}
 
-	public double getCost() {
+	public Double getCost() {
 		return cost;
 	}
 
