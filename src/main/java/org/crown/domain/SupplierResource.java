@@ -2,6 +2,7 @@ package org.crown.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -66,7 +67,7 @@ public class SupplierResource implements Serializable {
 	@JsonIgnoreProperties("supplierResources")
 	private ReceiverSupplier supplier;
 
-	@GeoSpatialIndexed
+	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
 	@Field("position")
 	private double[] position;
 

@@ -276,13 +276,14 @@ public class SupplierResourceResourceIT {
 
 
     }
-/*
+
+    /*
     @Test
     public void searchSupplierResource() throws Exception {
         // Initialize the database
         supplierResourceRepository.save(supplierResource);
-        when(mockSupplierResourceSearchRepository.search(queryStringQuery("id:" + supplierResource.getId()), PageRequest.of(0, 20)))
-            .thenReturn(new PageImpl<>(Collections.singletonList(supplierResource), PageRequest.of(0, 1), 1));
+        //when(mockSupplierResourceSearchRepository.search(queryStringQuery("id:" + supplierResource.getId()), PageRequest.of(0, 20)))
+        //    .thenReturn(new PageImpl<>(Collections.singletonList(supplierResource), PageRequest.of(0, 1), 1));
         // Search the supplierResource
         restSupplierResourceMockMvc.perform(get("/api/_search/supplier-resources?query=id:" + supplierResource.getId()))
             .andExpect(status().isOk())
@@ -291,6 +292,5 @@ public class SupplierResourceResourceIT {
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
             .andExpect(jsonPath("$.[*].cost").value(hasItem(DEFAULT_COST)));
     }
-
- */
+*/
 }
