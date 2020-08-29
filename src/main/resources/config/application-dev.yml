@@ -52,7 +52,7 @@ spring:
       database: crown
   mail:
     host: email-smtp.ca-central-1.amazonaws.com
-    port: 25
+    port: 587
     username: ${SES_SMTP_USERNAME}
     password: ${SES_SMTP_PASSWORD}
   messages:
