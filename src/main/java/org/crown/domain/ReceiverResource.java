@@ -47,8 +47,9 @@ public class ReceiverResource implements Serializable {
     @Field("notes")
     private String notes;
 
+    @DBRef
     @Field("proofOfFunds")
-    private String proofOfFunds;
+    private DocumentUpload proofOfFunds;
 
     @DBRef
     @Field("resourceType")
@@ -244,15 +245,15 @@ public class ReceiverResource implements Serializable {
 		return serialVersionUID;
 	}
 
-	public String getProofOfFunds() {
+	public DocumentUpload getProofOfFunds() {
         return proofOfFunds;
     }
 
-    public void setProofOfFunds(String proofOfFunds) {
+    public void setProofOfFunds(DocumentUpload proofOfFunds) {
         this.proofOfFunds = proofOfFunds;
     }
 
-    public ReceiverResource proofOfFunds(String proofOfFunds) {
+    public ReceiverResource proofOfFunds(DocumentUpload proofOfFunds) {
         this.proofOfFunds = proofOfFunds;
         return this;
     }

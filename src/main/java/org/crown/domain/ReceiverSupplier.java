@@ -5,8 +5,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,6 +31,7 @@ public class ReceiverSupplier implements Serializable {
 	private String manufacturerCountry;
 
 	@Field("org_name")
+    @NotNull
 	private String orgName;
 
 	@Field("org_website")
@@ -43,15 +44,19 @@ public class ReceiverSupplier implements Serializable {
 	private String addressLine2;
 
 	@Field("city")
+    @NotNull
 	private String city;
 
 	@Field("zip")
+    @NotNull
 	private String zip;
 
 	@Field("state")
+    @NotNull
 	private String state;
 
 	@Field("country")
+    @NotNull
 	private String country;
 
 	// TODO: All the fields below constitute 'Person of Contact Details'.
@@ -66,8 +71,8 @@ public class ReceiverSupplier implements Serializable {
 	@Field("proof_of_association")
 	private String proofOfAssociation;
 
-	@Field("proof_of_association_link")
-	private URI proofOfAssociationLink;
+	//@Field("proof_of_association_link")
+	//private URI proofOfAssociationLink;
 
 	@Field("first_name")
 	private String firstName;
@@ -76,9 +81,11 @@ public class ReceiverSupplier implements Serializable {
 	private String lastName;
 
 	@Field("email")
+    @NotNull
 	private String email;
 
 	@Field("phone_number")
+    @NotNull
 	private String phonenumber;
 
 	@Field("secondary_phone_number")
@@ -110,9 +117,11 @@ public class ReceiverSupplier implements Serializable {
 	private Float longy;
 
 	@Field("address")
+    @NotNull
 	private String address;
 
 	@Field("primary_contact_name")
+    @NotNull
 	private String primaryContactName;
 
 	@Field("npi")
@@ -453,11 +462,11 @@ public class ReceiverSupplier implements Serializable {
 	public String toString() {
 		return "ReceiverSupplier{" + "id=" + getId() + ", name='" + getOrgName() + "'" + ", address='" + getAddress()
 				+ "'" + ", email='" + getEmail() + "'" + ", primaryContactName='" + getPrimaryContactName() + "'"
-				+ ", zip='" + getZip() + "'" + ", phonenumber='" + getPhonenumber() + "'" + ", latx=" + getLatx()
-				+ ", longy=" + getLongy() + ", city='" + getCity() + "'" + ", state='" + getState() + "'"
-				+ ", country='" + getCountry() + "'" + ", npi=" + getNpi() + ", isReceiver='" + isIsReceiver() + "'"
+				+ ", zip='" + getZip() + "'" + ", phonenumber='" + getPhonenumber() + "'"
+                + ", city='" + getCity() + "'" + ", state='" + getState() + "'"
+				+ ", country='" + getCountry() + "'" + ", isReceiver='" + isIsReceiver() + "'"
 				+ ", isSupplier='" + isIsSupplier() + "'" + ", hasSterilization='" + isHasSterilization() + "'"
-				+ ", priority=" + getPriority() + ", notes='" + getNotes() + "'" + ", tags='" + getTags() + "'" + "}";
+				+ ", priority=" + getPriority() + ", notes='" + getNotes() + "'" + ", tags='" +"}";
 	}
 
 	/**
@@ -575,16 +584,16 @@ public class ReceiverSupplier implements Serializable {
 	/**
 	 * @return the proofOfAssociationLink
 	 */
-	public URI getProofOfAssociationLink() {
-		return proofOfAssociationLink;
-	}
+	//public URI getProofOfAssociationLink() {
+	//	return proofOfAssociationLink;
+	//}
 
 	/**
 	 * @param proofOfAssociationLink the proofOfAssociationLink to set
 	 */
-	public void setProofOfAssociationLink(URI proofOfAssociationLink) {
-		this.proofOfAssociationLink = proofOfAssociationLink;
-	}
+	//public void setProofOfAssociationLink(URI proofOfAssociationLink) {
+	//	this.proofOfAssociationLink = proofOfAssociationLink;
+	//}
 
 	/**
 	 * @return the firstName

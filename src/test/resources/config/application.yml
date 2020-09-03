@@ -21,8 +21,7 @@ spring:
       write-durations-as-timestamps: false
   data:
     mongodb:
-      host: localhost
-      port: 0
+      uri: ${MONGODB_URI}
       database: crown
     elasticsearch:
       properties:

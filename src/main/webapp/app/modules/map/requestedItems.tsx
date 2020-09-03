@@ -199,9 +199,9 @@ class RequestedItemsComponent extends React.Component<Props, State> {
                           <td key={`${item.quantity}-Type`}>
                             { item.quantity}
                           </td>
-                          {/* <td> */}
-                          {/*  <button className={'btn btn-primary'} onClick={ this.claimItem(item) }><FontAwesomeIcon  icon='pencil-alt' color='blue' style={{cursor: 'pointer'}}/>{' Offer to fulfil '}</button> */}
-                          {/* </td> */}
+                          { <td> 
+                            <button className={'btn btn-primary'} onClick={ this.claimItem(item) }><FontAwesomeIcon  icon='pencil-alt' color='blue' style={{cursor: 'pointer'}}/>{' Offer to fulfil '}</button>
+                          </td> }
                         </tr>
 
                       ))

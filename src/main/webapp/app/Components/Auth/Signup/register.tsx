@@ -9,7 +9,7 @@ import { IRootState } from 'app/shared/reducers';
 import { handleRegister, reset } from './register.reducer';
 import { useHistory, Link } from "react-router-dom";
 
-export interface IRegisterProps extends StateProps, DispatchProps {toggle: Function}
+export interface IRegisterProps extends StateProps, DispatchProps {hide: Function}
 
 export const RegisterPage = (props: IRegisterProps) => {
   const [password, setPassword] = useState('');
@@ -20,7 +20,7 @@ export const RegisterPage = (props: IRegisterProps) => {
   const handleValidSubmit = (event, values) => {
     props.handleRegister(values.username, values.email, values.firstPassword, props.currentLocale);
 	event.preventDefault();
-	props.toggle();
+	props.hide();
     history.push("/login");
   };
 
