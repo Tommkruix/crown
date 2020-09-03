@@ -1,7 +1,5 @@
 package org.crown.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.bson.types.ObjectId;
 import org.crown.CrownApp;
 import org.crown.domain.SupplierResource;
@@ -14,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoPage;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = CrownApp.class)
 public class CustomSupplierResourceRepositoryIT {
@@ -49,6 +49,6 @@ public class CustomSupplierResourceRepositoryIT {
 		 Distance distance = new Distance(miles/DIST_UNIT_PER_MILE);
 		 Pageable pageable = PageRequest.of(0, 10);
 		 GeoPage<SupplierResource> resources = resourceRepository.findByPositionNear(point, distance, pageable);
-		 assertThat(resources.getSize()).isEqualTo(10);
+		 assertThat(resources.getTotalElements()).isEqualTo(2);
 	 }
 }

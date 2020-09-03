@@ -30,8 +30,8 @@ spring:
   mail:
     host: localhost
     port: 25
-    username: apiKey
-    password: dummy
+    username: username
+    password: password
 
   main:
     allow-bean-definition-overriding: true

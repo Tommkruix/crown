@@ -9,6 +9,7 @@ import org.crown.domain.User;
 import org.crown.repository.ClaimRepository;
 import org.crown.repository.ReceiverResourceRepository;
 import org.crown.repository.ReceiverSupplierRepository;
+import org.crown.security.AuthoritiesConstants;
 import org.crown.service.ClaimResourceService;
 import org.crown.service.MailService;
 import org.crown.service.UserService;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -128,6 +130,7 @@ public class ClaimResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of claims in body.
      */
     @GetMapping("/claims")
+    @ResponseBody
     public List<Claim> getAllClaims() {
         log.debug("REST request to get all Claims");
         UserDTO user = userService.getUserWithAuthorities()
@@ -135,11 +138,15 @@ public class ClaimResource {
             .orElseThrow(() -> new RuntimeException("User could not be found"));
         Set<String> aList = user.getAuthorities();
 
-        if(aList.contains("ROLE_ADMIN")){
-            return claimRepository.findAll();
+        List<Claim> claims = new ArrayList<>();
+
+        if(aList.contains(AuthoritiesConstants.ADMIN)){
+            claims = claimRepository.findAll();
         } else {
-            return claimResourceService.getAllClaims();
+            claims = claimResourceService.getAllClaims();
         }
+
+        return claims;
     }
 
     /**

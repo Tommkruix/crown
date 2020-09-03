@@ -97,7 +97,7 @@ public class ReceiverSupplierResourceIT {
 	 * This is a static method, as tests for other entities might also need it, if
 	 * they test an entity which requires the current entity.
 	 */
-	public static ReceiverSupplier createEntity() {
+	public static ReceiverSupplier createReceiverSupplierEntity() {
 		ReceiverSupplier receiverSupplier = new ReceiverSupplier().orgName(DEFAULT_NAME).address(DEFAULT_ADDRESS)
 				.email(DEFAULT_EMAIL).primaryContactName(DEFAULT_PRIMARY_CONTACT_NAME).zip(DEFAULT_ZIP)
 				.phonenumber(DEFAULT_PHONENUMBER).city(DEFAULT_CITY)
@@ -126,7 +126,7 @@ public class ReceiverSupplierResourceIT {
 	@BeforeEach
 	public void initTest() {
 		receiverSupplierRepository.deleteAll();
-		receiverSupplier = createEntity();
+		receiverSupplier = createReceiverSupplierEntity();
 	}
 
 	@Test

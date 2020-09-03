@@ -1,15 +1,13 @@
 package org.crown.domain;
 
+import org.crown.domain.enumeration.ClaimStatusEnum;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import javax.validation.constraints.*;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Objects;
-
-import org.crown.domain.enumeration.ClaimStatusEnum;
 
 /**
  * A Claim.
@@ -22,6 +20,7 @@ public class Claim implements Serializable {
     @Id
     private String id;
 
+    @NotNull
     @Field("quantity")
     private Integer quantity;
 
