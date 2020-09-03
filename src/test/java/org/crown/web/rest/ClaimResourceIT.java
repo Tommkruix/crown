@@ -4,8 +4,11 @@ import org.crown.CrownApp;
 import org.crown.domain.Claim;
 import org.crown.domain.ReceiverResource;
 import org.crown.domain.SupplierResource;
+import org.crown.domain.enumeration.ClaimStatusEnum;
 import org.crown.repository.ClaimRepository;
-
+import org.crown.repository.UserRepository;
+import org.crown.security.AuthoritiesConstants;
+import org.crown.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +25,6 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import org.crown.domain.enumeration.ClaimStatusEnum;
 /**
  * Integration tests for the {@link ClaimResource} REST controller.
  */
@@ -46,6 +47,12 @@ public class ClaimResourceIT {
     private ClaimRepository claimRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
     private MockMvc restClaimMockMvc;
 
     private Claim claim;
@@ -56,7 +63,7 @@ public class ClaimResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Claim createEntity() {
+    public static Claim createClaimEntity() {
         Claim claim = new Claim()
             .quantity(DEFAULT_QUANTITY)
             .notes(DEFAULT_NOTES)
@@ -65,6 +72,7 @@ public class ClaimResourceIT {
         ReceiverResource receiverResource;
         receiverResource = ReceiverResourceResourceIT.createEntity();
         receiverResource.setId("fixed-id-for-tests");
+        receiverResource.setReceiver(ReceiverSupplierResourceIT.createReceiverSupplierEntity());
         claim.setReceiverResource(receiverResource);
         // Add required entity
         SupplierResource supplierResource;
@@ -100,12 +108,15 @@ public class ClaimResourceIT {
     @BeforeEach
     public void initTest() {
         claimRepository.deleteAll();
-        claim = createEntity();
+        userRepository.deleteAll();
+        claim = createClaimEntity();
     }
 
     @Test
     public void createClaim() throws Exception {
         int databaseSizeBeforeCreate = claimRepository.findAll().size();
+
+        userService.createUser(UserResourceIT.createUserEntity(AuthoritiesConstants.USER));
 
         // Create the Claim
         restClaimMockMvc.perform(post("/api/claims").with(csrf())
@@ -163,6 +174,8 @@ public class ClaimResourceIT {
         // Initialize the database
         claimRepository.save(claim);
 
+        userService.createUser(UserResourceIT.createUserEntity(AuthoritiesConstants.ADMIN));
+
         // Get all the claimList
         restClaimMockMvc.perform(get("/api/claims?sort=id,desc"))
             .andExpect(status().isOk())
@@ -172,7 +185,7 @@ public class ClaimResourceIT {
             .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
-    
+
     @Test
     public void getClaim() throws Exception {
         // Initialize the database
