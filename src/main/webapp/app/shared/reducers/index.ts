@@ -57,11 +57,13 @@ import resourceType, {
 import claim, {
   ClaimState
 } from 'app/entities/claim/claim.reducer';
+import document, { DocumentUploadState } from 'app/commonComponents/document-upload.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
   readonly authentication: AuthenticationState;
   readonly locale: LocaleState;
+  readonly document: DocumentUploadState;
   readonly applicationProfile: ApplicationProfileState;
   readonly administration: AdministrationState;
   readonly userManagement: UserManagementState;
@@ -89,6 +91,7 @@ export interface IRootState {
 const rootReducer = combineReducers<IRootState>({
   authentication,
   locale,
+  document,
   applicationProfile,
   administration,
   userManagement,

@@ -1,18 +1,5 @@
 package org.crown.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.List;
-
 import org.crown.CrownApp;
 import org.crown.domain.ReceiverSupplier;
 import org.crown.repository.ReceiverSupplierRepository;
@@ -24,6 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link ReceiverSupplierResource} REST controller.
@@ -102,13 +97,13 @@ public class ReceiverSupplierResourceIT {
 	 * This is a static method, as tests for other entities might also need it, if
 	 * they test an entity which requires the current entity.
 	 */
-	public static ReceiverSupplier createEntity() {
+	public static ReceiverSupplier createReceiverSupplierEntity() {
 		ReceiverSupplier receiverSupplier = new ReceiverSupplier().orgName(DEFAULT_NAME).address(DEFAULT_ADDRESS)
 				.email(DEFAULT_EMAIL).primaryContactName(DEFAULT_PRIMARY_CONTACT_NAME).zip(DEFAULT_ZIP)
-				.phonenumber(DEFAULT_PHONENUMBER).latx(DEFAULT_LATX).longy(DEFAULT_LONGY).city(DEFAULT_CITY)
-				.state(DEFAULT_STATE).country(DEFAULT_COUNTRY).npi(DEFAULT_NPI).isReceiver(DEFAULT_IS_RECEIVER)
+				.phonenumber(DEFAULT_PHONENUMBER).city(DEFAULT_CITY)
+				.state(DEFAULT_STATE).country(DEFAULT_COUNTRY).isReceiver(DEFAULT_IS_RECEIVER)
 				.isSupplier(DEFAULT_IS_SUPPLIER).hasSterilization(DEFAULT_HAS_STERILIZATION).priority(DEFAULT_PRIORITY)
-				.notes(DEFAULT_NOTES).tags(DEFAULT_TAGS);
+                .npi(DEFAULT_NPI).tags(DEFAULT_TAGS).notes(DEFAULT_NOTES);
 		return receiverSupplier;
 	}
 
@@ -121,17 +116,17 @@ public class ReceiverSupplierResourceIT {
 	public static ReceiverSupplier createUpdatedEntity() {
 		ReceiverSupplier receiverSupplier = new ReceiverSupplier().orgName(UPDATED_NAME).address(UPDATED_ADDRESS)
 				.email(UPDATED_EMAIL).primaryContactName(UPDATED_PRIMARY_CONTACT_NAME).zip(UPDATED_ZIP)
-				.phonenumber(UPDATED_PHONENUMBER).latx(UPDATED_LATX).longy(UPDATED_LONGY).city(UPDATED_CITY)
-				.state(UPDATED_STATE).country(UPDATED_COUNTRY).npi(UPDATED_NPI).isReceiver(UPDATED_IS_RECEIVER)
+				.phonenumber(UPDATED_PHONENUMBER).city(UPDATED_CITY)
+				.state(UPDATED_STATE).country(UPDATED_COUNTRY).isReceiver(UPDATED_IS_RECEIVER)
 				.isSupplier(UPDATED_IS_SUPPLIER).hasSterilization(UPDATED_HAS_STERILIZATION).priority(UPDATED_PRIORITY)
-				.notes(UPDATED_NOTES).tags(UPDATED_TAGS);
+				.notes(UPDATED_NOTES);
 		return receiverSupplier;
 	}
 
 	@BeforeEach
 	public void initTest() {
 		receiverSupplierRepository.deleteAll();
-		receiverSupplier = createEntity();
+		receiverSupplier = createReceiverSupplierEntity();
 	}
 
 	@Test
@@ -153,18 +148,14 @@ public class ReceiverSupplierResourceIT {
 		assertThat(testReceiverSupplier.getPrimaryContactName()).isEqualTo(DEFAULT_PRIMARY_CONTACT_NAME);
 		assertThat(testReceiverSupplier.getZip()).isEqualTo(DEFAULT_ZIP);
 		assertThat(testReceiverSupplier.getPhonenumber()).isEqualTo(DEFAULT_PHONENUMBER);
-		assertThat(testReceiverSupplier.getLatx()).isEqualTo(DEFAULT_LATX);
-		assertThat(testReceiverSupplier.getLongy()).isEqualTo(DEFAULT_LONGY);
 		assertThat(testReceiverSupplier.getCity()).isEqualTo(DEFAULT_CITY);
 		assertThat(testReceiverSupplier.getState()).isEqualTo(DEFAULT_STATE);
 		assertThat(testReceiverSupplier.getCountry()).isEqualTo(DEFAULT_COUNTRY);
-		assertThat(testReceiverSupplier.getNpi()).isEqualTo(DEFAULT_NPI);
 		assertThat(testReceiverSupplier.isIsReceiver()).isEqualTo(DEFAULT_IS_RECEIVER);
 		assertThat(testReceiverSupplier.isIsSupplier()).isEqualTo(DEFAULT_IS_SUPPLIER);
 		assertThat(testReceiverSupplier.isHasSterilization()).isEqualTo(DEFAULT_HAS_STERILIZATION);
 		assertThat(testReceiverSupplier.getPriority()).isEqualTo(DEFAULT_PRIORITY);
 		assertThat(testReceiverSupplier.getNotes()).isEqualTo(DEFAULT_NOTES);
-		assertThat(testReceiverSupplier.getTags()).isEqualTo(DEFAULT_TAGS);
 	}
 
 	@Test
@@ -347,14 +338,12 @@ public class ReceiverSupplierResourceIT {
 		restReceiverSupplierMockMvc.perform(get("/api/receiver-suppliers?sort=id,desc")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$.[*].id").value(hasItem(receiverSupplier.getId())))
-				.andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+				.andExpect(jsonPath("$.[*].orgName").value(hasItem(DEFAULT_NAME)))
 				.andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
 				.andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
 				.andExpect(jsonPath("$.[*].primaryContactName").value(hasItem(DEFAULT_PRIMARY_CONTACT_NAME)))
 				.andExpect(jsonPath("$.[*].zip").value(hasItem(DEFAULT_ZIP)))
 				.andExpect(jsonPath("$.[*].phonenumber").value(hasItem(DEFAULT_PHONENUMBER)))
-				.andExpect(jsonPath("$.[*].latx").value(hasItem(DEFAULT_LATX.doubleValue())))
-				.andExpect(jsonPath("$.[*].longy").value(hasItem(DEFAULT_LONGY.doubleValue())))
 				.andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
 				.andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE)))
 				.andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY)))
@@ -376,16 +365,15 @@ public class ReceiverSupplierResourceIT {
 		restReceiverSupplierMockMvc.perform(get("/api/receiver-suppliers/{id}", receiverSupplier.getId()))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$.id").value(receiverSupplier.getId()))
-				.andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+				.andExpect(jsonPath("$.orgName").value(DEFAULT_NAME))
 				.andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
 				.andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
 				.andExpect(jsonPath("$.primaryContactName").value(DEFAULT_PRIMARY_CONTACT_NAME))
 				.andExpect(jsonPath("$.zip").value(DEFAULT_ZIP))
 				.andExpect(jsonPath("$.phonenumber").value(DEFAULT_PHONENUMBER))
-				.andExpect(jsonPath("$.latx").value(DEFAULT_LATX.doubleValue()))
-				.andExpect(jsonPath("$.longy").value(DEFAULT_LONGY.doubleValue()))
 				.andExpect(jsonPath("$.city").value(DEFAULT_CITY)).andExpect(jsonPath("$.state").value(DEFAULT_STATE))
-				.andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY)).andExpect(jsonPath("$.npi").value(DEFAULT_NPI))
+				.andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY))
+                .andExpect(jsonPath("$.npi").value(DEFAULT_NPI))
 				.andExpect(jsonPath("$.isReceiver").value(DEFAULT_IS_RECEIVER.booleanValue()))
 				.andExpect(jsonPath("$.isSupplier").value(DEFAULT_IS_SUPPLIER.booleanValue()))
 				.andExpect(jsonPath("$.hasSterilization").value(DEFAULT_HAS_STERILIZATION.booleanValue()))
@@ -411,10 +399,10 @@ public class ReceiverSupplierResourceIT {
 		ReceiverSupplier updatedReceiverSupplier = receiverSupplierRepository.findById(receiverSupplier.getId()).get();
 		updatedReceiverSupplier.orgName(UPDATED_NAME).address(UPDATED_ADDRESS).email(UPDATED_EMAIL)
 				.primaryContactName(UPDATED_PRIMARY_CONTACT_NAME).zip(UPDATED_ZIP).phonenumber(UPDATED_PHONENUMBER)
-				.latx(UPDATED_LATX).longy(UPDATED_LONGY).city(UPDATED_CITY).state(UPDATED_STATE)
-				.country(UPDATED_COUNTRY).npi(UPDATED_NPI).isReceiver(UPDATED_IS_RECEIVER)
+				.city(UPDATED_CITY).state(UPDATED_STATE)
+				.country(UPDATED_COUNTRY).isReceiver(UPDATED_IS_RECEIVER)
 				.isSupplier(UPDATED_IS_SUPPLIER).hasSterilization(UPDATED_HAS_STERILIZATION).priority(UPDATED_PRIORITY)
-				.notes(UPDATED_NOTES).tags(UPDATED_TAGS);
+				.notes(UPDATED_NOTES);
 
 		restReceiverSupplierMockMvc
 				.perform(put("/api/receiver-suppliers").with(csrf()).contentType(MediaType.APPLICATION_JSON)
@@ -431,18 +419,14 @@ public class ReceiverSupplierResourceIT {
 		assertThat(testReceiverSupplier.getPrimaryContactName()).isEqualTo(UPDATED_PRIMARY_CONTACT_NAME);
 		assertThat(testReceiverSupplier.getZip()).isEqualTo(UPDATED_ZIP);
 		assertThat(testReceiverSupplier.getPhonenumber()).isEqualTo(UPDATED_PHONENUMBER);
-		assertThat(testReceiverSupplier.getLatx()).isEqualTo(UPDATED_LATX);
-		assertThat(testReceiverSupplier.getLongy()).isEqualTo(UPDATED_LONGY);
 		assertThat(testReceiverSupplier.getCity()).isEqualTo(UPDATED_CITY);
 		assertThat(testReceiverSupplier.getState()).isEqualTo(UPDATED_STATE);
 		assertThat(testReceiverSupplier.getCountry()).isEqualTo(UPDATED_COUNTRY);
-		assertThat(testReceiverSupplier.getNpi()).isEqualTo(UPDATED_NPI);
 		assertThat(testReceiverSupplier.isIsReceiver()).isEqualTo(UPDATED_IS_RECEIVER);
 		assertThat(testReceiverSupplier.isIsSupplier()).isEqualTo(UPDATED_IS_SUPPLIER);
 		assertThat(testReceiverSupplier.isHasSterilization()).isEqualTo(UPDATED_HAS_STERILIZATION);
 		assertThat(testReceiverSupplier.getPriority()).isEqualTo(UPDATED_PRIORITY);
 		assertThat(testReceiverSupplier.getNotes()).isEqualTo(UPDATED_NOTES);
-		assertThat(testReceiverSupplier.getTags()).isEqualTo(UPDATED_TAGS);
 	}
 
 	@Test
