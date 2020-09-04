@@ -1,86 +1,17 @@
-# Appspec file is an outline of how the agent will perform its functions
-
-#In the appspec file
-#Files, Permissions, and Hooks are optional
-
-version: 0.0 # Only expected value
-# this revision targets Amazon Linux,
-#   Red Hat Enterprise Linux (RHEL), or Ubuntu Server
-#   instances.
-
+version: 0.0
 os: linux
-
 files:
-  # During the Install deployment lifecycle event (which occurs between the
-  #   BeforeInstall and AfterInstall events), copy the specified files
-  #   in "source" starting from the root of the revision's file bundle
-  #   to "destination" on the Amazon EC2 instance.
-
-  # If you are not copying any files to the Amazon EC2 instance, then remove the
-  #   "files" section altogether. A blank or incomplete "files" section
-  #   may cause associated deployments to fail.
-
-  - source: / # To copy all the files
-    destination: /crownapp/ # destination path in the EC2 instance
-
-# For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
-#   you can specify a "permissions"
-#   section here that describes special permissions to apply to the files
-#   in the "files" section as they are being copied over to
-#   the Amazon EC2 instance.
-#   For more information, see the documentation.
-# If you are deploying to Windows Server instances,
-#   then remove the
-#   "permissions" section altogether. A blank or incomplete "permissions"
-#   section may cause associated deployments to fail.
-#permissions:
-#  - object:
-#    pattern:
-#    except:
-#    owner:
-#    group:
-#    mode:
-#    acls:
-#      -
-#    context:
-#      user:
-#      type:
-#      range:
-#    type:
-
-#hooks:
-# For each deployment lifecycle event, specify multiple "location" entries
-#   if you want to run multiple scripts during that event.
-# You can specify "timeout" as the number of seconds to wait until failing the deployment
-#   if the specified scripts do not run within the specified time limit for the
-#   specified event. For example, 900 seconds is 15 minutes. If not specified,
-#   the default is 1800 seconds (30 minutes).
-#   Note that the maximum amount of time that all scripts must finish executing
-#   for each individual deployment lifecycle event is 3600 seconds (1 hour).
-#   Otherwise, the deployment will stop and CodeDeploy will consider the deployment
-#   to have failed to the Amazon EC2 instance. Make sure that the total number of seconds
-#   that are specified in "timeout" for all scripts in each individual deployment
-#   lifecycle event does not exceed a combined 3600 seconds (1 hour).
-# For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
-#   you can specify "runas" in an event to
-#   run as the specified user. For more information, see the documentation.
-#   If you are deploying to Windows Server instances,
-#   remove "runas" altogether.
-# If you are not running any commands on the Amazon EC2 instance, then remove
-#   the "hooks" section altogether. A blank or incomplete "hooks" section
-#   may cause associated deployments to fail.
-
-# Example :
-#  BeforeInstall:
-#    - location: scripts/install_dependencies
-#      timeout: 300
-#      runas: root
-#    - location: scripts/start_server
-#      timeout: 300
-#      runas: root
-#  ApplicationStop:
-#    - location: scripts/stop_server
-#      timeout: 300
-#      runas: root
-
-# Need to write install_dependencies , start_server , stop_server scripts for this
+  - source: ./
+    destination: /home/ubuntu
+permissions:
+  - object: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
+    type:
+      - directory
+      - file
+hooks:
+  ApplicationStart:
+    - location: scripts/reload-app.sh
+      timeout: 300
+      runas: ubuntu
