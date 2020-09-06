@@ -1,5 +1,7 @@
 package org.crown.domain;
 
+import org.crown.service.dto.DocumentUpload;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
@@ -15,7 +17,7 @@ import java.util.Date;
 /**
  * A SupplierResource.
  */
-@Document(collection = "supplier_resource")
+@Document(collection="supplier_resource")
 public class SupplierResource implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,55 +26,44 @@ public class SupplierResource implements Serializable {
 	private String id;
 
 	@DBRef
-	@Field("resourceType")
+	@Field("resource")
 	private ResourceType resourceType;
 
 	@NotNull
-	@Field("quantity")
 	private Integer quantity;
 
 	@NotNull
-	@Field("quantityValidUntil")
 	private Date quantityValidUntil;
 
 	@NotNull
-	@Field("cost")
 	private Double cost;
 
 	@NotNull
-	@Field("productAvailabilityLeadTime")
 	private Integer productAvailabilityLeadTime;
 
 	@NotNull
-	@Field("minOrderQuantity")
 	private Integer minOrderQuantity;
 
 	@NotNull
-	@Field("quantityOnHand")
 	private Integer quantityOnHand;
 
-	@Field("supportingDocuments")
+	@Field("identification")
 	private DocumentUpload supportingDocuments;
 
-	@Field("productAssets")
+	@Field("productPictures")
 	private DocumentUpload productAssets;
 
-	@Field("proofOfLife")
 	private DocumentUpload proofOfLife;
 
-	@Field("publicationPermission")
 	private Boolean publicationPermission;
 
 	@DBRef
-	@Field("supplier")
 	@JsonIgnoreProperties("supplierResources")
 	private ReceiverSupplier supplier;
 
-	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
-	@Field("position")
+	@GeoSpatialIndexed(type=GeoSpatialIndexType.GEO_2DSPHERE)
 	private double[] position;
 
-	@Field("postedDate")
 	private Date postedDate;
 
 	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
@@ -156,20 +147,6 @@ public class SupplierResource implements Serializable {
 	}
 
 	/**
-	 * @return the supportingDocumentsLink
-	 */
-	//public String getSupportingDocumentsLink() {
-	//	return supportingDocumentsLink;
-	//}
-
-	/**
-	 * @param supportingDocumentsLink the supportingDocumentsLink to set
-	 */
-	//public void setSupportingDocumentsLink(String supportingDocumentsLink) {
-	//	this.supportingDocumentsLink = supportingDocumentsLink;
-	//}
-
-	/**
 	 * @return the productAssets
 	 */
 	public DocumentUpload getProductAssets() {
@@ -215,22 +192,12 @@ public class SupplierResource implements Serializable {
 		return quantity;
 	}
 
-	public SupplierResource quantity(Integer quantity) {
-		this.quantity = quantity;
-		return this;
-	}
-
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
 	public Double getCost() {
 		return cost;
-	}
-
-	public SupplierResource cost(Double cost) {
-		this.cost = cost;
-		return this;
 	}
 
 	public void setCost(Double cost) {
@@ -301,4 +268,38 @@ public class SupplierResource implements Serializable {
 	public void setPostedDate(Date postedDate) {
 		this.postedDate = postedDate;
 	}
+
+	/*
+	TODO: During Refactoring, implement builder classes for this
+	      @pavlos
+	 */
+    public SupplierResource quantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
+    public SupplierResource cost(Double cost) {
+        this.cost = cost;
+        return this;
+    }
+
+    public  SupplierResource quantityValidUntil(Date quantityValidUntil) {
+        this.quantityValidUntil = quantityValidUntil;
+        return this;
+    }
+
+    public  SupplierResource productAvailabilityLeadTime(Integer productAvailabilityLeadTime) {
+        this.productAvailabilityLeadTime = productAvailabilityLeadTime;
+        return this;
+    }
+
+    public SupplierResource minOrderQuantity(Integer minOrderQuantity) {
+        this.minOrderQuantity = minOrderQuantity;
+        return this;
+    }
+
+    public SupplierResource quantityOnHand(Integer quantityOnHand) {
+        this.quantityOnHand = quantityOnHand;
+        return this;
+    }
 }
