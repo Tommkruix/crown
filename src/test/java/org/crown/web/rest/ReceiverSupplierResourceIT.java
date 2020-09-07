@@ -97,13 +97,13 @@ public class ReceiverSupplierResourceIT {
 	 * This is a static method, as tests for other entities might also need it, if
 	 * they test an entity which requires the current entity.
 	 */
-	public static ReceiverSupplier createEntity() {
+	public static ReceiverSupplier createReceiverSupplierEntity() {
 		ReceiverSupplier receiverSupplier = new ReceiverSupplier().orgName(DEFAULT_NAME).address(DEFAULT_ADDRESS)
 				.email(DEFAULT_EMAIL).primaryContactName(DEFAULT_PRIMARY_CONTACT_NAME).zip(DEFAULT_ZIP)
 				.phonenumber(DEFAULT_PHONENUMBER).city(DEFAULT_CITY)
 				.state(DEFAULT_STATE).country(DEFAULT_COUNTRY).isReceiver(DEFAULT_IS_RECEIVER)
 				.isSupplier(DEFAULT_IS_SUPPLIER).hasSterilization(DEFAULT_HAS_STERILIZATION).priority(DEFAULT_PRIORITY)
-				.notes(DEFAULT_NOTES);
+                .npi(DEFAULT_NPI).tags(DEFAULT_TAGS).notes(DEFAULT_NOTES);
 		return receiverSupplier;
 	}
 
@@ -126,7 +126,7 @@ public class ReceiverSupplierResourceIT {
 	@BeforeEach
 	public void initTest() {
 		receiverSupplierRepository.deleteAll();
-		receiverSupplier = createEntity();
+		receiverSupplier = createReceiverSupplierEntity();
 	}
 
 	@Test
@@ -338,14 +338,12 @@ public class ReceiverSupplierResourceIT {
 		restReceiverSupplierMockMvc.perform(get("/api/receiver-suppliers?sort=id,desc")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$.[*].id").value(hasItem(receiverSupplier.getId())))
-				.andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+				.andExpect(jsonPath("$.[*].orgName").value(hasItem(DEFAULT_NAME)))
 				.andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
 				.andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
 				.andExpect(jsonPath("$.[*].primaryContactName").value(hasItem(DEFAULT_PRIMARY_CONTACT_NAME)))
 				.andExpect(jsonPath("$.[*].zip").value(hasItem(DEFAULT_ZIP)))
 				.andExpect(jsonPath("$.[*].phonenumber").value(hasItem(DEFAULT_PHONENUMBER)))
-				.andExpect(jsonPath("$.[*].latx").value(hasItem(DEFAULT_LATX.doubleValue())))
-				.andExpect(jsonPath("$.[*].longy").value(hasItem(DEFAULT_LONGY.doubleValue())))
 				.andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
 				.andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE)))
 				.andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY)))
@@ -367,16 +365,15 @@ public class ReceiverSupplierResourceIT {
 		restReceiverSupplierMockMvc.perform(get("/api/receiver-suppliers/{id}", receiverSupplier.getId()))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$.id").value(receiverSupplier.getId()))
-				.andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+				.andExpect(jsonPath("$.orgName").value(DEFAULT_NAME))
 				.andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
 				.andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
 				.andExpect(jsonPath("$.primaryContactName").value(DEFAULT_PRIMARY_CONTACT_NAME))
 				.andExpect(jsonPath("$.zip").value(DEFAULT_ZIP))
 				.andExpect(jsonPath("$.phonenumber").value(DEFAULT_PHONENUMBER))
-				.andExpect(jsonPath("$.latx").value(DEFAULT_LATX.doubleValue()))
-				.andExpect(jsonPath("$.longy").value(DEFAULT_LONGY.doubleValue()))
 				.andExpect(jsonPath("$.city").value(DEFAULT_CITY)).andExpect(jsonPath("$.state").value(DEFAULT_STATE))
-				.andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY)).andExpect(jsonPath("$.npi").value(DEFAULT_NPI))
+				.andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY))
+                .andExpect(jsonPath("$.npi").value(DEFAULT_NPI))
 				.andExpect(jsonPath("$.isReceiver").value(DEFAULT_IS_RECEIVER.booleanValue()))
 				.andExpect(jsonPath("$.isSupplier").value(DEFAULT_IS_SUPPLIER.booleanValue()))
 				.andExpect(jsonPath("$.hasSterilization").value(DEFAULT_HAS_STERILIZATION.booleanValue()))

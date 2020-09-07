@@ -22,6 +22,7 @@ public class ReceiverResource implements Serializable {
     @Id
     private String id;
 
+    @NotNull
     @Field("name")
     private String name;
 

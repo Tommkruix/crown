@@ -1,17 +1,16 @@
 package org.crown.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.validation.constraints.NotNull;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * A SupplierResource.
@@ -30,14 +29,14 @@ public class SupplierResource implements Serializable {
 
 	@NotNull
 	@Field("quantity")
-	private Integer quantity = 0;
+	private Integer quantity;
 
 	@Field("quantityValidUntil")
 	private Date quantityValidUntil;
 
 	@NotNull
 	@Field("cost")
-	private Double cost = 0.0;
+	private Double cost;
 
 	@Field("productAvailabilityLeadTime")
 	private Integer productAvailabilityLeadTime;
@@ -68,7 +67,7 @@ public class SupplierResource implements Serializable {
 	@JsonIgnoreProperties("supplierResources")
 	private ReceiverSupplier supplier;
 
-	@GeoSpatialIndexed
+	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
 	@Field("position")
 	private double[] position;
 
@@ -224,7 +223,7 @@ public class SupplierResource implements Serializable {
 		this.quantity = quantity;
 	}
 
-	public double getCost() {
+	public Double getCost() {
 		return cost;
 	}
 
