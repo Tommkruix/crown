@@ -288,7 +288,7 @@ const About = props => (
             <Form.Item
               className="subscribe"
               style={{
-                background: 'transparent url("contents/image/Rectangle-34.png")  0% 0% no-repeat padding-box',
+                background: 'transparent url("content/images/Rectangle-34.svg")  0% 0% no-repeat padding-box',
                 border: '2px solid #707070',
                 borderRadius: '11px',
                 opacity: 1,

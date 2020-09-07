@@ -91,7 +91,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     if (props.updateSuccess) {
        const data = new FormData()
        data.append('file', pofFileList[0])
-       data.append('fieldType', 'pof')
+       data.append('fileName', 'pof')
       const config = {
         headers: {
            fieldType: 'pof',
@@ -163,7 +163,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     initialValues.expiration = moment(receiverResourceEntity.expiration);
   }
 
-  if (receiverResourceEntity.proofOfFunds) {
+   if (receiverResourceEntity.proofOfFunds) {
     initialValues.proofOfFunds.fieldName = "pof";
   }
 
@@ -321,7 +321,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
                 hidden={true}
                 style={{ display: 'none' }}
               >
-                <Input type='file' hidden={true} />
+                <Input hidden={true} />
               </Form.Item>
               <Form.Item name="isBuyer" style={{ display: 'none' }}>
                   <Input hidden={true} />
@@ -330,7 +330,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
               <Row gutter={[0, 8]}>
                 <Col span={4}>
                   <Form.Item>
-                      <Button type="default" href="/receiver-resource" icon={<ArrowLeftOutlined />}>
+                      <Button type="primary" href="/receiver-resource" icon={<ArrowLeftOutlined />}>
                       {translate('entity.action.cancel')}
                     </Button>
                   </Form.Item>

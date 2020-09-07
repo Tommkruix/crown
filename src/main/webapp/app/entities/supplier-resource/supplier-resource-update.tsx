@@ -366,9 +366,10 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
               <Row gutter={[0, 8]}>
                 <Col span={4}>
                     <Form.Item>
-                      <Button type="default" href="/supplier-resource" icon={<ArrowLeftOutlined />}>
-                      {translate('entity.action.cancel')}
+                      <Link to="/supplier-resource"> <Button type="primary" icon={<ArrowLeftOutlined />}>
+                        {translate('entity.action.cancel')}
                     </Button>
+                        </Link>
                   </Form.Item>
                 </Col>
                 <Col span={4}>

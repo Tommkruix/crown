@@ -26,8 +26,8 @@ const UploadFile: React.FC<UploadFileProps> = (props) => {
       // onChange={(info) => {
       //  props.onSuccess(info.file.name);
       // }}
->
-      <Button>
+    >
+      <Button type="primary">
         <UploadOutlined /> Click to Upload
       </Button>
     </Upload>
