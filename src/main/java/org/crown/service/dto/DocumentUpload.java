@@ -1,16 +1,20 @@
 package org.crown.service.dto;
 
-public class FileUploadResponse {
+/**
+ * DTO for managing uploaded documents to AWS S3
+ */
 
-    private String fieldName;
+public class DocumentUpload {
+
+    private String fieldName; // field type
     private String filename;
     private String fileDownloadUri;
     private String hashKey;
 
-    public FileUploadResponse() {
+    public DocumentUpload() {
     }
 
-    public FileUploadResponse(String fieldName, String filename, String fileDownloadUri, String hashKey) {
+    public DocumentUpload(String fieldName, String filename, String fileDownloadUri, String hashKey) {
         this.fieldName = fieldName;
         this.filename = filename;
         this.fileDownloadUri = fileDownloadUri;
