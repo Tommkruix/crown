@@ -11,6 +11,7 @@ import org.crown.repository.ReceiverSupplierRepository;
 import org.crown.security.AuthoritiesConstants;
 import org.crown.service.ReceiverResourceService;
 import org.crown.service.UserService;
+import org.crown.service.dto.DocumentUpload;
 import org.crown.service.dto.UserDTO;
 import org.crown.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
@@ -116,6 +117,35 @@ public class ReceiverResourceResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, receiverResource.getId().toString()))
             .body(result);
+    }
+
+    /**
+     * {@code PUT  /receiver-resources/document/:id} : Updates an document Upload field of existing receiverResource.
+     *
+     * @param id the id of the receiverResource to update.
+     * @param document the document to update receiverResource with.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated receiverResource,
+     * or with status {@code 400 (Bad Request)} if the receiverResource is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the receiverResource couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PutMapping("/receiver-resources/document/{id}")
+    public ResponseEntity<ReceiverResource> updateDocumentUploadReceiverResource(@PathVariable String id,
+                                                                                 @Valid @RequestBody DocumentUpload document) throws URISyntaxException {
+        log.debug("REST request to update receiver_resource : {} with document : {}", id, document);
+        Optional<ReceiverResource> receiverResource = receiverResourceRepository.findById(id);
+        if(receiverResource.isPresent()){
+            receiverResource.get().setProofOfFunds(document);
+            ReceiverResource resource = receiverResourceRepository.save(receiverResource.get());
+            log.debug("Successful request to update receiver_resource : {} with document : {}", id, document);
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,
+                    receiverResource.get().getId()))
+                .body(resource);
+        }else {
+            log.debug("Unsuccessful request to update receiver_resource : {} with document : {}", id, document);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "id doesn't exist");
+        }
     }
 
     /**
