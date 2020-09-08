@@ -7,6 +7,7 @@ import org.crown.repository.SupplierResourceRepository;
 import org.crown.repository.UserRepository;
 import org.crown.security.AuthoritiesConstants;
 import org.crown.service.UserService;
+import org.crown.service.dto.DocumentUpload;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -331,6 +333,38 @@ public class SupplierResourceResourceIT {
         assertThat(testSupplierResource.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testSupplierResource.getCost()).isEqualTo(UPDATED_COST);
 
+    }
+
+    @Test
+    public void updateDocumentUploadSupplierResource() throws Exception {
+        // Initialize the database
+        supplierResourceRepository.save(supplierResource);
+
+        int databaseSizeBeforeUpdate = supplierResourceRepository.findAll().size();
+
+        // create document.
+        List<DocumentUpload> documents = new ArrayList<DocumentUpload>();
+        documents.add(new DocumentUpload("sd", "test.txt",
+            "https://test.com", "hash"));
+        documents.add(new DocumentUpload("pa", "test1.txt",
+            "https://test1.com", "hash1"));
+        documents.add(new DocumentUpload("pol", "test2.txt",
+            "https://test2.com", "hash2"));
+
+        restSupplierResourceMockMvc.perform(put("/api/supplier-resources/document/{id}",
+            supplierResource.getId()).with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(documents)))
+            .andExpect(status().isOk());
+
+        // Validate the ReceiverResource in the database
+        List<SupplierResource> supplierResourceList = supplierResourceRepository.findAll();
+        assertThat(supplierResourceList).hasSize(databaseSizeBeforeUpdate);
+        SupplierResource testSupplierResource = supplierResourceList.get(supplierResourceList.size() - 1);
+        assertThat(testSupplierResource.getSupportingDocuments().getFieldName()).isEqualTo(documents.get(0).getFieldName());
+        assertThat(testSupplierResource.getProductAssets().getFilename()).isEqualTo(documents.get(1).getFilename());
+        assertThat(testSupplierResource.getProofOfLife().getFileDownloadUri()).isEqualTo(documents.get(2).getFileDownloadUri());
+        assertThat(testSupplierResource.getProofOfLife().getHashKey()).isEqualTo(documents.get(2).getHashKey());
     }
 
     @Test

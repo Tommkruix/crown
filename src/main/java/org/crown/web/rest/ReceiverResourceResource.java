@@ -131,17 +131,19 @@ public class ReceiverResourceResource {
      */
     @PutMapping("/receiver-resources/document/{id}")
     public ResponseEntity<ReceiverResource> updateDocumentUploadReceiverResource(@PathVariable String id,
-                                                                                 @Valid @RequestBody DocumentUpload document) {
+                                                                                 @Valid @RequestBody DocumentUpload document) throws URISyntaxException {
         log.debug("REST request to update receiver_resource : {} with document : {}", id, document);
         Optional<ReceiverResource> receiverResource = receiverResourceRepository.findById(id);
         if(receiverResource.isPresent()){
             receiverResource.get().setProofOfFunds(document);
             ReceiverResource resource = receiverResourceRepository.save(receiverResource.get());
+            log.debug("Successful request to update receiver_resource : {} with document : {}", id, document);
             return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,
-                    receiverResource.get().getId().toString()))
+                    receiverResource.get().getId()))
                 .body(resource);
         }else {
+            log.debug("Unsuccessful request to update receiver_resource : {} with document : {}", id, document);
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "id doesn't exist");
         }
     }

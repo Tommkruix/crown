@@ -332,11 +332,11 @@ public class ReceiverResourceResourceIT {
         List<ReceiverResource> receiverResourceList = receiverResourceRepository.findAll();
         assertThat(receiverResourceList).hasSize(databaseSizeBeforeUpdate);
         ReceiverResource testReceiverResource = receiverResourceList.get(receiverResourceList.size() - 1);
-        DocumentUpload test_document = testReceiverResource.getProofOfFunds();
-        assertThat(test_document.getFieldName()).isEqualTo(document.getFieldName());
-        assertThat(test_document.getFilename()).isEqualTo(document.getFilename());
-        assertThat(test_document.getFileDownloadUri()).isEqualTo(document.getFileDownloadUri());
-        assertThat(test_document.getHashKey()).isEqualTo(document.getHashKey());
+        DocumentUpload testDocument = testReceiverResource.getProofOfFunds();
+        assertThat(testDocument.getFieldName()).isEqualTo(document.getFieldName());
+        assertThat(testDocument.getFilename()).isEqualTo(document.getFilename());
+        assertThat(testDocument.getFileDownloadUri()).isEqualTo(document.getFileDownloadUri());
+        assertThat(testDocument.getHashKey()).isEqualTo(document.getHashKey());
     }
 
     @Test
