@@ -14,6 +14,7 @@ import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -54,26 +55,29 @@ public class MailServiceIT {
 
     @Autowired
     private JHipsterProperties jHipsterProperties;
-
     @Autowired
     private MessageSource messageSource;
-
     @Autowired
     private SpringTemplateEngine templateEngine;
-
+    @Autowired
+    private Environment environment;
     @Spy
     private JavaMailSenderImpl javaMailSender;
-
     @Captor
     private ArgumentCaptor<MimeMessage> messageCaptor;
-
     private MailService mailService;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
         doNothing().when(javaMailSender).send(any(MimeMessage.class));
-        mailService = new MailService(jHipsterProperties, javaMailSender, messageSource, templateEngine);
+        mailService = new MailService(
+            jHipsterProperties,
+            javaMailSender,
+            messageSource,
+            templateEngine,
+            environment
+        );
     }
 
     @Test
@@ -237,7 +241,7 @@ public class MailServiceIT {
         String javaLangKey = langKey;
         Matcher matcher2 = PATTERN_LOCALE_2.matcher(langKey);
         if (matcher2.matches()) {
-            javaLangKey = matcher2.group(1) + "_"+ matcher2.group(2).toUpperCase();
+            javaLangKey = matcher2.group(1) + "_" + matcher2.group(2).toUpperCase();
         }
         Matcher matcher3 = PATTERN_LOCALE_3.matcher(langKey);
         if (matcher3.matches()) {
