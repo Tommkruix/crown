@@ -65,6 +65,8 @@ azure:
   endpoint: https://test-endpoint.net
   accountKey: ${AZURE_ACCOUNT_KEY}
 
+baseUrl: http://127.0.0.1:8080
+
 server:
   port: 10344
   address: localhost
@@ -88,7 +90,6 @@ jhipster:
       queue-size: 512
   mail:
     from: info@needmoremed.com
-    base-url: http://127.0.0.1:8080
   security:
     remember-me:
       # security key (this key should be unique for your application, and kept secret)
