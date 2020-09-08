@@ -91,7 +91,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     if (props.updateSuccess) {
        const data = new FormData()
        data.append('file', pofFileList[0])
-       data.append('fileName', 'pof')
+       data.append('fieldType', 'pof')
       const config = {
         headers: {
            fieldType: 'pof',
