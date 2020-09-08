@@ -23,10 +23,6 @@ public class ReceiverResource implements Serializable {
     private String id;
 
     @NotNull
-    @Field("name")
-    private String name;
-
-    @NotNull
     @Field("quantity")
     private Integer quantity;
 
@@ -52,6 +48,7 @@ public class ReceiverResource implements Serializable {
     private DocumentUpload proofOfFunds;
 
     @DBRef
+    @NotNull
     @Field("resourceType")
     private ResourceType resourceType;
 
@@ -95,19 +92,6 @@ public class ReceiverResource implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ReceiverResource name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Integer getQuantity() {
@@ -292,7 +276,6 @@ public class ReceiverResource implements Serializable {
     public String toString() {
         return "ReceiverResource{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
             ", quantity=" + getQuantity() +
             ", dailyUse=" + getDailyUse() +
             ", postedDate='" + getPostedDate() + "'" +
