@@ -66,6 +66,7 @@ awsS3Properties:
   bucketname: ${BUCKET}
   region: ${REGION}
 
+baseUrl: http://127.0.0.1:8080
 server:
   port: 8080
 
@@ -94,7 +95,6 @@ jhipster:
       key: 2a84683611374cce7d7e793936e596c1efd64843bf46298bec94cb0147e5576e6163f440a159d97afaa1173b066acaedb8aa
   mail: # specific JHipster mail property, for standard properties see MailProperties
     from: info@needmoremed.com
-    base-url: http://127.0.0.1:8080
   metrics:
     logs: # Reports metrics in the logs
       enabled: false

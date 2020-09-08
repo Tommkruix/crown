@@ -1,13 +1,6 @@
 package org.crown.web.rest.custom;
 
-import java.time.LocalDate;
-import java.util.Optional;
-
-import org.crown.domain.Claim;
-import org.crown.domain.ReceiverResource;
-import org.crown.domain.ReceiverSupplier;
-import org.crown.domain.SupplierResource;
-import org.crown.domain.User;
+import org.crown.domain.*;
 import org.crown.repository.ClaimRepository;
 import org.crown.repository.ReceiverResourceRepository;
 import org.crown.repository.ReceiverSupplierRepository;
@@ -21,6 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -83,7 +79,7 @@ public class Claims {
 			ReceiverResource recRes = new ReceiverResource();
 			recRes.setCurrentStock(0);
 			recRes.setDailyUse(0);
-			recRes.setName("Resource needed");
+			//recRes.setName("Resource needed");
 			recRes.setQuantity(quantity);
 			recRes.setNotes("Automatically created");
 			recRes.setResourceType(supplierResource.getResourceType());

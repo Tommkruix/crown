@@ -26,9 +26,11 @@ public class ReceiverResource implements Serializable {
 
     // Do we need this field
     @NotNull
+
     private String name;
 
     @NotNull
+
     private Integer quantity;
 
     @NotNull
@@ -85,19 +87,6 @@ public class ReceiverResource implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ReceiverResource name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Integer getQuantity() {
@@ -278,7 +267,6 @@ public class ReceiverResource implements Serializable {
     public String toString() {
         return "ReceiverResource{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
             ", quantity=" + getQuantity() +
             ", dailyUse=" + getDailyUse() +
             ", postedDate='" + getPostedDate() + "'" +
