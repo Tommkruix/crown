@@ -1,7 +1,7 @@
 package org.crown.web.rest;
 
 import io.github.jhipster.web.util.HeaderUtil;
-import org.crown.service.dto.DocumentUpload;
+import org.crown.service.dto.FileUploadResponse;
 import org.crown.service.s3Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +36,8 @@ public class DocumentResource {
     }
 
     @PostMapping("file/upload")
-    public DocumentUpload uploadDocument(@NotEmpty @RequestParam("fieldType") String field,
-                                         @RequestParam("file") MultipartFile file) {
+    public FileUploadResponse uploadDocument(@NotEmpty @RequestParam("fieldType") String field,
+                                             @RequestParam("file") MultipartFile file) {
         String[] fileData = new String[]{};
         String fileDownloadUri = "";
         try{
@@ -52,16 +52,16 @@ public class DocumentResource {
             logger.warn("Error uploading file {}. Error: {}", file.getOriginalFilename(), e.getMessage());
         }
         if(fileData.length == 0){
-            return new DocumentUpload();
+            return new FileUploadResponse();
         }
 
-        return new DocumentUpload(field, fileData[0], fileDownloadUri, fileData[2]);
+        return new FileUploadResponse(field, fileData[0], fileDownloadUri, fileData[2]);
     }
 
     @PostMapping("files/upload")
-    public List<DocumentUpload> uploadDocuments(@NotEmpty @RequestParam("fieldType") String[] fields,
-                                                @RequestParam("files") MultipartFile[] files) {
-        List<DocumentUpload> result = new ArrayList<>();
+    public List<FileUploadResponse> uploadDocuments(@NotEmpty @RequestParam("fieldType") String[] fields,
+                                                    @RequestParam("files") MultipartFile[] files) {
+        List<FileUploadResponse> result = new ArrayList<>();
         for(int i = 0; i < fields.length; i++) {
             result.add(uploadDocument(fields[i], files[i]));
         }

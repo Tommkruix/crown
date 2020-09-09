@@ -7,7 +7,6 @@ import org.crown.repository.ReceiverResourceRepository;
 import org.crown.repository.UserRepository;
 import org.crown.security.AuthoritiesConstants;
 import org.crown.service.UserService;
-import org.crown.service.dto.DocumentUpload;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -268,34 +267,6 @@ public class ReceiverResourceResourceIT {
         assertThat(testReceiverResource.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testReceiverResource.getDailyUse()).isEqualTo(UPDATED_DAILY_USE);
         assertThat(testReceiverResource.getPostedDate()).isEqualTo(UPDATED_POSTED_DATE);
-    }
-
-    @Test
-    public void updateDocumentUploadReceiverResource() throws Exception {
-        // Initialize the database
-        receiverResourceRepository.save(receiverResource);
-
-        int databaseSizeBeforeUpdate = receiverResourceRepository.findAll().size();
-
-        // create document.
-        DocumentUpload document = new DocumentUpload("pof", "test.txt",
-            "https://test.com", "hash");
-
-        restReceiverResourceMockMvc.perform(put("/api/receiver-resources/document/{id}",
-            receiverResource.getId()).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(document)))
-            .andExpect(status().isOk());
-
-        // Validate the ReceiverResource in the database
-        List<ReceiverResource> receiverResourceList = receiverResourceRepository.findAll();
-        assertThat(receiverResourceList).hasSize(databaseSizeBeforeUpdate);
-        ReceiverResource testReceiverResource = receiverResourceList.get(receiverResourceList.size() - 1);
-        DocumentUpload testDocument = testReceiverResource.getProofOfFunds();
-        assertThat(testDocument.getFieldName()).isEqualTo(document.getFieldName());
-        assertThat(testDocument.getFilename()).isEqualTo(document.getFilename());
-        assertThat(testDocument.getFileDownloadUri()).isEqualTo(document.getFileDownloadUri());
-        assertThat(testDocument.getHashKey()).isEqualTo(document.getHashKey());
     }
 
     @Test
