@@ -32,6 +32,22 @@
 			"fieldType": "Integer"
 		},
 		{
+			"fieldName": "supportingDocuments",
+			"fieldType": "String"
+		},
+		{
+			"fieldName": "supportingDocumentsLink",
+			"fieldType": "String"
+		},
+		{
+			"fieldName": "productAssets",
+			"fieldType": "String"
+		},
+		{
+			"fieldName": "proofOfLife",
+			"fieldType": "String"
+		},
+		{
 			"fieldName": "publicationPermission",
 			"fieldType": "Boolean"
 		}
@@ -46,33 +62,6 @@
 			"otherEntityField": "name",
 			"ownerSide": true
 		},
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "DocumentUpload",
-      "otherEntityRelationshipName": "supplierResource",
-      "relationshipValidateRules": "required",
-      "relationshipName": "supportingDocuments",
-      "otherEntityField": "name",
-      "ownerSide": true
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "DocumentUpload",
-      "otherEntityRelationshipName": "supplierResource",
-      "relationshipValidateRules": "required",
-      "relationshipName": "productAssets",
-      "otherEntityField": "name",
-      "ownerSide": true
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "DocumentUpload",
-      "otherEntityRelationshipName": "supplierResource",
-      "relationshipValidateRules": "required",
-      "relationshipName": "proofOfLife",
-      "otherEntityField": "name",
-      "ownerSide": true
-    },
 		{
 			"relationshipType": "many-to-one",
 			"otherEntityName": "receiverSupplier",

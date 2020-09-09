@@ -1,9 +1,7 @@
 package org.crown.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.crown.service.dto.DocumentUpload;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,13 +22,8 @@ public class ReceiverResource implements Serializable {
     @Id
     private String id;
 
-    // Do we need this field
     @NotNull
-
-    private String name;
-
-    @NotNull
-
+    @Field("quantity")
     private Integer quantity;
 
     @NotNull
@@ -44,31 +37,38 @@ public class ReceiverResource implements Serializable {
     @Field("current_stock")
     private Integer currentStock;
 
+    @Field("expiration")
     private LocalDate expiration;
 
+    @Field("notes")
     private String notes;
 
+    @DBRef
+    @Field("proofOfFunds")
     private DocumentUpload proofOfFunds;
 
     @DBRef
-    @Field("resource")
+    @NotNull
+    @Field("resourceType")
     private ResourceType resourceType;
 
+    @Field("productInspection")
     private boolean productInspection;
 
+    @Field("productInspectDays")
     private int productInspectDays;
 
+    @Field("fundRestrictions")
     private String fundRestrictions;
 
+    @Field("fundsAvailable")
     private boolean fundsAvailable;
 
+    @Field("acceptUnpackagedGoods")
     private boolean acceptUnpackagedGoods;
 
-    // geo spatial position
-    @GeoSpatialIndexed(type= GeoSpatialIndexType.GEO_2DSPHERE)
-    private double [] position;
-
     @DBRef
+    @Field("receiver")
     @JsonIgnoreProperties("receiverResources")
     private ReceiverSupplier receiver;
 
@@ -79,6 +79,11 @@ public class ReceiverResource implements Serializable {
     public void setPosition(double [] position) {
         this.position = position;
     }
+
+    // geo spatial position
+    @GeoSpatialIndexed
+    @Field("position")
+    private double [] position;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -218,6 +223,10 @@ public class ReceiverResource implements Serializable {
 
 	public void setAcceptUnpackagedGoods(boolean acceptUnpackagedGoods) {
 		this.acceptUnpackagedGoods = acceptUnpackagedGoods;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public DocumentUpload getProofOfFunds() {
