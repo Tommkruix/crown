@@ -71,10 +71,14 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
         data.append('fieldType', type);
         i++;
       }
+      if (poaFileList.length === 0) {
+        handleClose();
+      } else {
         axios.post('api/files/upload', data).then((res: any) => {
           handleClose();
         }).catch((err: Error) => {
         })
+      }
       // handleClose();
     }
   }, [props.updateSuccess]);
@@ -369,7 +373,7 @@ export const SupplierResourceUpdate = (props: ISupplierResourceUpdateProps) => {
                       <Link to="/supplier-resource"> <Button type="primary" icon={<ArrowLeftOutlined />}>
                         {translate('entity.action.cancel')}
                     </Button>
-                        </Link>
+                      </Link>
                   </Form.Item>
                 </Col>
                 <Col span={4}>

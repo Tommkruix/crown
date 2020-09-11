@@ -1,4 +1,5 @@
 export interface IDocumentUpload {
+  id?: string;
   fieldName?: string;
   filename?: string;
   fileDownloadUri?: string;
