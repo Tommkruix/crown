@@ -11,7 +11,6 @@ import org.crown.repository.SupplierResourceRepository;
 import org.crown.security.AuthoritiesConstants;
 import org.crown.service.SupplierResourceService;
 import org.crown.service.UserService;
-import org.crown.service.dto.DocumentUpload;
 import org.crown.service.dto.UserDTO;
 import org.crown.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
@@ -113,47 +112,6 @@ public class SupplierResourceResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, supplierResource.getId().toString()))
             .body(result);
-    }
-
-    /**
-     * {@code PUT  /supplier-resources/document/:id} : Updates an document Upload field of existing supplierResource.
-     *
-     * @param id the id of the supplierResource to update.
-     * @param documents the list of documents to update supplierResource with.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated supplierrResource,
-     * or with status {@code 400 (Bad Request)} if the supplierResource is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the supplierResource couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PutMapping("/supplier-resources/document/{id}")
-    public ResponseEntity<SupplierResource> updateDocumentUploadSupplierResource(@PathVariable String id,
-                                                                                 @Valid @RequestBody DocumentUpload[] documents) throws URISyntaxException {
-        //TODO: @Pavlos you can move most of the logic here to the service layer when refactoring.
-        log.debug("REST request to update supplier_resource : {} with document : {}", id, documents);
-        Optional<SupplierResource> supplierResource = supplierResourceRepository.findById(id);
-        if(supplierResource.isPresent()){
-            for(DocumentUpload document : documents) {
-                switch (document.getFieldName()) {
-                    case "sd":
-                        supplierResource.get().setSupportingDocuments(document);
-                        break;
-                    case "pa":
-                        supplierResource.get().setProductAssets(document);
-                        break;
-                    case "pol":
-                        supplierResource.get().setProofOfLife(document);
-                }
-            }
-            SupplierResource resource = supplierResourceRepository.save(supplierResource.get());
-            log.debug("Successful request to update supplier_resource : {} with document : {}", id, documents);
-            return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,
-                    supplierResource.get().getId()))
-                .body(resource);
-        }else {
-            log.debug("Unsuccessful request to update supplier_resource : {} with document : {}", id, documents);
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "id doesn't exist");
-        }
     }
 
     /**

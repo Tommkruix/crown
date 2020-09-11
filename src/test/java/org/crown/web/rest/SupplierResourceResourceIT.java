@@ -7,7 +7,6 @@ import org.crown.repository.SupplierResourceRepository;
 import org.crown.repository.UserRepository;
 import org.crown.security.AuthoritiesConstants;
 import org.crown.service.UserService;
-import org.crown.service.dto.DocumentUpload;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,8 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,18 +40,6 @@ public class SupplierResourceResourceIT {
 
     private static final Double DEFAULT_COST = 1.0;
     private static final Double UPDATED_COST = 2.0;
-
-    private static final Date DEFAULT_QUANTITY_VALID_UNTIL = new Date(2323223232L);
-    private static final Date UPDATED_QUANTITY_VALID_UNTIL = new Date();
-
-    private static final Integer DEFAULT_PRODUCT_AVAILABILITY_LEAD_TIME = 1;
-    private static final Integer UPDATED_PRODUCT_AVAILABILITY_LEAD_TIME = 3;
-
-    private static final Integer DEFAULT_MIN_ORDER_QUANTITY = 1;
-    private static final Integer UPDATED_MIN_ORDER_QUANTITY = 3;
-
-    private static final Integer DEFAULT_QUANTITY_ON_HAND = 1;
-    private static final Integer UPDATED_QUANTITY_ON_HAND = 3;
 
     @Autowired
     private SupplierResourceRepository supplierResourceRepository;
@@ -79,11 +64,7 @@ public class SupplierResourceResourceIT {
     public static SupplierResource createEntity() {
         SupplierResource supplierResource = new SupplierResource()
             .quantity(DEFAULT_QUANTITY)
-            .cost(DEFAULT_COST)
-            .quantityValidUntil(DEFAULT_QUANTITY_VALID_UNTIL)
-            .productAvailabilityLeadTime(DEFAULT_PRODUCT_AVAILABILITY_LEAD_TIME)
-            .minOrderQuantity(DEFAULT_MIN_ORDER_QUANTITY)
-            .quantityOnHand(DEFAULT_QUANTITY_ON_HAND);
+            .cost(DEFAULT_COST);
         // Add required entity
         ResourceType resourceType;
         resourceType = ResourceTypeResourceIT.createEntity();
@@ -100,11 +81,7 @@ public class SupplierResourceResourceIT {
     public static SupplierResource createUpdatedEntity() {
         SupplierResource supplierResource = new SupplierResource()
             .quantity(UPDATED_QUANTITY)
-            .cost(UPDATED_COST)
-            .quantityValidUntil(UPDATED_QUANTITY_VALID_UNTIL)
-            .productAvailabilityLeadTime(UPDATED_PRODUCT_AVAILABILITY_LEAD_TIME)
-            .minOrderQuantity(UPDATED_MIN_ORDER_QUANTITY)
-            .quantityOnHand(UPDATED_QUANTITY_ON_HAND);
+            .cost(UPDATED_COST);
         // Add required entity
         ResourceType resourceType;
         resourceType = ResourceTypeResourceIT.createUpdatedEntity();
@@ -200,74 +177,6 @@ public class SupplierResourceResourceIT {
     }
 
     @Test
-    public void checkQuantityValidUntilIsRequired() throws Exception {
-        int databaseSizeBeforeTest = supplierResourceRepository.findAll().size();
-        // set the field null
-        supplierResource.setQuantityValidUntil(null);
-
-        // Create the SupplierResource, which fails.
-
-        restSupplierResourceMockMvc.perform(post("/api/supplier-resources").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(supplierResource)))
-            .andExpect(status().isBadRequest());
-
-        List<SupplierResource> supplierResourceList = supplierResourceRepository.findAll();
-        assertThat(supplierResourceList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    public void checkProductAvailabilityLeadTimeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = supplierResourceRepository.findAll().size();
-        // set the field null
-        supplierResource.setProductAvailabilityLeadTime(null);
-
-        // Create the SupplierResource, which fails.
-
-        restSupplierResourceMockMvc.perform(post("/api/supplier-resources").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(supplierResource)))
-            .andExpect(status().isBadRequest());
-
-        List<SupplierResource> supplierResourceList = supplierResourceRepository.findAll();
-        assertThat(supplierResourceList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    public void checkMinOrderQuantityIsRequired() throws Exception {
-        int databaseSizeBeforeTest = supplierResourceRepository.findAll().size();
-        // set the field null
-        supplierResource.setMinOrderQuantity(null);
-
-        // Create the SupplierResource, which fails.
-
-        restSupplierResourceMockMvc.perform(post("/api/supplier-resources").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(supplierResource)))
-            .andExpect(status().isBadRequest());
-
-        List<SupplierResource> supplierResourceList = supplierResourceRepository.findAll();
-        assertThat(supplierResourceList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    public void checkQuantityOnHandIsRequired() throws Exception {
-        int databaseSizeBeforeTest = supplierResourceRepository.findAll().size();
-        // set the field null
-        supplierResource.setQuantityOnHand(null);
-
-        // Create the SupplierResource, which fails.
-
-        restSupplierResourceMockMvc.perform(post("/api/supplier-resources").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(supplierResource)))
-            .andExpect(status().isBadRequest());
-
-        List<SupplierResource> supplierResourceList = supplierResourceRepository.findAll();
-        assertThat(supplierResourceList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
     public void getAllSupplierResources() throws Exception {
         // Initialize the database
         supplierResourceRepository.save(supplierResource);
@@ -315,11 +224,7 @@ public class SupplierResourceResourceIT {
         SupplierResource updatedSupplierResource = supplierResourceRepository.findById(supplierResource.getId()).get();
         updatedSupplierResource
             .quantity(UPDATED_QUANTITY)
-            .cost(UPDATED_COST)
-            .quantityValidUntil(UPDATED_QUANTITY_VALID_UNTIL)
-            .productAvailabilityLeadTime(UPDATED_PRODUCT_AVAILABILITY_LEAD_TIME)
-            .minOrderQuantity(UPDATED_MIN_ORDER_QUANTITY)
-            .quantityOnHand(UPDATED_QUANTITY_ON_HAND);
+            .cost(UPDATED_COST);
 
         restSupplierResourceMockMvc.perform(put("/api/supplier-resources").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
@@ -333,38 +238,6 @@ public class SupplierResourceResourceIT {
         assertThat(testSupplierResource.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testSupplierResource.getCost()).isEqualTo(UPDATED_COST);
 
-    }
-
-    @Test
-    public void updateDocumentUploadSupplierResource() throws Exception {
-        // Initialize the database
-        supplierResourceRepository.save(supplierResource);
-
-        int databaseSizeBeforeUpdate = supplierResourceRepository.findAll().size();
-
-        // create document.
-        List<DocumentUpload> documents = new ArrayList<DocumentUpload>();
-        documents.add(new DocumentUpload("sd", "test.txt",
-            "https://test.com", "hash"));
-        documents.add(new DocumentUpload("pa", "test1.txt",
-            "https://test1.com", "hash1"));
-        documents.add(new DocumentUpload("pol", "test2.txt",
-            "https://test2.com", "hash2"));
-
-        restSupplierResourceMockMvc.perform(put("/api/supplier-resources/document/{id}",
-            supplierResource.getId()).with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(documents)))
-            .andExpect(status().isOk());
-
-        // Validate the ReceiverResource in the database
-        List<SupplierResource> supplierResourceList = supplierResourceRepository.findAll();
-        assertThat(supplierResourceList).hasSize(databaseSizeBeforeUpdate);
-        SupplierResource testSupplierResource = supplierResourceList.get(supplierResourceList.size() - 1);
-        assertThat(testSupplierResource.getSupportingDocuments().getFieldName()).isEqualTo(documents.get(0).getFieldName());
-        assertThat(testSupplierResource.getProductAssets().getFilename()).isEqualTo(documents.get(1).getFilename());
-        assertThat(testSupplierResource.getProofOfLife().getFileDownloadUri()).isEqualTo(documents.get(2).getFileDownloadUri());
-        assertThat(testSupplierResource.getProofOfLife().getHashKey()).isEqualTo(documents.get(2).getHashKey());
     }
 
     @Test

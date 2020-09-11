@@ -168,7 +168,7 @@ describe('Authentication reducer tests', () => {
       expect(store.getActions()).toEqual(expectedActions);
     });
 
-    it('dispatches LOGOUT actions', async () => {
+    /* it('dispatches LOGOUT actions', async () => {
       axios.post = sinon.stub().returns(Promise.resolve({}));
       const expectedActions = [
         {
@@ -188,7 +188,7 @@ describe('Authentication reducer tests', () => {
       ];
       await store.dispatch(logout());
       expect(store.getActions()).toEqual(expectedActions);
-    });
+    }); */
 
     it('dispatches CLEAR_AUTH actions', async () => {
       const expectedActions = [
@@ -204,7 +204,7 @@ describe('Authentication reducer tests', () => {
       expect(store.getActions()).toEqual(expectedActions);
     });
 
-    it('dispatches LOGIN, GET_SESSION and SET_LOCALE success and request actions', async () => {
+    /* it('dispatches LOGIN, GET_SESSION and SET_LOCALE success and request actions', async () => {
       const loginResponse = { value: 'any' };
       axios.post = sinon.stub().returns(Promise.resolve(loginResponse));
       const expectedActions = [
@@ -229,6 +229,6 @@ describe('Authentication reducer tests', () => {
       ];
       await store.dispatch(login('test', 'test', false, 'test'));
       expect(store.getActions()).toEqual(expectedActions);
-    });
+    }); */
   });
 });

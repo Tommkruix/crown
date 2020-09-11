@@ -4,6 +4,7 @@
     "project": "./tsconfig.e2e.json"
   },
   "rules": {
+    "no-console": "off",
     "@typescript-eslint/no-this-alias": [
       "error",
       {
