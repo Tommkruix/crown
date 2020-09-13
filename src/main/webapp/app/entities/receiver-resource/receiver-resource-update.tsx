@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
-import {RouteComponentProps} from 'react-router-dom';
+import {Link, RouteComponentProps} from 'react-router-dom';
 import {Translate, translate} from 'react-jhipster';
 import {IRootState} from 'app/shared/reducers';
 import { getEntities as getResourceTypes } from 'app/entities/resource-type/resource-type.reducer';
@@ -35,6 +35,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
 
   const { receiverResourceEntity, resourceTypes, receiverSuppliers, loading, updating, account } = props;
   const receiverProfile = receiverSuppliers.filter(receiver => receiver.email === account.email);
+
 
   const handleClose = () => {
     props.history.push('/receiver-resource');
@@ -89,18 +90,23 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
 
   useEffect(() => {
     if (props.updateSuccess) {
-       const data = new FormData()
-       data.append('file', pofFileList[0])
-       data.append('fieldType', 'pof')
+      const data = new FormData()
+
+      data.append('file', pofFileList[0])
+      data.append('fieldType', 'pof')
       const config = {
         headers: {
-           fieldType: 'pof',
+          fieldType: 'pof',
         }
-       }
-       axios.post('api/file/upload', data, config).then((res: any) => {
+      }
+      if (pofFileList.length === 0) {
         handleClose();
-       }).catch((err: Error) => {
-       })
+      } else {
+        axios.post('api/file/upload', data, config).then((res: any) => {
+          handleClose();
+        }).catch((err: Error) => {
+        })
+      }
     }
   }, [props.updateSuccess]);
 
@@ -163,9 +169,9 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
     initialValues.expiration = moment(receiverResourceEntity.expiration);
   }
 
-  if (receiverResourceEntity.proofOfFunds) {
-    initialValues.proofOfFunds.fieldName = "pof";
-  }
+   // if (receiverResourceEntity.proofOfFunds) {
+    // initialValues.proofOfFunds.fieldName = "pof";
+  // }
 
   return (
     <div>
@@ -321,7 +327,7 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
                 hidden={true}
                 style={{ display: 'none' }}
               >
-                <Input type='file' hidden={true} />
+                <Input hidden={true} />
               </Form.Item>
               <Form.Item name="isBuyer" style={{ display: 'none' }}>
                   <Input hidden={true} />
@@ -330,9 +336,10 @@ export const ReceiverResourceUpdate = (props: IReceiverResourceUpdateProps) => {
               <Row gutter={[0, 8]}>
                 <Col span={4}>
                   <Form.Item>
-                      <Button type="default" href="/receiver-resource" icon={<ArrowLeftOutlined />}>
+                      <Link to="/receiver-resource"><Button type="primary" href="/receiver-resource" icon={<ArrowLeftOutlined />}>
                       {translate('entity.action.cancel')}
-                    </Button>
+                      </Button>
+                      </Link>
                   </Form.Item>
                 </Col>
                 <Col span={4}>
