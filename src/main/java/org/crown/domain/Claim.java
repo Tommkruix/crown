@@ -4,9 +4,7 @@ import org.crown.domain.enumeration.ClaimStatusEnum;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -20,22 +18,21 @@ public class Claim implements Serializable {
     @Id
     private String id;
 
-    @NotNull
-    @Field("quantity")
+    /*
+    This field is currently not used when creating a claim request.
+    The quantity requested in a claim is associated with either the requested
+    supplierResource or receiverResource entity.
+     */
     private Integer quantity;
 
-    @Field("notes")
     private String notes;
 
-    @Field("status")
     private ClaimStatusEnum status;
 
     @DBRef
-    @Field("receiverResource")
     private ReceiverResource receiverResource;
 
     @DBRef
-    @Field("supplierResource")
     private SupplierResource supplierResource;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
