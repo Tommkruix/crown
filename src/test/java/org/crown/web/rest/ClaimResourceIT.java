@@ -151,24 +151,6 @@ public class ClaimResourceIT {
         assertThat(claimList).hasSize(databaseSizeBeforeCreate);
     }
 
-
-    @Test
-    public void checkQuantityIsRequired() throws Exception {
-        int databaseSizeBeforeTest = claimRepository.findAll().size();
-        // set the field null
-        claim.setQuantity(null);
-
-        // Create the Claim, which fails.
-
-        restClaimMockMvc.perform(post("/api/claims").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(claim)))
-            .andExpect(status().isBadRequest());
-
-        List<Claim> claimList = claimRepository.findAll();
-        assertThat(claimList).hasSize(databaseSizeBeforeTest);
-    }
-
     @Test
     public void getAllClaims() throws Exception {
         // Initialize the database
