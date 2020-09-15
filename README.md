@@ -17,46 +17,39 @@ Java 1.8 - 11
 1. git clone your-forked-repo
 2. Go to project directory where you cloned the repo and run "npm install"
 
-## FRONTEND WITH REMOTE BACKEND
+## Front-end with remote back-end
 
-Running the frontend with remote heroku backend
-
-Remote backend link here: https://crown-dev.herokuapp.com
+[DEV](https://dev.needmoremed.com) environment
 
 Steps
 
-1. proxy.conf.json replace target and secure with these values
+1.  In `proxy.conf.json` replace `target` and `secure` with these values
 
-   "target": "https://crown-dev.herokuapp.com",
-   "secure": true,
+    ```json
+    "target": "https://dev.needmoremed.com",
+    "secure": true,
+    ```
 
-2) webpack.dev.js replace localhost:8080 with crown-dev.herokuapp.com and should look like this
-   Do not replace BrowserSync configuration: localhost:9060
+2.  In `webpack.dev.js` replace `target` (the localhost:8080 part) and `secure` with these values.
+    Do not replace `BrowserSync configuration`
 
-   target: `http${options.tls ? 's' : ''}://crown-dev.herokuapp.com`,
-   secure: true,
+        ````json
+        target: `http${options.tls ? 's' : ''}://dev.needmoremed.com`,
+        secure: true,
+        ````
 
-run from the command line
+Now, use this to run from the command line
 
-    npm run start-tls
+```shell
+npm run start-tls
+```
 
-## FRONTEND WITH local backend
+## Front-end with local back-end
 
-run from the command line
+From a terminal, use `export` (Linux) or `set` (Windows) to configure certain values.
 
-Request a password for the crown database from one of the main contributors
-
-set the following environment variable wth name MONGODB_URI with the value below replacing the REPLACEME with the password
-
-mongodb+srv://crown_user:REPLACEME@cluster0-eagup.azure.mongodb.net/crown?retryWrites=true&w=majority
-
-Export the variable from command line in linux/macos
-
-export MONGODB_URI=mongodb+srv://crown_user:REPLACEME@cluster0-eagup.azure.mongodb.net/crown?retryWrites=true&w=majority
-
-Export the variable in windows
-
-    SET MONGODB_URI=mongodb+srv://crown_user:REPLACEME@cluster0-eagup.azure.mongodb.net/crown?retryWrites=true&w=majority
+The link to Confluence page holding these values can be obtained by reaching out to any of our existing contributors.
+After verifying you have set these configuration parameters right,
 
 Start maven java app
 
@@ -65,6 +58,9 @@ Start maven java app
 Start frontend
 
     npm start
+
+Also, you can do the equivalent steps in your favorite IDE.
+We don't have a preference but most of us can help you if you are doing this on IntelliJ IDEA
 
 ### Packaging as war
 
