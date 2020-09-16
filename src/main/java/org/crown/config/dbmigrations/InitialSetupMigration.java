@@ -33,62 +33,20 @@ public class InitialSetupMigration {
         Authority userAuthority = new Authority();
         userAuthority.setName(AuthoritiesConstants.USER);
 
-        User systemUser = new User();
-        systemUser.setId("user-0");
-        systemUser.setLogin("system");
-        systemUser.setPassword("$2a$10$mE.qmcV0mFU5NcKh73TZx.z4ueI/.bDWbj0T1BYyqP481kGGarKLG");
-        systemUser.setFirstName("");
-        systemUser.setLastName("System");
-        systemUser.setEmail("system@localhost");
-        systemUser.setActivated(true);
-        systemUser.setLangKey("en");
-        systemUser.setCreatedBy(systemUser.getLogin());
-        systemUser.setCreatedDate(Instant.now());
-        systemUser.getAuthorities().add(adminAuthority);
-        systemUser.getAuthorities().add(userAuthority);
-        mongoTemplate.save(systemUser);
-
-        User anonymousUser = new User();
-        anonymousUser.setId("user-1");
-        anonymousUser.setLogin("anonymoususer");
-        anonymousUser.setPassword("$2a$10$j8S5d7Sr7.8VTOYNviDPOeWX8KcYILUVJBsYV83Y5NtECayypx9lO");
-        anonymousUser.setFirstName("Anonymous");
-        anonymousUser.setLastName("User");
-        anonymousUser.setEmail("anonymous@localhost");
-        anonymousUser.setActivated(true);
-        anonymousUser.setLangKey("en");
-        anonymousUser.setCreatedBy(systemUser.getLogin());
-        anonymousUser.setCreatedDate(Instant.now());
-        mongoTemplate.save(anonymousUser);
-
         User adminUser = new User();
         adminUser.setId("user-2");
         adminUser.setLogin("admin");
-        adminUser.setPassword("$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC");
+        adminUser.setPassword("$2a$10$Mo3X5MXtsxsL27yBej/E8.6Y37HqhpKvsLYQ74s8GMgX/lWRStnDm");
         adminUser.setFirstName("admin");
         adminUser.setLastName("Administrator");
-        adminUser.setEmail("admin@localhost");
+        adminUser.setEmail("techsupport@needmoremed.com");
         adminUser.setActivated(true);
         adminUser.setLangKey("en");
-        adminUser.setCreatedBy(systemUser.getLogin());
+        adminUser.setCreatedBy(adminUser.getLogin());
         adminUser.setCreatedDate(Instant.now());
         adminUser.getAuthorities().add(adminAuthority);
         adminUser.getAuthorities().add(userAuthority);
         mongoTemplate.save(adminUser);
-
-        User userUser = new User();
-        userUser.setId("user-3");
-        userUser.setLogin("user");
-        userUser.setPassword("$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K");
-        userUser.setFirstName("");
-        userUser.setLastName("User");
-        userUser.setEmail("user@localhost");
-        userUser.setActivated(true);
-        userUser.setLangKey("en");
-        userUser.setCreatedBy(systemUser.getLogin());
-        userUser.setCreatedDate(Instant.now());
-        userUser.getAuthorities().add(userAuthority);
-        mongoTemplate.save(userUser);
     }
 
     @ChangeSet(order = "04", author = "initiator", id = "05-addResourceTypes")
