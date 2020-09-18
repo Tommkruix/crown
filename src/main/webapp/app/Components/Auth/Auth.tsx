@@ -51,7 +51,7 @@ const Auth = ({isAuthenticated}) => {
 							visible={visible}
 							onVisibleChange={handleVisibleChange}
 							>
-							<Button className="header-btn shadow rounded Popover1">SIGN UP</Button>	
+							<Button className="header-btn shadow rounded Popover1">SIGN IN</Button>	
 						</Popover>				 					
 			}
 		</>
