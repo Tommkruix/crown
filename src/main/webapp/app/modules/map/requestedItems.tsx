@@ -21,7 +21,7 @@ const headers = ["Item Type", "Quantity", "Action"]
 const columns = ["Item Type", "Quantity"]
 
 // const drilDownheaders = ["Requested By", "Email", "Quantity", "Offer"]
-const drilDownheaders = ["Quantity"]
+const drilDownheaders = ["Quantity",  "Supply"]
 
 const actionItems = [
   {
@@ -100,12 +100,9 @@ class RequestedItemsComponent extends React.Component<Props, State> {
       <div className="get-items-display">
         {<div className="info-div">
           <h4>Items requested in your area</h4>
-          <p> Getting data for user: {this.props.account.login} </p>
-          <p> lat, lng: {lat}, {lng} </p>
-          <p> Radius: {radius} KM </p>
         </div>}
         <div className="panel-row">
-        <div className="col-sm-9">
+        <div className="col-sm-9 col-md-6 col-lg-6">
         <div className="table-responsive">
           <Table striped bordered hover size="sm">
             <thead>
@@ -153,10 +150,11 @@ class RequestedItemsComponent extends React.Component<Props, State> {
         </div>
         {/* change this accordingly */}
         {
-          this.state.viewIndex !== -1 &&
-          <div className="col-sm-6" style={{float:'right'}}>
+              this.state.viewIndex !== -1 &&
+              <div className="col-sm-6 col-md-6 col-lg-6" style={{ float: 'right', bottom: '41px' }}>
+              <div className="panel-row">
               <div className="get-items-display-details">
-                <div className="panel-heading">Detailed View</div>
+                <div className="panel-heading"><h4>Detailed View</h4></div>
                 <div className="table-responsive">
                   {
                     /*   <pre>
@@ -199,9 +197,9 @@ class RequestedItemsComponent extends React.Component<Props, State> {
                           <td key={`${item.quantity}-Type`}>
                             { item.quantity}
                           </td>
-                          { <td> 
+                          <td> 
                             <button className={'btn btn-primary'} onClick={ this.claimItem(item) }><FontAwesomeIcon  icon='pencil-alt' color='blue' style={{cursor: 'pointer'}}/>{' Offer to fulfil '}</button>
-                          </td> }
+                          </td>
                         </tr>
 
                       ))
@@ -210,7 +208,8 @@ class RequestedItemsComponent extends React.Component<Props, State> {
                   </Table>
                 </div>
               </div>
-           </div>
+            </div>
+          </div>
         }
       </div>
       </div>
