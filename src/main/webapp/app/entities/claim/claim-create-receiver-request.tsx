@@ -346,7 +346,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
                   <Row gutter={[0, 8]}>
                     <Col span={4}>
                       <Form.Item>
-                        <a href="/claim" > <Button type="default" icon={<ArrowLeftOutlined />}>
+                        <a href="/claim" > <Button type="primary" icon={<ArrowLeftOutlined />}>
                           {translate('entity.action.back')}
                         </Button> </a>
                       </Form.Item>
