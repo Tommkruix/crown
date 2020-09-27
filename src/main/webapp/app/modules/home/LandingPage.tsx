@@ -90,13 +90,13 @@ export default () => {
             </p>
             <div>
               {/* <hi */}
-              <a href="/buyer-journey">
+              <a href="/buyer-landing">
                 <button type="submit" className="btn btn-primary shadow">
                   <span>REQUEST</span>
                 </button>
               </a>
 
-              <a href="/seller-journey">
+              <a href="/seller-landing">
                 <button style={{ backgroundColor: '#4698DC' }} type="submit" className="ml-4 shadow btn btn-primary text-white">
                   <span>SUPPLY</span>
                 </button>
@@ -313,12 +313,12 @@ export default () => {
                   </a>
                 </li>
                 <li>
-                  <a className="text-muted text-gray-1 ml-2 footer-links ml-4" href="/buyer-journey">
+                  <a className="text-muted text-gray-1 ml-2 footer-links ml-4" href="/buyer-landing">
                     Request
                   </a>
                 </li>
                 <li>
-                  <a className="text-muted text-gray-1 ml-2 footer-links ml-4" href="/seller-journey">
+                  <a className="text-muted text-gray-1 ml-2 footer-links ml-4" href="/seller-landing">
                     Supply
                   </a>
                 </li>

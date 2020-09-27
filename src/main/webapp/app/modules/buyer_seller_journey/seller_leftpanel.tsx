@@ -15,7 +15,7 @@ const BoxStyles = {
 
 const ButtonStyles = {
   textAlign: 'left',
-  font: 'Bold 25px/26px Nunito',
+  font: 'Bold 20px/25px Nunito',
   letterSpacing: '0px',
   color: '#FFFFFF',
   background: '#4698DC 0% 0% no-repeat padding-box',
@@ -68,6 +68,9 @@ class SellerLeftPanelComponent extends React.Component<Props> {
             <Button style={ButtonStyles} onClick={() => onButtonClicked('Browse Requeste')} className="w-100 mb-2 cw-btn">
               Check Demand
               <img style={{ height: '26px', float: 'right' }} className="btn-img" src="content/images/requests.svg" />
+            </Button>
+            <Button style={ButtonStyles} onClick={() => onButtonClicked('Supply Medical Supplies')} className='w-100 mb-2 cw-btn'>
+              Supply Medical Supplies
             </Button>
           </div>
         </Card>

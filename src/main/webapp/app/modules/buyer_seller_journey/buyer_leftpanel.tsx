@@ -69,6 +69,10 @@ class BuyerLeftPanelComponent extends React.Component<Props> {
               Browse Available
               <img style={{ height: '26px', float: 'right' }} className="btn-img" src="content/images/supplies.svg" />
             </Button>
+            <Button style={ButtonStyles} onClick={() => onButtonClicked('Request Medical Supplies')} className='w-100 mb-2 cw-btn'>
+              Request Medical Supplies
+
+            </Button>
           </div>
         </Card>
       </div>
