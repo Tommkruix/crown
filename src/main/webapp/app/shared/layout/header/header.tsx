@@ -72,10 +72,10 @@ const Header = (props: IHeaderProps) => {
         <Collapse isOpen={false} navbar>
           <Nav className="mr-auto" style={{marginLeft: '100px'}} navbar>
             <NavItem>
-              <Link className='text-dark nav-link' to="/buyer-journey">REQUEST</Link>
+              <Link className='text-dark nav-link' to="/buyer-landing">REQUEST</Link>
             </NavItem>
             <NavItem>
-              <Link className='text-dark nav-link' to="/seller-journey">SUPPLY</Link>
+              <Link className='text-dark nav-link' to="/seller-landing">SUPPLY</Link>
             </NavItem>
             {/* <UncontrolledDropdown nav inNavbar>
               <DropdownToggle className='text-dark nav-link' nav caret>
