@@ -358,7 +358,7 @@ export const ClaimRequest = (props: IClaimRequestProps) => {
                   <Row gutter={[0, 8]}>
                     <Col span={4}>
                       <Form.Item>
-                        <Button type="default" icon={<ArrowLeftOutlined />}>
+                        <Button type="primary" icon={<ArrowLeftOutlined />}>
                           {translate('entity.action.back')}
                         </Button>
                       </Form.Item>
