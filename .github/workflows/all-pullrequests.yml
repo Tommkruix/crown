@@ -38,6 +38,3 @@ jobs:
 
             - name: Package application
               run: ./mvnw -ntp package -Pprod -DskipTests
-
-            - name: Run frontend test
-              run: npm run test-ci

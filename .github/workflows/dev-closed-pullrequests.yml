@@ -41,8 +41,6 @@ jobs:
             - name: Package application
               run: ./mvnw -ntp package -Pdev -DskipTests
 
-            - name: Run frontend test
-              run: npm run test-ci
 
             - name: Prepare deployable
               run: |
