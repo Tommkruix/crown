@@ -73,17 +73,9 @@ const Support = props => {
               </div>
 
               <div id="icons">
-                <a href="https://www.instagram.com/needmoremed">
-                  <img src="content/images/ig-icon.png" style={{ height: '25px', width: '25px' }} />
-                </a>
-                <a href="https://linkedin.com/company/NeedMoreMed">
-                  {' '}
-                  <img src="content/images/linkedin-icon.png" style={{ height: '25px', width: '25px' }} />
-                </a>
-                <a href="https://www.facebook.com/NeedMoreMed">
-                  {' '}
-                  <img src="content/images/fb-icon.png" style={{ height: '25px', width: '25px', marginRight: '5px' }} />
-                </a>
+                <a href="https://www.instagram.com/needmoremed"><img src='content/images/ig-icon.png' style={{ height: '25px', width: '25px' }} /></a>
+                <a href="https://www.facebook.com/NeedMoreMed"> <img src='content/images/fb-icon.png' style={{ height: '25px', width: '25px', marginRight:'5px'}} /></a>
+                <a href="https://linkedin.com/company/NeedMoreMed"> <img src='content/images/linkedin-icon.png' style={{ height: '25px', width: '25px' }} /></a>
               </div>
             </div>
           }
