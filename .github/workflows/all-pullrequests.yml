@@ -34,3 +34,6 @@ jobs:
 
             - name: Test packaging application for prod (Also sets up Node packages)
               run: ./mvnw -ntp package -Pprod -DskipTests
+
+            - name: Run frontend test
+              run: npm run test-ci
