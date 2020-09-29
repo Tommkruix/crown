@@ -19,10 +19,6 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
-            - uses: actions/setup-node@v1
-              with:
-                  node-version: 12.16.1
-
             - uses: actions/setup-java@v1
               with:
                   java-version: '11.x'
@@ -36,8 +32,5 @@ jobs:
               run: |
                   sed -i "s/<\/footer>/\n      <div className=\"row\">Version: ${{ github.sha }} Updated: $(date)<\/div>\n<\/footer>/" src/main/webapp/app/modules/home/about.tsx
 
-            - name: Package application
+            - name: Test packaging application for prod (Also sets up Node packages)
               run: ./mvnw -ntp package -Pprod -DskipTests
-
-            - name: Run frontend test
-              run: npm run test-ci

@@ -74,17 +74,13 @@ class PostedItemsComponent extends React.Component<Props, State> {
     return (
       <div className="scroll-container">
       <div className="get-items-display">
-        <div className="panel-heading">Items available in your area</div>
-
-          {<div className="info-div">
-            <p> Getting data for user: {this.props.account.login} </p>
-            <p> lat, lng: {lat}, {lng} </p>
-            <p> Radius: {radius} KM </p>
-          </div>}
+          <div className="info-div">
+            <h4>Items available in your area</h4>
+          </div>
 
           <div className="panel-row">
-                <div className="col-sm-9 col-md-6 col-lg-6">
-                <div className="table-responsive">
+          <div className="col-sm-9 col-md-6 col-lg-6">
+          <div className="table-responsive">
           <Table striped bordered hover size="sm">
             <thead>
             <tr>
@@ -142,9 +138,9 @@ class PostedItemsComponent extends React.Component<Props, State> {
         {
           this.state.viewIndex !== -1 &&
 
-          <div className="col-sm-6 col-md-6 col-lg-6" style={{float:'right'}}>
+          <div className="col-sm-6 col-md-6 col-lg-6" style={{float:'right', bottom: '41px'}}>
             <div className="get-items-display-details">
-              <div className="panel-heading">Detailed View</div>
+              <div className="panel-heading"><h4>Detailed View</h4></div>
               <div className="table-responsive">
                 {
                   /*   <pre>

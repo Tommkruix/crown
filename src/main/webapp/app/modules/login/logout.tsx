@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { logout } from 'app/shared/reducers/authentication';
+import  LandingPage  from "app/modules/home/LandingPage";
 
 export interface ILogoutProps extends StateProps, DispatchProps {
   idToken: string;
@@ -14,9 +15,7 @@ export const Logout = (props: ILogoutProps) => {
 	}, []);
 
   return (
-    <div className="p-5">
-      <h4>Logged out successfully!</h4>
-    </div>
+    <LandingPage />
   );
 };
 
