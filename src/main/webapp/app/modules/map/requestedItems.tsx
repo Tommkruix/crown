@@ -21,7 +21,7 @@ const headers = ["Item Type", "Quantity", "Action"]
 const columns = ["Item Type", "Quantity"]
 
 // const drilDownheaders = ["Requested By", "Email", "Quantity", "Offer"]
-const drilDownheaders = ["Quantity",  "Supply"]
+const drilDownheaders = ["Quantity", "Posted Date", "Supply"]
 
 const actionItems = [
   {
@@ -151,7 +151,7 @@ class RequestedItemsComponent extends React.Component<Props, State> {
         {/* change this accordingly */}
         {
               this.state.viewIndex !== -1 &&
-              <div className="col-sm-6 col-md-6 col-lg-6" style={{ float: 'right', bottom: '41px' }}>
+              <div className="col-sm-9 col-md-9 col-lg-6" style={{ float: 'right', bottom: '41px' }}>
               <div className="panel-row">
               <div className="get-items-display-details">
                 <div className="panel-heading"><h4>Detailed View</h4></div>
@@ -163,7 +163,7 @@ class RequestedItemsComponent extends React.Component<Props, State> {
                           </code>
                       </pre>*/
                   }
-                  <Table striped bordered hover size="sm">
+                      <Table striped bordered hover size="sm" style={{ width: '350px'}}>
                     <thead>
                     {
                       drilDownheaders.map(item => (
@@ -196,6 +196,9 @@ class RequestedItemsComponent extends React.Component<Props, State> {
 
                           <td key={`${item.quantity}-Type`}>
                             { item.quantity}
+                          </td>
+                          <td key={`${item.postedDate}-Type`}>
+                            {item.postedDate}
                           </td>
                           <td> 
                             <button className={'btn btn-primary'} onClick={ this.claimItem(item) }><FontAwesomeIcon  icon='pencil-alt' color='blue' style={{cursor: 'pointer'}}/>{' Offer to fulfil '}</button>
