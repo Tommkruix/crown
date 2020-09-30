@@ -63,7 +63,6 @@ class PostedItemsComponent extends React.Component<Props, State> {
     });
   }
 
-
   render() {
     if (this.state.redirectUrl !== "") {
      return <Redirect to={this.state.redirectUrl}/>
