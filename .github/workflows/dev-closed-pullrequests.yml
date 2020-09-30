@@ -34,8 +34,8 @@ jobs:
               run: |
                   sed -i "s/<\/footer>/\n      <div className=\"row\">Version: ${{ github.sha }} Updated: $(date)<\/div>\n<\/footer>/" src/main/webapp/app/modules/home/about.tsx
 
-            - name: Package application for dev (Also sets up Node packages)
-              run: ./mvnw -ntp package -Pdev -DskipTests
+            - name: Package application for prod (Also sets up Node packages)
+              run: ./mvnw -ntp package -Pprod -DskipTests
 
             - name: Run frontend test
               run: npm run test-ci
