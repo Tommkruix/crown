@@ -16,6 +16,8 @@
       "detail": {
         "title": "My Open Orders"
       },
+      "id": "ID",
+      "resourceType": "Resource Type",
       "quantity": "Quantity",
       "notes": "Notes",
       "expiration": "Resource to be delivered before this Date",

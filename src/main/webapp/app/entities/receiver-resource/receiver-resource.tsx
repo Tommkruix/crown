@@ -68,11 +68,11 @@ export const ReceiverResource = (props: IReceiverResourceProps) => {
     <div className="list-container" ref={containerDiv}>
       <h2 id="receiver-resource-heading">
         <Translate contentKey="crownApp.receiverResource.home.title">Receiver Resources</Translate>
-        <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+        {/* <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
           <FontAwesomeIcon icon="plus" />
           &nbsp;
           <Translate contentKey="crownApp.receiverResource.home.createLabel">Create new Receiver Resource</Translate>
-        </Link>
+        </Link> */}
       </h2>
       <div className="table-responsive">
         <InfiniteScroll
