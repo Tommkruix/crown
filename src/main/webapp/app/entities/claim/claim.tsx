@@ -88,7 +88,6 @@ export const Claim = (props: IClaimProps) => {
             <tbody>
               {claimList.map((claim, i) => (
                 <tr key={`entity-${i}`}>
-                  {/* The problem of why the order page wont render is the resourceType*/}
                   {<td>
                     <Button tag={Link} to={`${match.url}/${claim.id}`} color="link" size="sm">
                       {claim.receiverResource.resourceType.name}
