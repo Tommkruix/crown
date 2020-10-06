@@ -108,11 +108,11 @@ export const SupplierResource = (props: ISupplierResourceProps) => {
     <div className="list-container" ref={containerDiv}>
       <h2 id="supplier-resource-heading">
         <Translate contentKey="crownApp.supplierResource.home.title">Supplier Resources</Translate>
-        {/* <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+        { <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
           <FontAwesomeIcon icon="plus" />
           &nbsp;
           <Translate contentKey="crownApp.supplierResource.home.createLabel">Supply a Resource</Translate>
-        </Link> */}
+        </Link> }
       </h2>
       {/* <Row>
         <Col sm="12">

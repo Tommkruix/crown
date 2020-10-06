@@ -42,7 +42,7 @@ const Support = props => {
               <Input.TextArea placeholder="Message" style={{ height: '120px', borderRadius: '10px' }} />
             </Form.Item>
 
-            <ReCAPTCHA sitekey="6LcurqoZAAAAANOiRbwTC2nTSPMZIW7BRnYEwgst" onChange={onChange} />
+            <ReCAPTCHA sitekey="6Ld2gNQZAAAAALonqkufahIylEJuwsmOWwfQ5mB0" onChange={onChange} />
 
             <Form.Item>
               <Button

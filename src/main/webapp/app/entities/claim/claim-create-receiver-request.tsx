@@ -35,14 +35,15 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
   const { claimEntity, receiverResources, receiverSuppliers, supplierResources, loading, updating, account, resourceTypes } = props;
   const [isAssistedCreation, setIsAssistedCreation] = useState(false);
-  const [pofFileList, setPofFileList] = useState([]);
-  const [poaFileList, setPoaFileList] = useState('');
+  const [pofFileList, setPofFileList] = useState('');
+  const [poaFileList, setPoaFileList] = useState([]);
+  const [fieldNameList, setFieldNameList] = useState([]);
   const [form] = Form.useForm();
 
-  const beforePofUpload = file => {
-    setPofFileList([...pofFileList, file]);
-    return false;
-  }
+  // const beforePofUpload = file => {
+  //  setPofFileList([...pofFileList, file]);
+  //  return false;
+  // }
 
   const query = new URLSearchParams(props.location.search);
   const lat = query.get('lat') || 0;
@@ -57,6 +58,18 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
       }
     }
   }
+
+
+  const beforePoaUpload = file => {
+    setPoaFileList([...poaFileList, file]);
+    return false;
+  }
+
+  const beforeFieldNameUpload = (fieldType) => {
+    setFieldNameList([...fieldNameList, fieldType]);
+    return fieldNameList;
+  }
+
 
   const supplierProfile = receiverSuppliers.filter(receiver => receiver.email === account.email);
   const handleClose = () => {
@@ -75,9 +88,9 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
     });
   }, [pofFileList]);
 
-  const updatePoaFileList = fileName => {
+   const updatePoaFileList = fileName => {
     if (!poaFileList.includes(fileName)) {
-      setPoaFileList(`${poaFileList.length > 0 ? `${poaFileList},` : ''}${fileName}`);
+      setPofFileList(`${pofFileList.length > 0 ? `${pofFileList},` : ''}${fileName}`);
     }
   };
 
@@ -342,6 +355,58 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
                   >
                     <InputNumber min={1} style={{ width: '100%' }} />
                   </Form.Item>
+
+                <Form.Item
+                  name="SupportingDocuments"
+                  label={translate('crownApp.supplierResource.supportingDocuments')}
+                  valuePropName="fileList"
+                  getValueFromEvent={normFile}
+                >
+                  <UploadFile
+                    action="api/file/upload"
+                    // onSuccess={updatePofFileList}
+                    beforeUpload={beforePoaUpload}
+                    beforeFieldUpload={() => beforeFieldNameUpload("sd")}
+                    data={{
+                      fieldType: 'sd'
+                    }}
+                  />
+                  </Form.Item>
+
+                <Form.Item
+                  name="productAssets"
+                  label={translate('crownApp.supplierResource.productAssets')}
+                  valuePropName="fileList"
+                  getValueFromEvent={normFile}
+                >
+                  <UploadFile
+                    action="api/file/upload"
+                    // onSuccess={updatePofFileList}
+                    beforeUpload={beforePoaUpload}
+                    beforeFieldUpload={() => beforeFieldNameUpload("pa")}
+                    data={{
+                      fieldType: 'pa'
+                    }}
+                  />
+                  </Form.Item>
+
+                <Form.Item
+                  name="ProofOfLife"
+                  label={translate('crownApp.supplierResource.proofOfLife')}
+                  valuePropName="fileList"
+                  getValueFromEvent={normFile}
+                >
+                  <UploadFile
+                    action="api/file/upload"
+                    // onSuccess={updatePofFileList}
+                    beforeUpload={beforePoaUpload}
+                    beforeFieldUpload={() => beforeFieldNameUpload("pol")}
+                    data={{
+                      fieldType: 'pol'
+                    }}
+                  />
+                  </Form.Item>
+
                   {mayBeSupplierFields()}
                   <Row gutter={[0, 8]}>
                     <Col span={4}>
