@@ -1,5 +1,7 @@
 package org.crown.service;
 
+import io.github.jhipster.security.RandomUtil;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.crown.CrownApp;
 import org.crown.config.Constants;
 import org.crown.domain.PersistentToken;
@@ -7,26 +9,21 @@ import org.crown.domain.User;
 import org.crown.repository.PersistentTokenRepository;
 import org.crown.repository.UserRepository;
 import org.crown.service.dto.UserDTO;
-
-import io.github.jhipster.security.RandomUtil;
-
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 /**
  * Integration tests for {@link UserService}.
@@ -48,6 +45,9 @@ public class UserServiceIT {
 
     @Autowired
     private PersistentTokenRepository persistentTokenRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -106,6 +106,30 @@ public class UserServiceIT {
 
         Optional<User> maybeUser = userService.requestPasswordReset(user.getLogin());
         assertThat(maybeUser).isNotPresent();
+        userRepository.delete(user);
+    }
+
+    @Test
+    public void registerUserAsNotActivated() {
+
+        // given: a user dto
+        String loginUsername = "myUsername";
+        String userPassword = "myPassword";
+        String userEmail = "myUser@mail.com";
+        UserDTO userDTO = new UserDTO();
+        userDTO.setLogin(loginUsername);
+        userDTO.setEmail(userEmail);
+        userDTO.setLangKey("en");
+
+        // when: register user use case is invoked
+        userService.registerUser(userDTO, userPassword);
+
+        // then: a new deactivated user should be saved to repository.
+        User user = userRepository.findOneByLogin(loginUsername.toLowerCase()).get();
+        assertThat(user.getLogin()).isEqualTo(loginUsername.toLowerCase());
+        assertThat(passwordEncoder.matches(userPassword, user.getPassword())).isEqualTo(true);
+        assertThat(user.getEmail()).isEqualTo(userEmail.toLowerCase());
+        assertThat(user.getActivated()).isEqualTo(false);
         userRepository.delete(user);
     }
 
