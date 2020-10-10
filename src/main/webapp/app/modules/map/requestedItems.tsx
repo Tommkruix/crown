@@ -99,7 +99,9 @@ class RequestedItemsComponent extends React.Component<Props, State> {
       <div className="scroll-container">
       <div className="get-items-display">
         {<div className="info-div">
-          <h4>Items requested in your area</h4>
+            <h4>Items requested in your area</h4>
+            <p> lat, lng: {lat}, {lng} </p>
+            <p> Radius: {radius} Miles </p>
         </div>}
         <div className="panel-row">
         <div className="col-sm-9 col-md-6 col-lg-6">
@@ -151,7 +153,7 @@ class RequestedItemsComponent extends React.Component<Props, State> {
         {/* change this accordingly */}
         {
               this.state.viewIndex !== -1 &&
-              <div className="col-sm-9 col-md-9 col-lg-6" style={{ float: 'right', bottom: '41px' }}>
+              <div className="col-sm-9 col-md-9 col-lg-6" style={{ float: 'right', bottom: '80px' }}>
               <div className="panel-row">
               <div className="get-items-display-details">
                 <div className="panel-heading"><h4>Detailed View</h4></div>

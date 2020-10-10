@@ -75,6 +75,8 @@ class PostedItemsComponent extends React.Component<Props, State> {
       <div className="get-items-display">
           <div className="info-div">
             <h4>Items available in your area</h4>
+            <p> lat, lng: {lat}, {lng} </p>
+            <p> Radius: {radius} Miles </p>
           </div>
 
           <div className="panel-row">
@@ -137,7 +139,7 @@ class PostedItemsComponent extends React.Component<Props, State> {
         {
           this.state.viewIndex !== -1 &&
 
-          <div className="col-sm-6 col-md-6 col-lg-6" style={{float:'right', bottom: '41px'}}>
+          <div className="col-sm-6 col-md-6 col-lg-6" style={{float:'right', bottom: '80px'}}>
             <div className="get-items-display-details">
               <div className="panel-heading"><h4>Detailed View</h4></div>
               <div className="table-responsive">
