@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Link } from 'react-router-dom';
 import { Button, Checkbox, Col, DatePicker, Form, Input, InputNumber, Row, Select, Switch } from 'antd';
 import { Translate, translate } from 'react-jhipster';
 import { IRootState } from 'app/shared/reducers';
@@ -23,11 +23,11 @@ import axios from 'axios';
 
 const { Option } = Select;
 
-export interface IClaimRequestByReceiverProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
+export interface IClaimRequestBySupplierProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
 export interface IReceiverResourceUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> { }
 
-export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
+export const ClaimRequestByReceiver = (props: IClaimRequestBySupplierProps) => {
   const [receiverResourceId, setReceiverResourceId] = useState('0');
   const [supplierResourceId, setSupplierResourceId] = useState('0');
   const [ApproximatePriceValue] = useState('0');
@@ -52,7 +52,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
     supplierResource: {
       supplier: {
         email: account.email,
-        isReceiver: true,
+        isSupplier: true,
         latx: Number(lat),
         longy: Number(lng)
       }
@@ -71,7 +71,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
   }
 
 
-  const supplierProfile = receiverSuppliers.filter(receiver => receiver.email === account.email);
+  const supplierProfile = receiverSuppliers.filter(supplier => supplier.email === account.email);
   const handleClose = () => {
     props.history.push('/claim');
   };
@@ -88,7 +88,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
     });
   }, [pofFileList]);
 
-   const updatePoaFileList = fileName => {
+  const updatePoaFileList = fileName => {
     if (!poaFileList.includes(fileName)) {
       setPofFileList(`${pofFileList.length > 0 ? `${pofFileList},` : ''}${fileName}`);
     }
@@ -96,7 +96,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
 
   useEffect(() => {
     form.setFieldsValue({
-      receiver: {
+      supplier: {
         proofOfAssociation: poaFileList
       }
     });
@@ -138,7 +138,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
       //  }
       // }
       // axios.post('api/file/upload', data, config).then((res: any) => {
-        handleClose();
+      handleClose();
       // }).catch((err: Error) => {
       // })
     }
@@ -173,6 +173,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
       }
       persistent.supplierResource.supplier = supplier
     }
+
     props.createEntity(persistent);
   };
 
@@ -229,7 +230,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
                 >
                   {!isNew ? (
                     <Form.Item
-                      name="id"
+                      name={['claim', 'id']}
                       label={translate('global.field.id')}
                       rules={[
                         {
@@ -279,8 +280,8 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
                   </Form.Item> */}
 
                   <Form.Item
-                    name="quantity"
-                    label={<Translate contentKey="crownApp.claim.quantity">Quantity</Translate>}
+                    name={['supplierResource', 'quantity']}
+                    label={<Translate contentKey="crownApp.supplierResource.quantity">Quantity</Translate>}
                     rules={[
                       {
                         required: true,
@@ -292,7 +293,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
                   </Form.Item>
 
                   <Form.Item
-                    name="quantityValidUntil"
+                    name={['supplierResource', 'quantityValidUntil']}
                     label={translate('crownApp.supplierResource.quantityValidUntil')}
                     rules={[
                       {
@@ -305,7 +306,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
                   </Form.Item>
 
                   <Form.Item
-                    name="cost"
+                    name={['supplierResource', 'cost']}
                     label={translate('crownApp.supplierResource.cost')}
                     rules={[
                       {
@@ -318,7 +319,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
                   </Form.Item>
 
                   <Form.Item
-                    name="productAvailabilityLeadTime"
+                    name={['supplierResource', 'productAvailabilityLeadTime']}
                     label={translate('crownApp.supplierResource.productAvailabilityLeadTime')}
                     rules={[
                       {
@@ -331,7 +332,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
                   </Form.Item>
 
                   <Form.Item
-                    name="minOrderQuantity"
+                    name={['supplierResource', 'minOrderQuantity']}
                     label={translate('crownApp.supplierResource.minOrderQuantity')}
                     rules={[
                       {
@@ -344,7 +345,7 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
                   </Form.Item>
 
                   <Form.Item
-                    name="quantityOnHand"
+                    name={['supplierResource', 'quantityOnHand']}
                     label={translate('crownApp.supplierResource.quantityOnHand')}
                     rules={[
                       {
@@ -356,57 +357,70 @@ export const ClaimRequestByReceiver = (props: IClaimRequestByReceiverProps) => {
                     <InputNumber min={1} style={{ width: '100%' }} />
                   </Form.Item>
 
-                <Form.Item
-                  name="SupportingDocuments"
-                  label={translate('crownApp.supplierResource.supportingDocuments')}
-                  valuePropName="fileList"
-                  getValueFromEvent={normFile}
-                >
-                  <UploadFile
-                    action="api/file/upload"
-                    // onSuccess={updatePofFileList}
-                    beforeUpload={beforePoaUpload}
-                    beforeFieldUpload={() => beforeFieldNameUpload("sd")}
-                    data={{
-                      fieldType: 'sd'
-                    }}
-                  />
+                  <Form.Item
+                    name={['supplierResource', 'SupportingDocuments']}
+                    label={translate('crownApp.supplierResource.supportingDocuments')}
+                    valuePropName="fileList"
+                    getValueFromEvent={normFile}
+                  >
+                    <UploadFile
+                      action="api/file/upload"
+                      // onSuccess={updatePofFileList}
+                      beforeUpload={beforePoaUpload}
+                      beforeFieldUpload={() => beforeFieldNameUpload("sd")}
+                      data={{
+                        fieldType: 'sd'
+                      }}
+                    />
                   </Form.Item>
 
-                <Form.Item
-                  name="productAssets"
-                  label={translate('crownApp.supplierResource.productAssets')}
-                  valuePropName="fileList"
-                  getValueFromEvent={normFile}
-                >
-                  <UploadFile
-                    action="api/file/upload"
-                    // onSuccess={updatePofFileList}
-                    beforeUpload={beforePoaUpload}
-                    beforeFieldUpload={() => beforeFieldNameUpload("pa")}
-                    data={{
-                      fieldType: 'pa'
-                    }}
-                  />
+                  <Form.Item
+                    name={['supplierResource', 'productAssets']}
+                    label={translate('crownApp.supplierResource.productAssets')}
+                    valuePropName="fileList"
+                    getValueFromEvent={normFile}
+                  >
+                    <UploadFile
+                      action="api/file/upload"
+                      // onSuccess={updatePofFileList}
+                      beforeUpload={beforePoaUpload}
+                      beforeFieldUpload={() => beforeFieldNameUpload("pa")}
+                      data={{
+                        fieldType: 'pa'
+                      }}
+                    />
                   </Form.Item>
 
-                <Form.Item
-                  name="ProofOfLife"
-                  label={translate('crownApp.supplierResource.proofOfLife')}
-                  valuePropName="fileList"
-                  getValueFromEvent={normFile}
-                >
-                  <UploadFile
-                    action="api/file/upload"
-                    // onSuccess={updatePofFileList}
-                    beforeUpload={beforePoaUpload}
-                    beforeFieldUpload={() => beforeFieldNameUpload("pol")}
-                    data={{
-                      fieldType: 'pol'
-                    }}
-                  />
+                  <Form.Item
+                    name={['supplierResource', 'ProofOfLife']}
+                    label={translate('crownApp.supplierResource.proofOfLife')}
+                    valuePropName="fileList"
+                    getValueFromEvent={normFile}
+                  >
+                    <UploadFile
+                      action="api/file/upload"
+                      // onSuccess={updatePofFileList}
+                      beforeUpload={beforePoaUpload}
+                      beforeFieldUpload={() => beforeFieldNameUpload("pol")}
+                      data={{
+                        fieldType: 'pol'
+                      }}
+                    />
                   </Form.Item>
-
+                  <Form.Item
+                    name={['supplierResource', 'publicationPermission']}
+                    valuePropName="checked"
+                    rules={[
+                      { validator: (_, value) => value ? Promise.resolve() : Promise.reject('Please Accept the Terms and Policy') },
+                    ]}
+                  >
+                    <Checkbox>
+                      I give permission for publication of my product and have read the <Link to='/policy'>Terms and Policy</Link>
+                    </Checkbox>
+                  </Form.Item>
+                  <Form.Item name="isSupplier" style={{ display: 'none' }}>
+                    <Input hidden={true} />
+                  </Form.Item>
                   {mayBeSupplierFields()}
                   <Row gutter={[0, 8]}>
                     <Col span={4}>

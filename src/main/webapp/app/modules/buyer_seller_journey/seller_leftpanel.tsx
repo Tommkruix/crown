@@ -54,7 +54,7 @@ class SellerLeftPanelComponent extends React.Component<Props> {
     return (
       <div
         className="seller-left-panel shadow-lg rounded"
-        style={{ background: 'none', backgroundColor: 'none', borderRadius: 20, overflow: 'hidden' }}
+        style={{ background: 'none', backgroundColor: 'none', borderRadius: 10, overflow: 'hidden' }}
       >
         <Card className="details-card seller-left-panel" style={BoxStyles}>
           <div className="radius-container">
@@ -63,7 +63,7 @@ class SellerLeftPanelComponent extends React.Component<Props> {
               {radius} miles
             </span>
           </div>
-          <Slider min={20} max={300} onChange={changeRadius} value={typeof radius === 'number' ? radius : 10} tooltipPlacement="bottom" />
+          <Slider min={10} max={300} onChange={changeRadius} value={typeof radius === 'number' ? radius : 10} tooltipPlacement="bottom" />
           <div className="">
             <Button style={ButtonStyles} onClick={() => onButtonClicked('Browse Requeste')} className="w-100 mb-2 cw-btn">
               Check Demand
