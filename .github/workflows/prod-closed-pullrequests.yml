@@ -27,6 +27,10 @@ jobs:
 
             - name: Run backend test
               run: |
+                  export ACCESS_KEY=${{secrets.S3_ACCESS_KEY}}
+                  export SECRET_KEY=${{secrets.S3_SECRET_KEY}}
+                  export TESTBUCKET=${{secrets.S3_TEST_BUCKET}}
+                  export TESTREGION=${{secrets.S3_TEST_REGION}}
                   chmod +x mvnw
                   ./mvnw -ntp clean verify -P-webpack
 
