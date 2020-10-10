@@ -37,7 +37,7 @@ const PocAddressFields: React.FC<AddressFieldsProps> = ({ fieldPrefix }) => {
       </Form.Item>
 
       <Form.Item
-        name={[...fieldPrefix, 'pocAddressLine1']}
+        name={[...fieldPrefix, 'pocAddress']}
         label={translate('address.addressLine1')}
         rules={[
           {
